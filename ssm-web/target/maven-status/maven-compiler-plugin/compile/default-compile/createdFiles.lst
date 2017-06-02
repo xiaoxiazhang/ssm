@@ -1,6 +1,0 @@
-com\alibaba\alisonar\user\AuthUserDTO.class
-com\alibaba\alisonar\auth\LoginController.class
-com\alibaba\alisonar\codeScanner\CodeScannerController.class
-com\alibaba\alisonar\user\AuthUserSearch.class
-com\alibaba\alisonar\user\UserController.class
-com\alibaba\alisonar\controller\EmployeeController.class
