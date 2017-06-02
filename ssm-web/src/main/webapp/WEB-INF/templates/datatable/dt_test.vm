@@ -1,0 +1,28 @@
+<section class="content">
+	<!-- 主代码-->
+	<div class="box box-info">
+		<!-- <div class="box-header with-border">
+						<h3 class="box-title">后台用户管理</h3>
+					</div> -->
+		<!-- /.box-header -->
+
+		<div class="box-body">
+			<table data-toggle="table" data-url="getDatatable"
+				data-row-style="rowStyle" data-click-to-select="true"
+				data-search="true" data-show-refresh="true" data-show-toggle="true"
+				data-show-columns="true">
+				<thead>
+					<tr>
+						<th data-field="state" data-checkbox="true">></th>
+						<th class="col-xs-3" data-align="center" data-field="name">Name</th>
+						<th class="col-xs-1" data-align="center" data-field="stars">Stars</th>
+						<th class="col-xs-1" data-align="center" data-field="forks">Forks</th>
+						<th class="col-xs-7" data-align="left" data-field="description">Description</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<!-- /.box-body -->
+	</div>
+</section>
+<!-- /.content -->

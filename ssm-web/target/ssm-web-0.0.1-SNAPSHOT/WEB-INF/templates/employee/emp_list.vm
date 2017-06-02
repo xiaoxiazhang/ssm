@@ -1,0 +1,60 @@
+#set($layout = "layout/layout.vm")
+<<style>
+#page_info_area{
+   padding: 20px 0px;
+
+}
+</style>
+<section class="content-header">
+	<h1>
+		员工管理 <small>Employee</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="$rc.contextPath/home"><i class="fa fa-dashboard"></i> Home</a></li>
+		<li class="active">员工管理</li>
+	</ol>
+</section>
+<section class="content">
+	<!-- 显示表格数据 -->
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box box-solid">
+				<div class="box-body">
+					<div class=" pull-left">
+						<button type="button" class="btn" data-toggle="modal"
+							data-target="#addModal" data-backdrop="static">
+							<span class="fa fa-plus"></span>添加
+						</button>
+						<button class="btn btn-md btn-danger" id="multi_delete_btn">删除</button>
+					</div>
+					<table class="table table-hover" id="tableList">
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="check_all" /></th>
+								<th>员工姓名</th>
+								<th>性别</th>
+								<th>邮件</th>
+								<th>所属部门</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+				</div>
+
+				<div class="box-footer">
+				
+					<div  id="page_info_area" class="pull-left"></div>
+					<div class="pull-right">
+						<ul id='pagination'></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+#parse('employee/emp_add.vm') 
+#parse('employee/emp_update.vm')
+<script src="$rc.contextPath/assets/js/employee/emp_list.js"></script>
