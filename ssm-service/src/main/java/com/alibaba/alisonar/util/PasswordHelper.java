@@ -14,8 +14,9 @@ public class PasswordHelper {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(encryptPassword("md5", 5, "123456", "admin")
-				.equals("856aea89ad509f163284abb75579dcfc"));
+		System.out.println(encryptPassword("md5", 2, "123456", "admin"));
+		System.out.println(encryptPassword("md5", 2, "123456", "admin")
+				.equals("928bfd2577490322a6e19b793691467e"));
 
 	}
 
