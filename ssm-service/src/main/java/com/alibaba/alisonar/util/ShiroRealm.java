@@ -6,6 +6,7 @@ import java.util.Set;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -43,6 +44,10 @@ public class ShiroRealm extends AuthorizingRealm {
 		logger.info("登录用户userinfo:{}",userInfo);
 		if (userInfo == null) {
 			throw new UnknownAccountException("该用户不存在!");
+		}
+		
+		if(userInfo.getAuFlag().equals(0)) {
+			throw new LockedAccountException(); //帐号锁定
 		}
 		Object principal = username; //数据库中user的用户名
 		Object credentials = userInfo.getPassword(); //数据库中user的密码

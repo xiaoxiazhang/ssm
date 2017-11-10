@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 	<!-- MyBatis3Simple MyBatis3-->
-	<context id="DB2Tables" targetRuntime="MyBatis3Simple">
+	<context id="DB2Tables" targetRuntime="MyBatis3">
 		<!-- 生成bean忽略注释 -->
 		<commentGenerator>
 			<property name="suppressAllComments" value="true" />
@@ -39,12 +39,39 @@
 
 
 		<!-- table指定每个表的生成策略 -->
-		<table tableName="employee" domainObjectName="Employee">
+		<table tableName="auth_role" domainObjectName="AuthRole">
 			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+			<columnOverride column="is_deleted"  jdbcType="INTEGER" javaType="java.lang.Integer"/>  
+		</table>
+		
+		<table tableName="auth_user_role" domainObjectName="AuthUserRole">
+			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+			<columnOverride column="is_deleted"  jdbcType="INTEGER" javaType="java.lang.Integer" />  
+		</table>
+		
+		<table tableName="auth_permission" domainObjectName="AuthPermission">
+			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+			<columnOverride column="is_deleted"  jdbcType="INTEGER" javaType="java.lang.Integer" />  
+		</table>
+		
+		<table tableName="auth_role_permission" domainObjectName="AuthRolePermission">
+			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+			<columnOverride column="is_deleted"  jdbcType="INTEGER" javaType="java.lang.Integer"/>  
 		</table>
 
-		<table tableName="department" domainObjectName="Department">
-			<generatedKey column="id" sqlStatement="MySql" identity="true" />
-		</table>
+		
+		
+		<!-- <table tableName="%"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false">
+
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnOverride column="address"  jdbcType="VARCHAR" />
+            <columnOverride column="is_deleted"  jdbcType="INTEGER" />  
+        </table> -->
 	</context>
 </generatorConfiguration>
+
+
