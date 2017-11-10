@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.alibaba.alisonar.user;
+package com.alibaba.alisonar.dto;
 
 /**
  * @author wb-zxx263018

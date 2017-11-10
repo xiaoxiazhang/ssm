@@ -1,4 +1,4 @@
-package com.alibaba.alisonar.user;
+package com.alibaba.alisonar.dto;
 
 public class AuthUserDTO {
 

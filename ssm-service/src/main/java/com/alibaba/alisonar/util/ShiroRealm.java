@@ -60,6 +60,19 @@ public class ShiroRealm extends AuthorizingRealm {
 		return info;
 	}
 
+	//访问授权页面会出发执行。
+	@Override
+	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+		
+		String username = (String)principals.getPrimaryPrincipal();
+		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+		//authorizationInfo.setRoles(userService.findRoles(username));
+		//authorizationInfo.setStringPermissions(userService.findPermissions(username))
+		
+		return authorizationInfo;
+	}
+	
+	
 	public static void main(String[] args) {
 		String hashAlgorithmName = "MD5";
 		Object credentials = "123456";
@@ -68,21 +81,5 @@ public class ShiroRealm extends AuthorizingRealm {
 
 		Object result = new SimpleHash(hashAlgorithmName, credentials, salt, hashIterations);
 		System.out.println(result);
-	}
-
-	//访问授权页面会出发执行。
-	@Override
-	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		Object principal = principals.getPrimaryPrincipal();
-
-		Set<String> roles = new HashSet<>();
-		roles.add("user");
-		if ("admin".equals(principal)) {
-			roles.add("admin");
-		}
-
-		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roles);
-
-		return info;
 	}
 }
