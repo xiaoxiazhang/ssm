@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.alisonar.domain.AuthUser;
+import com.alibaba.alisonar.dto.AuthUserSearch;
 import com.alibaba.alisonar.service.AuthUserService;
-import com.alibaba.alisonar.user.AuthUserSearch;
 import com.alibaba.alisonar.util.DatatableDto;
 import com.alibaba.alisonar.util.ResultDto;
 import com.alibaba.alisonar.util.ResultDtoFactory;

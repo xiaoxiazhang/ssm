@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.alisonar.dao.AuthUserMapper;
 import com.alibaba.alisonar.domain.AuthUser;
+import com.alibaba.alisonar.dto.AuthUserSearch;
 import com.alibaba.alisonar.service.AuthUserService;
-import com.alibaba.alisonar.user.AuthUserSearch;
 import com.alibaba.alisonar.util.ExcelUtil;
 import com.alibaba.alisonar.util.MyStringUtil;
 import com.alibaba.alisonar.util.PasswordHelper;

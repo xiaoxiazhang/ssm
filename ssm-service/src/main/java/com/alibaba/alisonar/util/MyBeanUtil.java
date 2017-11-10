@@ -6,7 +6,7 @@ package com.alibaba.alisonar.util;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.alisonar.domain.AuthUser;
-import com.alibaba.alisonar.user.AuthUserDTO;
+import com.alibaba.alisonar.dto.AuthUserDTO;
 
 import net.sf.cglib.beans.BeanCopier;
 

@@ -12,7 +12,7 @@
 		<result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
 	</resultMap>
 	<select id="findProvidedUser" resultMap="BaseResultMap" 
-		parameterType="com.alibaba.alisonar.user.AuthUserSearch" >
+		parameterType="com.alibaba.alisonar.dto.AuthUserSearch" >
 		SELECT * FROM auth_user a where a.au_flag=1
 		<if test=' username != null and username !=""'>
 			AND username= #{username}

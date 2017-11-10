@@ -8,7 +8,7 @@ import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.alibaba.alisonar.domain.AuthUser;
-import com.alibaba.alisonar.user.AuthUserSearch;
+import com.alibaba.alisonar.dto.AuthUserSearch;
 
 /**
  * @author wb-zxx263018

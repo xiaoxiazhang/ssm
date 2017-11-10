@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.alibaba.alisonar.domain.AuthUser;
-import com.alibaba.alisonar.user.AuthUserSearch;
+import com.alibaba.alisonar.dto.AuthUserSearch;
 
 /**
  * @author wb-zxx263018
