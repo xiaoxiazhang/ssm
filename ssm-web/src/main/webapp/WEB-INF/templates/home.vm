@@ -69,7 +69,7 @@
 				</div>
 				<!-- /.box-header -->
 				<!-- form start -->
-				<form action="codeScanner" method="post" class="form-horizontal">
+				<form  method="post" class="form-horizontal">
 					<div class="box-body">
 						<div class="form-group">
 							<label for="path" class="col-sm-2 control-label">代码库地址</label>
