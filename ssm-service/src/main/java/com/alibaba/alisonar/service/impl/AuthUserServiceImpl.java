@@ -4,6 +4,7 @@
 package com.alibaba.alisonar.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -118,6 +119,18 @@ public class AuthUserServiceImpl implements AuthUserService {
 
 		}
 		return workBook;
+	}
+
+	@Override
+	public Set<String> findRoles(String username) {
+		return authUserMapper.findRoles(username);
+		
+	}
+
+	@Override
+	public Set<String> findPermissions(String username) {
+		return authUserMapper.findPermissions(username);
+		
 	}
 	
 	

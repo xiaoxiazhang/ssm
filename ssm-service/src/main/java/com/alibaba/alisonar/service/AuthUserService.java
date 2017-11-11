@@ -4,6 +4,7 @@
 package com.alibaba.alisonar.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
@@ -26,5 +27,9 @@ public interface AuthUserService extends BaseService<AuthUser> {
 	Integer findProvidedUserCount(AuthUserSearch search);
 
 	HSSFWorkbook buildExcelWorkBook(AuthUserSearch search);
+
+	Set<String> findRoles(String username);
+
+	Set<String> findPermissions(String username);
 
 }
