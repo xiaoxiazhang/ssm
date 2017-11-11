@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.alisonar.domain.Department;
 import com.alibaba.alisonar.domain.Employee;
 import com.alibaba.alisonar.dto.EmployeeDTO;
-import com.alibaba.alisonar.enumeration.IsDeleteEnum;
+import com.alibaba.alisonar.enumeration.IsDeletedEnum;
 import com.alibaba.alisonar.service.DepartmentService;
 import com.alibaba.alisonar.service.EmployeeService;
 import com.alibaba.alisonar.util.ResultDto;
@@ -76,7 +76,7 @@ public class EmployeeController {
 	@ResponseBody
 	public ResultDto<String> saveEmp(@Valid Employee employee,BindingResult result) {
 		logger.info("employee===>{}", employee);
-		employee.setIsDeleted(IsDeleteEnum.NO.getCode());
+		employee.setIsDeleted(IsDeletedEnum.NO.getCode());
 		employeeService.saveEmp(employee);
 		return ResultDtoFactory.toAck(null);
 

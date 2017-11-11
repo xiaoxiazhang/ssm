@@ -37,20 +37,32 @@ public class AuthUserServiceImpl implements AuthUserService {
 	@Autowired
 	private AuthUserMapper authUserMapper;
 
-	@Override
-	public AuthUser saveAuthUser(AuthUser authUser) {
-		authUser.setSalt("18868801131");
-		authUser.setPassword(PasswordHelper.encryptPassword("md5", 2, "123456", authUser.getSalt()));
-		authUserMapper.saveAuthUser(authUser);
-		return authUser;
+	
 
+	@Override
+	public int insertSelective(AuthUser record) {
+		record.setSalt("18868801131");
+		record.setPassword(PasswordHelper.encryptPassword("md5", 2, "123456", record.getSalt()));
+		return authUserMapper.insertSelective(record);
+		
 	}
 
 	@Override
-	public void updateAuthUser(AuthUser authUser) {
-		authUserMapper.updateAuthUser(authUser);
-
+	public AuthUser selectByPrimaryKey(Long id) {
+		return authUserMapper.selectByPrimaryKey(id);
 	}
+
+	@Override
+	public int updateByPrimaryKeySelective(AuthUser record) {
+		return authUserMapper.updateByPrimaryKeySelective(record);
+	}
+
+	@Override
+	public int deleteByPrimaryKey(Long id) {
+		return authUserMapper.deleteByPrimaryKey(id);
+	}
+	
+
 
 	@Override
 	public AuthUser findByUsername(String username) {
@@ -63,11 +75,6 @@ public class AuthUserServiceImpl implements AuthUserService {
 		return authUserMapper.findAll();
 	}
 
-	@Override
-	public AuthUser findOne(Integer id) {
-		return authUserMapper.findOne(id);
-
-	}
 
 	@Override
 	public List<AuthUser> findProvidedUser(AuthUserSearch search) {
@@ -112,5 +119,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 		}
 		return workBook;
 	}
+	
+	
 
 }

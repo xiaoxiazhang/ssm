@@ -4,11 +4,11 @@ package com.alibaba.alisonar.enumeration;
  * @author wb-zxx263018
  *
  */
-public enum IsDeleteEnum {
+public enum IsDeletedEnum {
 	YES(1), NO(0);
 	private Integer code;
 
-	private IsDeleteEnum(Integer code) {
+	private IsDeletedEnum(Integer code) {
 		this.code = code;
 	}
 

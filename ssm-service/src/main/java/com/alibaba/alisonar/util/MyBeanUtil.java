@@ -44,7 +44,7 @@ public class MyBeanUtil {
 		dto.setEmail("hello@163.com");
 		
 		AuthUser entity = new AuthUser();
-		entity.setId(2);
+		entity.setId(2l);
 		
 		copyProperties(dto, entity);
 		System.out.println(entity);

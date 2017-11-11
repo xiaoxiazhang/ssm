@@ -2,111 +2,84 @@ package com.alibaba.alisonar.domain;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-/**
- * @author wb-zxx263018
- *
- */
 public class AuthUser {
-	private Integer id;
+    private Long id;
 
-	private String username;
+    private String username;
 
-	private String password;
+    private String password;
 
-	private String email;
+    private String email;
 
-	private Integer auFlag;
+    private String salt;
 
-	private String salt;
-	
-	
+    private Integer isDeleted;
 
-	public AuthUser() {
-		super();
-	}
-	
-	
+    private Date gmtCreate;
 
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private Date gmtCreate;
+    private Date gmtModified;
 
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private Date gmtModified;
+    public Long getId() {
+        return id;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
+    }
 
-	public void setUsername(String username) {
-		this.username = username == null ? null : username.trim();
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
+    }
 
-	public void setPassword(String password) {
-		this.password = password == null ? null : password.trim();
-	}
-	
+    public String getEmail() {
+        return email;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getSalt() {
+        return salt;
+    }
 
-	public String getSalt() {
-		return salt;
-	}
+    public void setSalt(String salt) {
+        this.salt = salt == null ? null : salt.trim();
+    }
 
-	public void setSalt(String salt) {
-		this.salt = salt == null ? null : salt.trim();
-	}
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
 
-	public Integer getAuFlag() {
-		return auFlag;
-	}
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 
-	public void setAuFlag(Integer auFlag) {
-		this.auFlag = auFlag;
-	}
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
 
-	public Date getGmtCreate() {
-		return gmtCreate;
-	}
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
 
-	public void setGmtCreate(Date gmtCreate) {
-		this.gmtCreate = gmtCreate;
-	}
+    public Date getGmtModified() {
+        return gmtModified;
+    }
 
-	public Date getGmtModified() {
-		return gmtModified;
-	}
-
-	public void setGmtModified(Date gmtModified) {
-		this.gmtModified = gmtModified;
-	}
-
-	@Override
-	public String toString() {
-		return "AuthUser [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", auFlag=" + auFlag + ", salt=" + salt + ", gmtCreate=" + gmtCreate + ", gmtModified=" + gmtModified
-				+ "]";
-	}
-
-	
-
+    public void setGmtModified(Date gmtModified) {
+        this.gmtModified = gmtModified;
+    }
 }

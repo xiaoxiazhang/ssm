@@ -1,8 +1,5 @@
 package com.alibaba.alisonar.util;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -20,8 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.alisonar.dao.AuthUserMapper;
 import com.alibaba.alisonar.domain.AuthUser;
+import com.alibaba.alisonar.enumeration.IsDeletedEnum;
+import com.alibaba.alisonar.service.AuthUserService;
 
 
 /**
@@ -33,20 +31,20 @@ public class ShiroRealm extends AuthorizingRealm {
 	Logger logger = LoggerFactory.getLogger(ShiroRealm.class);
 
 	@Autowired
-	private AuthUserMapper userMapper;
+	private AuthUserService authUserService;
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
 		UsernamePasswordToken upToken = (UsernamePasswordToken) token;
 		String username = upToken.getUsername();
-		AuthUser userInfo = userMapper.findByUsername(username);
+		AuthUser userInfo = authUserService.findByUsername(username);
 		logger.info("登录用户userinfo:{}",userInfo);
 		if (userInfo == null) {
 			throw new UnknownAccountException("该用户不存在!");
 		}
 		
-		if(userInfo.getAuFlag().equals(0)) {
+		if(userInfo.getIsDeleted().equals(IsDeletedEnum.YES.getCode())) {
 			throw new LockedAccountException(); //帐号锁定
 		}
 		Object principal = username; //数据库中user的用户名

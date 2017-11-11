@@ -14,17 +14,12 @@ import com.alibaba.alisonar.dto.AuthUserSearch;
  * @author wb-zxx263018
  *
  */
-public interface AuthUserService {
+public interface AuthUserService extends BaseService<AuthUser> {
 	
-	AuthUser saveAuthUser(AuthUser authUser);
-	
-	void updateAuthUser(AuthUser authUser);
 	
 	AuthUser findByUsername(String username);
 	
 	List<AuthUser> findAll();
-	
-	AuthUser findOne(Integer id);
 
 	List<AuthUser> findProvidedUser(AuthUserSearch search);
 

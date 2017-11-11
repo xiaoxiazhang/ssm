@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.alisonar.domain.AuthUser;
 import com.alibaba.alisonar.dto.AuthUserSearch;
+import com.alibaba.alisonar.enumeration.IsDeletedEnum;
 import com.alibaba.alisonar.service.AuthUserService;
 import com.alibaba.alisonar.util.DatatableDto;
 import com.alibaba.alisonar.util.ResultDto;
@@ -44,9 +45,9 @@ public class UserController {
 	private AuthUserService authUserService;
 
 	@ModelAttribute
-	public void setAuthUser(Integer id, Model model) {
+	public void setAuthUser(Long id, Model model) {
 		if (id != null) {
-			AuthUser authUser= authUserService.findOne(id);
+			AuthUser authUser= authUserService.selectByPrimaryKey(id);
 			logger.info("modal====>{}",authUser);
 			model.addAttribute("authUser", authUser);
 		}
@@ -74,7 +75,7 @@ public class UserController {
 	@ResponseBody
 	public ResultDto<AuthUser> saveUser(AuthUser user) {
 		logger.info("user===>{}", user);
-		authUserService.saveAuthUser(user);
+		authUserService.insertSelective(user);
 		return ResultDtoFactory.toAck(null);
 
 	}
@@ -92,18 +93,18 @@ public class UserController {
 	@ResponseBody
 	public ResultDto<AuthUser> editUser(@ModelAttribute("authUser")AuthUser authUser) {
 		logger.info("user===>{}", authUser);
-		authUserService.updateAuthUser(authUser);
+		authUserService.updateByPrimaryKeySelective(authUser);
 		return ResultDtoFactory.toAck(null);
 
 	}
 
 	@RequestMapping(value = "/deleteUser/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<AuthUser> deleteUserById(@PathVariable Integer id) {
+	public ResultDto<AuthUser> deleteUserById(@PathVariable Long id) {
 		logger.info("userid===>{}", id);
-		AuthUser authUser = authUserService.findOne(id);
-		authUser.setAuFlag(0);
-		authUserService.updateAuthUser(authUser);
+		AuthUser authUser = authUserService.selectByPrimaryKey(id);
+		authUser.setIsDeleted(IsDeletedEnum.YES.getCode());
+		authUserService.updateByPrimaryKeySelective(authUser);
 		return ResultDtoFactory.toAck(null);
 
 	}
