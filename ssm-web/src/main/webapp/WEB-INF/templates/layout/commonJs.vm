@@ -5,6 +5,7 @@
 <script src="$rc.contextPath/assets/js/bootstrap-table.min.js"></script>
 <script src="$rc.contextPath/assets/js/bootstrap-table-zh-CN.min.js"></script>
 <script src="$rc.contextPath/assets/js/bootstrap-dialog.min.js"></script>
+<script src="$rc.contextPath/assets/js/bootstrap-notify.min.js"></script>
 <script src="$rc.contextPath/assets/js/pnotify.custom.min.js"></script>
 <script src="$rc.contextPath/plugins/select2/select2.full.min.js"></script>
 <script src="$rc.contextPath/assets/js/bootstrap-paginator.min.js"></script>

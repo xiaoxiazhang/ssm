@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>登录页面3</title>
+<title>登录页面</title>
 <meta
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 	name="viewport">
@@ -62,26 +62,48 @@
 
 	<script src="$rc.contextPath/plugins/jQuery/jquery-2.2.3.min.js"></script>
 	<script src="$rc.contextPath/assets/js/pnotify.custom.min.js"></script>
+	<script src="$rc.contextPath/assets/js/bootstrap-notify.min.js"></script>
 	<script src="$rc.contextPath/bootstrap/js/bootstrap.min.js"></script>
 	<script src="$rc.contextPath/plugins/iCheck/icheck.min.js"></script>
 	<script>
 	$(function(){
 		$("#loginBtn").on("click",function(){
-			$.post("doLogin",$("#loginForm").serialize(),function(data){
-				if(data.code===200){
-					location.href = "home";
-				}else{
-					new PNotify({
-	        		    title: '错误!',
-	        			styling : 'bootstrap3',
-	        		    text: data.message,
-	        		    type: 'error',
-	        			delay:3000
-	        		});
-				}
-				
-			},"json"); 
+			var $btn = $(this);
+			$btn.button('loading');
 			
+			$.ajax({
+				url : "doLogin",
+				type : "post",
+				data : $("#loginForm").serialize(),
+				dataType : "json",
+				success : function(data){
+					if(data.code===200){
+						$btn.button('reset');
+						location.href = "home";
+					}else{
+						$.notify({
+							icon: 'glyphicon glyphicon-warning-sign',
+							title: '<strong>登录失败</strong>',
+							message: '请检查用户名或密码是否正确。'
+						},{
+							type: 'warning',
+							placement: {
+								from: "top",
+								align: "center"
+							},
+							allow_dismiss: true,
+							delay: 2000,
+							timer: 1000,
+							onClose: function(){
+								$btn.button('reset');
+							},
+						});
+						
+					}
+					
+				}
+			});
+		
 		});
 		
 	});
