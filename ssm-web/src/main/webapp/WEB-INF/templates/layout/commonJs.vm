@@ -11,3 +11,4 @@
 <script src="$rc.contextPath/assets/js/bootstrap-paginator.min.js"></script>
 <script src="$rc.contextPath/dist/js/app.min.js"></script>
 <script src="$rc.contextPath/assets/js/jquery.validate.min.js"></script>
+<script src="$rc.contextPath/assets/js/app_tools.js"></script>
