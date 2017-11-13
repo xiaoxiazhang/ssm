@@ -37,9 +37,9 @@ import com.alibaba.alisonar.util.ResultDtoFactory;
  */
 @Controller
 @RequestMapping(value = "/user")
-public class UserController {
+public class AuthUserController {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AuthUserController.class);
 
 	@Autowired
 	private AuthUserService authUserService;

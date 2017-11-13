@@ -1,5 +1,5 @@
 $.NOTIFY = {
-	showNotify : function(title , text ,type){
+	show : function(title , text ,type){
 		var title = title || "Done" ;
 		var text = text || "操作成功" ;
 		var type = type || "success"
