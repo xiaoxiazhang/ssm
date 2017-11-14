@@ -8,15 +8,15 @@ public class DatatableDto<T> implements Serializable{
 	private static final long serialVersionUID = -3331686649021065001L;
 
 	// 总页数
-	private Integer total;
+	private long total;
 
 	private List<T> rows;
 
-	public Integer getTotal() {
+	public long getTotal() {
 		return total;
 	}
 
-	public void setTotal(Integer total) {
+	public void setTotal(long total) {
 		this.total = total;
 	}
 
@@ -27,5 +27,7 @@ public class DatatableDto<T> implements Serializable{
 	public void setRows(List<T> rows) {
 		this.rows = rows;
 	}
+
+	
 
 }

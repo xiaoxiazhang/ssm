@@ -18,7 +18,7 @@
 
 				<div class="form-group">
 					<div class="col-sm-offset-1 col-sm-11">
-						<button type="button" id="userSearch" class=" btn btn-info">
+						<button type="button" id="searchBtn" class=" btn btn-info">
 							<span class="fa fa-search"></span>搜索
 						</button>
 						<button type="button" class="btn" data-toggle="modal"

@@ -9,7 +9,7 @@ $.NOTIFY = {
 			styling : 'bootstrap3',
 		    text: text ,
 		    type: type ,
-			delay:1000
+			delay:2000
 		});
 		
 	},
