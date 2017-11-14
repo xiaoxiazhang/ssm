@@ -3,6 +3,7 @@ $(function(){
 		
 		//添加URL
 		addURL : "",
+		$saveBtn : "",
 		updateURL : "",
 		deleteURL : "",	
 		searchTableURL: "listPermission",
@@ -136,11 +137,6 @@ $(function(){
 		}
 			
 	};
-	
-	
 	permission.init();
-	
-	
-	
 	
 });
