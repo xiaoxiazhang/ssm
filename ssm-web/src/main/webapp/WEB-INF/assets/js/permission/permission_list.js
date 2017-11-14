@@ -133,6 +133,22 @@ $(function(){
 						remote : '该权限已经存在！'
 					}
 				},
+				errorPlacement : function(error, element) {  
+		            element.next().remove(); 
+		            element.after(error); //错误在下一行显示
+		            element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');  
+		            //element.closest('.form-group').append(error);   //错误信息在同一行显示
+		        },  
+		        highlight : function(element) {  
+		            $(element).closest('.form-group').addClass('has-error has-feedback');  
+		        },  
+		        success : function(label) {  
+		            var el=label.closest('.form-group').find("input");  
+		            el.next().remove();  
+		            el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');  
+		            label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");  
+		            label.remove();  
+		        },  
 				
 			});
 			
@@ -163,14 +179,40 @@ $(function(){
 						remote : '该权限已经存在！'
 					}
 				},
+				errorPlacement : function(error, element) {  
+		            element.next().remove(); 
+		            element.after(error); //错误在下一行显示
+		            element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');  
+		            //element.closest('.form-group').append(error);   //错误信息在同一行显示
+		        },  
+		        highlight : function(element) {  
+		            $(element).closest('.form-group').addClass('has-error has-feedback');  
+		        },  
+		        success : function(label) {  
+		            var el=label.closest('.form-group').find("input");  
+		            el.next().remove();  
+		            el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');  
+		            label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");  
+		            label.remove();  
+		        },  
 			});
 			
 			//保存事件
 			that.$addBtn.on('click',function(){
 				var $btn = $(this);
-				$btn.button('loading');
 				if(addFormValidator.form()){
+					$btn.button('loading');
 					that.doSave($btn);
+				}
+				
+			});
+			
+			//更新事件
+			that.$editBtn.on('click',function(){
+				var $btn = $(this);
+				if(editFormValidator.form()){
+					$btn.button('loading');
+					that.doUpdate($btn);
 				}
 				
 			});
@@ -212,7 +254,7 @@ $(function(){
 				error : function(){
 					$("#addModal").modal('hide');
 	        		$btn.button('reset');
-					$.NOTIFY.show('保存错误','服务器异常！','danger')
+					$.NOTIFY.show('保存失败','服务器异常！','danger')
 				}
 			});
 			
@@ -225,7 +267,25 @@ $(function(){
 			$("#editForm input[name='description']").val(row.description);
 		},
 		
-		doUpdate : function(){
+		doUpdate : function($btn){
+			var that = this;
+			$.ajax({
+				url : that.updateURL,
+	        	type : "POST",
+	        	data : $("#editForm").serialize(),
+	        	success : function(data) {
+	        		$("#editModal").modal('hide');
+	        		$btn.button('reset');
+	        		$.NOTIFY.show();
+	    			that.$tableList.bootstrapTable('refresh');
+	        		
+	        	},
+				error : function(){
+					$("#editModal").modal('hide');
+	        		$btn.button('reset');
+					$.NOTIFY.show('更新失败','服务器异常！','danger')
+				}
+			});
 			
 			
 			
