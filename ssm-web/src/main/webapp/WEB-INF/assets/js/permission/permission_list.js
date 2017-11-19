@@ -1,6 +1,5 @@
 $(function(){
 	var permission = {
-		
 		//添加变量
 		saveURL : "savePermission",
 		$addBtn : $("#savePermissionBtn"),
@@ -58,6 +57,7 @@ $(function(){
                     		 that.buildOldData(row);
                     	},
                     	'click .cancel' : function(e,value,row,index){
+                    		//添加删除message
                     		var message = "你确定要删除权限【"+ row.permission +"】吗？"
                     		var data = {id : row.id};
                     		BootstrapDialog.show({
@@ -108,7 +108,7 @@ $(function(){
 		bindEvents : function(){
 			
 			var that = this;
-			//增加前端校验
+			//添加前端校验
 			var addFormValidator=$("#addForm").validate({
 				rules : {
 					permission : {
@@ -224,7 +224,8 @@ $(function(){
 			});
 			
 			//弹出窗隐藏式清空弹出窗表单内容
-			$("#addModal").on("hidden.bs.modal", function() {  
+			$("#addModal").on("hidden.bs.modal", function() {
+				//$(this).removeData('bs.modal');
 				$('#addForm')[0].reset();
 				addFormValidator.resetForm();
 				
@@ -233,8 +234,7 @@ $(function(){
 			$("#editModal").on("hidden.bs.modal", function() {  
 				$('#editForm')[0].reset();
 				editFormValidator.resetForm();
-			});  
-			
+			}); 
 			
 		},
 		
@@ -262,6 +262,7 @@ $(function(){
 		},
 		
 		buildOldData : function(row){
+			//添加更新弹窗数据
 			$("#editForm input[name='id']").val(row.id);
 			$("#editForm input[name='permission']").val(row.permission);
 			$("#editForm input[name='description']").val(row.description);
