@@ -73,6 +73,13 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 		return true;
 	}
 
+
+	@Override
+	public void deletePermission(Long id) {
+		authPermissionMapper.deletePermission(id);
+		
+	}
+
 	
 
 }

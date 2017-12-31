@@ -77,7 +77,7 @@ public class AuthPermissionController {
 	@RequestMapping(value = "/deletePermission", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultDto<String> deletePermission(Long id) {
-		authPermissionService.deleteByPrimaryKey(id);
+		authPermissionService.deletePermission(id);
 		return ResultDtoFactory.toAck(null);
 
 	}

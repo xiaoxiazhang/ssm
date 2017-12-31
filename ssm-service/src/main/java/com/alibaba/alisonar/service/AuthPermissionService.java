@@ -17,5 +17,7 @@ public interface AuthPermissionService extends BaseService<AuthPermission> {
 
 	boolean checkPermission(AuthPermissionDTO authPermissionDTO);
 
+	void deletePermission(Long id);
+
 
 }
