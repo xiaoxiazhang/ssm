@@ -165,8 +165,8 @@ $(function(){
 				queryParams : function(params) {
 					return {
 						//添加查询属性值
-						permission :  $("#permissionForm input[name='permission']").val(),
-						description : $("#permissionForm input[name='description']").val(),
+						permission :  $("#searchForm input[name='permission']").val(),
+						description : $("#searchForm input[name='description']").val(),
 						limit : params.limit,
 						offset : params.offset,
 						sortName : params.sort ,

@@ -11,7 +11,6 @@ public  interface BaseService<T> {
 	
 	int insertSelective(T record);
 	
-	
 	T selectByPrimaryKey(Long id);
 	
 	int updateByPrimaryKeySelective(T record);

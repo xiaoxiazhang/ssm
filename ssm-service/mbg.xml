@@ -5,9 +5,11 @@
 <generatorConfiguration>
 	<!-- MyBatis3Simple MyBatis3-->
 	<context id="DB2Tables" targetRuntime="MyBatis3">
-		<!-- 生成bean忽略注释 -->
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+		<plugin type="org.mybatis.generator.plugins.ToStringPlugin" />  
+		<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
 		<commentGenerator>
-			<property name="suppressAllComments" value="true" />
+			<property name="suppressAllComments" value="true" /> <!-- 生成bean忽略注释 -->
 		</commentGenerator>
 		<!-- 配置数据库连接 -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"

@@ -9,7 +9,9 @@ import java.util.Set;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.alibaba.alisonar.domain.AuthUser;
+import com.alibaba.alisonar.dto.AuthUserDTO;
 import com.alibaba.alisonar.dto.AuthUserSearch;
+import com.alibaba.alisonar.util.DatatableDto;
 
 /**
  * @author wb-zxx263018
@@ -31,5 +33,9 @@ public interface AuthUserService extends BaseService<AuthUser> {
 	Set<String> findRoles(String username);
 
 	Set<String> findPermissions(String username);
+
+	void deleteUser(Long id);
+
+	DatatableDto<AuthUserDTO> buildDatatableDto(AuthUserDTO authUserDTO);
 
 }

@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.alisonar.domain.AuthUser;
+import com.alibaba.alisonar.dto.AuthUserDTO;
 import com.alibaba.alisonar.dto.AuthUserSearch;
 import com.alibaba.alisonar.enumeration.IsDeletedEnum;
+import com.alibaba.alisonar.service.AuthRoleService;
 import com.alibaba.alisonar.service.AuthUserService;
 import com.alibaba.alisonar.util.DatatableDto;
 import com.alibaba.alisonar.util.ResultDto;
@@ -43,31 +45,23 @@ public class AuthUserController {
 
 	@Autowired
 	private AuthUserService authUserService;
+	
+	@Autowired
+	private AuthRoleService authRoleService;
 
-	@ModelAttribute
-	public void setAuthUser(Long id, Model model) {
-		if (id != null) {
-			AuthUser authUser= authUserService.selectByPrimaryKey(id);
-			logger.info("modal====>{}",authUser);
-			model.addAttribute("authUser", authUser);
-		}
-
-	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String toUserListPage(Model model) {
+		model.addAttribute("roles", authRoleService.findAll());
 		return "user/user_list";
 
 	}
 
-	@RequestMapping(value = "/list", method = RequestMethod.POST)
+	@RequestMapping(value = "/listAuthUser", method = RequestMethod.POST)
 	@ResponseBody
-	public DatatableDto<AuthUser> listAuthUser(@RequestBody AuthUserSearch search) {
-		logger.info("AuthUserSearch===>{}", search);
-		DatatableDto<AuthUser> resultDto = new DatatableDto<AuthUser>();
-		resultDto.setRows(authUserService.findProvidedUser(search));
-		resultDto.setTotal(authUserService.findProvidedUserCount(search));
-		return resultDto;
+	public DatatableDto<AuthUserDTO> listAuthUser(@RequestBody AuthUserDTO authUserDTO) {
+		logger.info("AuthUserSearch===>{}", authUserDTO);
+		return authUserService.buildDatatableDto(authUserDTO);
 
 	}
 
@@ -89,22 +83,19 @@ public class AuthUserController {
 		return true;
 	}
 
-	@RequestMapping(value = "/editUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<AuthUser> editUser(@ModelAttribute("authUser")AuthUser authUser) {
+	public ResultDto<AuthUser> editUser(AuthUser authUser) {
 		logger.info("user===>{}", authUser);
 		authUserService.updateByPrimaryKeySelective(authUser);
 		return ResultDtoFactory.toAck(null);
 
 	}
 
-	@RequestMapping(value = "/deleteUser/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<AuthUser> deleteUserById(@PathVariable Long id) {
-		logger.info("userid===>{}", id);
-		AuthUser authUser = authUserService.selectByPrimaryKey(id);
-		authUser.setIsDeleted(IsDeletedEnum.YES.getCode());
-		authUserService.updateByPrimaryKeySelective(authUser);
+	public ResultDto<String> deleteUser(Long id) {
+		authUserService.deleteUser(id);
 		return ResultDtoFactory.toAck(null);
 
 	}

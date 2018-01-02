@@ -37,6 +37,11 @@ public class BaseSearchTableDTO {
 	public void setSortOrder(String sortOrder) {
 		this.sortOrder = sortOrder;
 	}
+	@Override
+	public String toString() {
+		return "BaseSearchTableDTO [limit=" + limit + ", offset=" + offset + ", sortName=" + sortName + ", sortOrder="
+				+ sortOrder + "]";
+	}
 	
 	
 

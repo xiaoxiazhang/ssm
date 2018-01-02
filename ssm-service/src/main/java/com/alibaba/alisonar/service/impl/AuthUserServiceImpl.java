@@ -19,11 +19,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.alisonar.dao.AuthUserMapper;
 import com.alibaba.alisonar.domain.AuthUser;
+import com.alibaba.alisonar.dto.AuthRoleDTO;
+import com.alibaba.alisonar.dto.AuthUserDTO;
 import com.alibaba.alisonar.dto.AuthUserSearch;
 import com.alibaba.alisonar.service.AuthUserService;
+import com.alibaba.alisonar.util.DatatableDto;
 import com.alibaba.alisonar.util.ExcelUtil;
 import com.alibaba.alisonar.util.MyStringUtil;
 import com.alibaba.alisonar.util.PasswordHelper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 /**
  * @author wb-zxx263018
@@ -38,7 +43,6 @@ public class AuthUserServiceImpl implements AuthUserService {
 	@Autowired
 	private AuthUserMapper authUserMapper;
 
-	
 
 	@Override
 	public int insertSelective(AuthUser record) {
@@ -76,6 +80,17 @@ public class AuthUserServiceImpl implements AuthUserService {
 		return authUserMapper.findAll();
 	}
 
+	
+	@Override
+	public DatatableDto<AuthUserDTO> buildDatatableDto(AuthUserDTO authUserDTO) {
+		DatatableDto<AuthUserDTO> resultDto = new DatatableDto<AuthUserDTO>();
+		PageHelper.startPage(authUserDTO.getOffset()/authUserDTO.getLimit()+1, authUserDTO.getLimit());
+		List<AuthUserDTO> list = authUserMapper.listAuthUser(authUserDTO);
+		PageInfo<AuthUserDTO> page= new PageInfo(list);
+		resultDto.setRows(page.getList());
+		resultDto.setTotal(page.getTotal());
+		return resultDto;
+	}
 
 	@Override
 	public List<AuthUser> findProvidedUser(AuthUserSearch search) {
@@ -132,6 +147,14 @@ public class AuthUserServiceImpl implements AuthUserService {
 		return authUserMapper.findPermissions(username);
 		
 	}
+
+	@Override
+	public void deleteUser(Long id) {
+		authUserMapper.deleteUser(id);
+		
+	}
+
+	
 	
 	
 

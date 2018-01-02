@@ -1,4 +1,13 @@
 #set($layout = "layout/layout.vm")
+<section class="content-header">
+	<h1>
+		用户管理<small>User</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="$rc.contextPath/home"><i class="fa fa-dashboard"></i> Home</a></li>
+		<li class="active">用户权限管理</li>
+	</ol>
+</section>
 <section class="content">
 	<!-- 主代码-->
 	<div class="box box-info">
@@ -6,75 +15,62 @@
 			<form class="form-horizontal" id="userSearchForm"
 				action="exportUserExcel" method="get">
 				<div class="form-group">
-					<label for="username" class="col-sm-1 control-label">用户名</label>
+					<label for="username" class="col-sm-1 control-label">用户名:</label>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" id="username"
-							name="username">
+						<input type="text" class="form-control" id="username" placeholder="请输入用户名" name="username">
 					</div>
 
-					<label for="email" class="col-sm-1 control-label">邮箱</label>
+					<label for="email" class="col-sm-1 control-label">邮箱:</label>
 					<div class="col-sm-3">
-						<input type="email" class="form-control" id="email" name="email">
+						<input type="email" class="form-control" id="email" name="email" placeholder="请输入邮箱" >
 					</div>
 
-					<label for="auFlag" class="col-sm-1 control-label">是否启用</label>
+					<label  class="col-sm-1 control-label">是否启用:</label>
 					<div class="col-sm-3">
-						<select class="form-control  col-sm-3" id="auFlag" name="auFlag">
-							<option>全部</option>
-							<option>是</option>
-							<option>否</option>
-						</select>
+						<label class="radio-inline">
+							<input type="radio" name="isDeleted" value="1">是
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="isDeleted" value="0">否
+						</label>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label for="startTime" class="col-sm-1 control-label">开始时间</label>
+					<label for="startTime" class="col-sm-1 control-label">创建时间:</label>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" id="startTime"
-							name="startTime">
+						<input type="text" class="form-control" id="createDate" name="createDate">
 					</div>
 
-					<label for="endTime" class="col-sm-1 control-label">结束时间</label>
+					<label  class="col-sm-1 control-label">角色类型:</label>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" id="endTime"
-							name="endTime">
-					</div>
-					<label for="grade" class="col-sm-1 control-label">select2</label>
-					<div class="col-sm-3">
-						<select class="form-control select2 col-sm-3" style="width: 100%;"
-							id="grade" name="grade">
-							<option>全部</option>
-							<option>一个</option>
-							<option>两个</option>
-							<option>三个</option>
-							<option>四个</option>
-							<option>五个</option>
+						<select class="form-control select2 col-sm-3" style="width: 100%;" id="roles">
+						#foreach($role in $roles)
+							 <option value="$!{role.role}">$!{role.description}</option>
+						#end 
 						</select>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<div class="col-sm-offset-1 col-sm-11">
-						<button type="button" id="userSearch" class=" btn btn-info">
+						<button type="button" id="searchBtn" class=" btn btn-info">
 							<span class="fa fa-search"></span>搜索
 						</button>
-						<button type="button" id="userReflesh" class=" btn btn-success">
+						<button type="button" id="refleshBtn" class=" btn btn-success">
 							<span class="fa fa-refresh"></span>刷新
 						</button>
 						<button type="button" class="btn" data-toggle="modal"
 							data-target="#userAddModal" data-backdrop="static">
 							<span class="fa fa-plus"></span>添加
 						</button>
-						<button type="submit" id="exportUser" class="btn">
+						<button type="submit" id="exportBtn" class="btn">
 							<span class="fa  fa-download"></span>导出Excel
 						</button>
 					</div>
 				</div>
 			</form>
 		</div>
-		<!-- /.box-header -->
-		<!-- form start -->
-
 		<div class="box-body">
 			<table id="tableList" class="table table-striped"></table>
 		</div>
@@ -83,5 +79,5 @@
 </section>
 #parse('user/user_add.vm')
 #parse('user/user_edit.vm')
-<script src="$rc.contextPath/assets/js/user/user_list.js"></script>
+<script src="$rc.contextPath/assets/js/user/user.js"></script>
 

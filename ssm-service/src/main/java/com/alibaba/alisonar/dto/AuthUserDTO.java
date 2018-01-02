@@ -1,16 +1,22 @@
 package com.alibaba.alisonar.dto;
 
-public class AuthUserDTO {
+import java.util.List;
+
+public class AuthUserDTO extends BaseSearchTableDTO{
 
 	private Integer id;
 
 	private String username;
 
-	private String password;
-
 	private String email;
 
-	private Integer auFlag;
+	private Integer isDeleted;
+	
+	private String createDate;
+	
+	private List<String> roles; //
+	
+	private String rolesDesc; 
 
 	public Integer getId() {
 		return id;
@@ -27,14 +33,7 @@ public class AuthUserDTO {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	
 
 	public String getEmail() {
 		return email;
@@ -44,12 +43,39 @@ public class AuthUserDTO {
 		this.email = email;
 	}
 
-	public Integer getAuFlag() {
-		return auFlag;
+
+	public Integer getIsDeleted() {
+		return isDeleted;
 	}
 
-	public void setAuFlag(Integer auFlag) {
-		this.auFlag = auFlag;
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
 	}
+
+	public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+
+	public String getRolesDesc() {
+		return rolesDesc;
+	}
+
+	public void setRolesDesc(String rolesDesc) {
+		this.rolesDesc = rolesDesc;
+	}
+	
+	
 
 }
