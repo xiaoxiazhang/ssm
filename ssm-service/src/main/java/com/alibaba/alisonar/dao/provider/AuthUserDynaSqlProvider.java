@@ -22,6 +22,7 @@ public String listAuthUserSql(AuthUserDTO authUserDTO){
 				.LEFT_OUTER_JOIN("auth_role ar ON ar.id=aur.auth_role_id AND ar.is_deleted=0");
 		if(StringUtils.isNotBlank(authUserDTO.getUsername())){
 			sql.WHERE("au.username like concat('%',#{username},'%')");
+			
 		}
 		if(StringUtils.isNotBlank(authUserDTO.getEmail())){
 			sql.WHERE("au.email like CONCAT('%',#{email},'%')");
@@ -31,12 +32,19 @@ public String listAuthUserSql(AuthUserDTO authUserDTO){
 			sql.WHERE("au.is_deleted= #{isDeleted}");
 			
 		}
-		if(authUserDTO.getCreateDate() != null){
-			sql.WHERE("date(au.gmt_create)= #{createDate}");
+		if(StringUtils.isNotBlank(authUserDTO.getCsDate())){
+			sql.WHERE("au.gmt_create >= #{csDate} ");
+			
+		}
+		
+		if(StringUtils.isNotBlank(authUserDTO.getCeDate())){
+			sql.WHERE("au.gmt_create <= #{ceDate} ");
 			
 		}
 		
 		if(authUserDTO.getRoles()!=null && authUserDTO.getRoles().size()>0){
+			authUserDTO.setRolesDesc(StringUtils.join(authUserDTO.getRoles(),","));
+			sql.WHERE("ar.role in (#{rolesDesc}) ");
 			
 		}
 		sql.GROUP_BY("au.username");

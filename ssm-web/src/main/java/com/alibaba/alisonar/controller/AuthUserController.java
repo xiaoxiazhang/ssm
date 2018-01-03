@@ -15,8 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.alisonar.domain.AuthUser;
 import com.alibaba.alisonar.dto.AuthUserDTO;
 import com.alibaba.alisonar.dto.AuthUserSearch;
-import com.alibaba.alisonar.enumeration.IsDeletedEnum;
 import com.alibaba.alisonar.service.AuthRoleService;
 import com.alibaba.alisonar.service.AuthUserService;
 import com.alibaba.alisonar.util.DatatableDto;
@@ -48,6 +45,8 @@ public class AuthUserController {
 	
 	@Autowired
 	private AuthRoleService authRoleService;
+	
+	
 
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -67,9 +66,9 @@ public class AuthUserController {
 
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<AuthUser> saveUser(AuthUser user) {
-		logger.info("user===>{}", user);
-		authUserService.insertSelective(user);
+	public ResultDto<AuthUser> saveUser(AuthUserDTO authUserDTO) {
+		logger.info("user===>{}", authUserDTO);
+		authUserService.saveUser(authUserDTO);
 		return ResultDtoFactory.toAck(null);
 
 	}

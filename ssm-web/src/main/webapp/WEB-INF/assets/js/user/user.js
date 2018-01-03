@@ -7,12 +7,36 @@ $(function(){
 		searchTableURL: "listAuthUser",
 			
 		init : function(){
-			
+			//角色
 			$("#roles").select2({
 				placeholder : '请选择角色',
 				allowClear : true,
 				multiple : true,
-			}).val(null).trigger("change");;
+			}).val(null).trigger("change");
+			
+			
+			//开始和结束时间
+			var csDate = $('#csDate').datetimepicker({
+				format : 'yyyy-mm-dd',
+				language : 'zh_CN',
+				minView : 2,  //最精确的时间:0->分，2->日
+				autoclose : true,
+				clearBtn:true,
+				//todayBtn : true,
+			}).on('changeDate',function(e){  
+			    $('#ceDate').datetimepicker('setStartDate',e.date);  
+			}); 
+			
+			var ceDate = $('#ceDate').datetimepicker({
+				format : 'yyyy-mm-dd',
+				language : 'zh_CN',
+				minView : 2,
+				autoclose : true,
+				clearBtn:true,
+				//todayBtn : true,
+			}).on('changeDate',function(e){  
+			    $('#csDate').datetimepicker('setEndDate',e.date);  
+			});
 			
 			this.initBootstrapTable();
 			this.bindEvents();
@@ -54,11 +78,20 @@ $(function(){
 					align : 'center',
 					valign:'middle',
 					
+				},{
+					field : 'isDeleted',
+					title : '用户状态',
+					align : 'center',
+					valign:'middle',
+					formatter: function (value, row, index) {
+						if(row.isDeleted=="1") return "禁用";
+						return "启用";
+					}
+					
 				}, { //添加需要展示列
 					title : '操作',
 					align : 'left',
 					valign:'middle',
-					width : '20%',
 					formatter: function (value, row, index) {
 						/*var viewOporator = "<a href='#' class='btn btn-primary btn-xs'><span class='fa fa-wrench'></span>授权</a>";*/
 						var updateOperator = "<button class='btn btn-info btn-xs edit'><span class='fa fa-edit'></span>编辑</button>";
@@ -184,8 +217,12 @@ $(function(){
 				queryParams : function(params) {
 					return {
 						//添加查询属性值
-						username :  $("#searchForm input[name='username']").val(),
-						description : $("#searchForm input[name='description']").val(),
+						username :  $("#username").val(),
+						email :  $("#email").val(),
+						isDeleted :  $('#searchForm input:radio[name="isDeleted"]:checked').val(),//单选框的值
+						csDate :  $("#csDate").val(),
+						ceDate :  $("#ceDate").val(),
+						roles : $("#roles").select2("val"),
 						limit : params.limit,
 						offset : params.offset,
 						sortName : params.sort ,
@@ -205,6 +242,15 @@ $(function(){
 				BootstrapDialog.show({
 			            title: '添加',
 			            message: message,
+			            onshown: function(dialogRef){
+			            	
+			            	$("#addDialog>form select[name='roles']").select2({
+			    				placeholder : '请选择角色',
+			    				allowClear : true,
+			    				multiple : true,
+			    			}).val(null).trigger("change");
+			            	
+			            },
 			            buttons: [{
 			                label: '取消',
 			                action: function(dialog) {
@@ -217,6 +263,7 @@ $(function(){
 			                	//添加前端校验
 			        			var addFormValidator=$("#addDialog > form").validate({
 			        				rules : {
+			        					
 			        					username : {
 			        						required: true,
 			        	                    remote : {
@@ -232,9 +279,11 @@ $(function(){
 			        						    }
 			        						},
 			        					},
-			        					description : {
+			        					email : {
 			        						required: true,
+			        						email :true,
 			        					}
+			        					
 			        				},
 			        				messages : {
 			        					username : {
@@ -273,6 +322,20 @@ $(function(){
 			$("#searchBtn").on('click',function(){
 				$("#tableList").bootstrapTable('refresh');
 			});
+			
+			//刷新事件
+			$("#refleshBtn").on('click', function() {
+				//清空查询表单内容
+				$("#searchForm")[0].reset();
+				$("#roles").select2({
+					placeholder : '请选择角色',
+					allowClear : true,
+					multiple : true,
+				}).val(null).trigger("change");
+				$("#tableList").bootstrapTable('refresh');
+
+			});
+			
 		},
 		
 		doSave : function(){

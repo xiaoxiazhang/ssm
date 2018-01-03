@@ -38,4 +38,7 @@ public interface AuthUserService extends BaseService<AuthUser> {
 
 	DatatableDto<AuthUserDTO> buildDatatableDto(AuthUserDTO authUserDTO);
 
+	void saveUser(AuthUserDTO authUserDTO);
+
+
 }

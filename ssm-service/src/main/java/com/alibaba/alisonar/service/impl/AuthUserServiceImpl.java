@@ -6,6 +6,7 @@ package com.alibaba.alisonar.service.impl;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -19,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.alisonar.dao.AuthUserMapper;
 import com.alibaba.alisonar.domain.AuthUser;
-import com.alibaba.alisonar.dto.AuthRoleDTO;
 import com.alibaba.alisonar.dto.AuthUserDTO;
 import com.alibaba.alisonar.dto.AuthUserSearch;
 import com.alibaba.alisonar.service.AuthUserService;
@@ -42,6 +42,10 @@ public class AuthUserServiceImpl implements AuthUserService {
 
 	@Autowired
 	private AuthUserMapper authUserMapper;
+	
+//	@Autowired
+//	private AuthUserConventor authUserConventor;
+	
 
 
 	@Override
@@ -51,6 +55,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 		return authUserMapper.insertSelective(record);
 		
 	}
+	
 
 	@Override
 	public AuthUser selectByPrimaryKey(Long id) {
@@ -90,6 +95,16 @@ public class AuthUserServiceImpl implements AuthUserService {
 		resultDto.setRows(page.getList());
 		resultDto.setTotal(page.getTotal());
 		return resultDto;
+	}
+	
+	@Override
+	public void saveUser(AuthUserDTO authUserDTO) {
+		//AuthUser entity = authUserConventor.DTO2entity2(authUserDTO);
+		AuthUser entity = new AuthUser();
+		String salt = RandomStringUtils.random(6);
+		entity.setSalt(salt); 
+		entity.setPassword(PasswordHelper.encryptPassword("md5", 2, "123456", salt)); //默认密码123456
+		authUserMapper.insertSelective(entity);
 	}
 
 	@Override
@@ -153,6 +168,8 @@ public class AuthUserServiceImpl implements AuthUserService {
 		authUserMapper.deleteUser(id);
 		
 	}
+
+	
 
 	
 	

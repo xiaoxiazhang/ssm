@@ -14,6 +14,10 @@ public class AuthUserDTO extends BaseSearchTableDTO{
 	
 	private String createDate;
 	
+	private String csDate; //创建开始时间
+	
+	private String ceDate; //创建结束时间
+	
 	private List<String> roles; //
 	
 	private String rolesDesc; 
@@ -51,13 +55,30 @@ public class AuthUserDTO extends BaseSearchTableDTO{
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-
+	
+	
 	public String getCreateDate() {
 		return createDate;
 	}
 
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
+	}
+
+	public String getCsDate() {
+		return csDate;
+	}
+
+	public void setCsDate(String csDate) {
+		this.csDate = csDate;
+	}
+
+	public String getCeDate() {
+		return ceDate;
+	}
+
+	public void setCeDate(String ceDate) {
+		this.ceDate = ceDate;
 	}
 
 	public List<String> getRoles() {
