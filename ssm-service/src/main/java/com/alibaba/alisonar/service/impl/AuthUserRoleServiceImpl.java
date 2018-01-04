@@ -45,4 +45,12 @@ public class AuthUserRoleServiceImpl implements AuthUserRoleService {
 		return authUserRoleMapper.deleteByPrimaryKey(id);
 	}
 
+
+	@Override
+	public void deleteByUserId(Long userId) {
+		authUserRoleMapper.deleteByUserId(userId);
+	}
+
+
+
 }

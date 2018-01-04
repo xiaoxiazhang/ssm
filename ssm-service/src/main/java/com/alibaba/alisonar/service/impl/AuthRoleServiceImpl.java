@@ -79,6 +79,11 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 		return authRoleMapper.findAll();
 	}
 
+	@Override
+	public AuthRole getAuthRoleByRole(String role) {
+		return authRoleMapper.getAuthRoleByRole(role);
+	}
+
 	
 	
 

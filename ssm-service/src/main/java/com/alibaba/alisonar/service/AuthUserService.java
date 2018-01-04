@@ -40,5 +40,7 @@ public interface AuthUserService extends BaseService<AuthUser> {
 
 	void saveUser(AuthUserDTO authUserDTO);
 
+	void updateUser(AuthUserDTO authUserDTO);
+
 
 }

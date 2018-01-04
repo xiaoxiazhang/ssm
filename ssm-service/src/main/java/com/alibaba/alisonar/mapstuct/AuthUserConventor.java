@@ -27,7 +27,7 @@ public interface AuthUserConventor {
 	public AuthUserDTO entity2DTO(AuthUser entity);
 	
 	@InheritInverseConfiguration
-	public AuthUser DTO2entity2(AuthUserDTO dto);
+	public AuthUser DTO2entity(AuthUserDTO dto);
 
 	
 	public List<AuthUserDTO> entities2DTOs(List<AuthUser> list);

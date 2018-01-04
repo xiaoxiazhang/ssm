@@ -4,7 +4,7 @@ import java.util.List;
 
 public class AuthUserDTO extends BaseSearchTableDTO{
 
-	private Integer id;
+	private Long id;
 
 	private String username;
 
@@ -22,11 +22,11 @@ public class AuthUserDTO extends BaseSearchTableDTO{
 	
 	private String rolesDesc; 
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

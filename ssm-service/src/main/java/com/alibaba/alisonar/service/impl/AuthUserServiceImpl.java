@@ -19,9 +19,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.alisonar.dao.AuthUserMapper;
+import com.alibaba.alisonar.domain.AuthRole;
 import com.alibaba.alisonar.domain.AuthUser;
+import com.alibaba.alisonar.domain.AuthUserRole;
 import com.alibaba.alisonar.dto.AuthUserDTO;
 import com.alibaba.alisonar.dto.AuthUserSearch;
+import com.alibaba.alisonar.mapstuct.AuthUserConventor;
+import com.alibaba.alisonar.service.AuthRoleService;
+import com.alibaba.alisonar.service.AuthUserRoleService;
 import com.alibaba.alisonar.service.AuthUserService;
 import com.alibaba.alisonar.util.DatatableDto;
 import com.alibaba.alisonar.util.ExcelUtil;
@@ -43,11 +48,15 @@ public class AuthUserServiceImpl implements AuthUserService {
 	@Autowired
 	private AuthUserMapper authUserMapper;
 	
-//	@Autowired
-//	private AuthUserConventor authUserConventor;
+	@Autowired
+	private AuthRoleService authRoleService;
 	
-
-
+	@Autowired
+	private AuthUserRoleService authUserRoleService;
+	
+	@Autowired
+	private AuthUserConventor authUserConventor;
+	
 	@Override
 	public int insertSelective(AuthUser record) {
 		record.setSalt("18868801131");
@@ -72,7 +81,6 @@ public class AuthUserServiceImpl implements AuthUserService {
 		return authUserMapper.deleteByPrimaryKey(id);
 	}
 	
-
 
 	@Override
 	public AuthUser findByUsername(String username) {
@@ -99,12 +107,41 @@ public class AuthUserServiceImpl implements AuthUserService {
 	
 	@Override
 	public void saveUser(AuthUserDTO authUserDTO) {
-		//AuthUser entity = authUserConventor.DTO2entity2(authUserDTO);
-		AuthUser entity = new AuthUser();
-		String salt = RandomStringUtils.random(6);
-		entity.setSalt(salt); 
-		entity.setPassword(PasswordHelper.encryptPassword("md5", 2, "123456", salt)); //默认密码123456
-		authUserMapper.insertSelective(entity);
+		AuthUser authUser = authUserConventor.DTO2entity(authUserDTO);
+		String salt = RandomStringUtils.randomAlphabetic(8);
+		authUser.setSalt(salt); 
+		authUser.setPassword(PasswordHelper.encryptPassword("md5", 2, "123456", salt)); //默认密码123456
+		authUserMapper.insertSelective(authUser);
+		
+		for(String role:authUserDTO.getRoles()){
+			AuthRole authRole = authRoleService.getAuthRoleByRole(role);
+			AuthUserRole authUserRole = new AuthUserRole();
+			authUserRole.setAuthRoleId(authRole.getId());
+			authUserRole.setAuthUserId(authUser.getId());
+			authUserRoleService.insertSelective(authUserRole);
+		}
+	}
+	
+	
+	@Override
+	public void updateUser(AuthUserDTO authUserDTO) {
+		AuthUser authUser = authUserConventor.DTO2entity(authUserDTO);
+		logger.info("authUser===>{}",authUser);
+		authUserMapper.updateByPrimaryKeySelective(authUser);
+		//删存然后重新插入
+		authUserRoleService.deleteByUserId(authUser.getId());
+		for(String role:authUserDTO.getRoles()){
+			AuthRole authRole = authRoleService.getAuthRoleByRole(role);
+			AuthUserRole authUserRole = new AuthUserRole();
+			authUserRole.setAuthRoleId(authRole.getId());
+			authUserRole.setAuthUserId(authUser.getId());
+			authUserRoleService.insertSelective(authUserRole);
+			
+			
+		}
+		
+		
+		
 	}
 
 	@Override
@@ -123,6 +160,12 @@ public class AuthUserServiceImpl implements AuthUserService {
 	public Integer findProvidedUserCount(AuthUserSearch search) {
 		return authUserMapper.findProvidedUserCount(search);
 
+	}
+	
+	@Override
+	public void deleteUser(Long id) {
+		authUserMapper.deleteUser(id);
+		
 	}
 
 	@Override
@@ -162,17 +205,5 @@ public class AuthUserServiceImpl implements AuthUserService {
 		return authUserMapper.findPermissions(username);
 		
 	}
-
-	@Override
-	public void deleteUser(Long id) {
-		authUserMapper.deleteUser(id);
-		
-	}
-
-	
-
-	
-	
-	
 
 }

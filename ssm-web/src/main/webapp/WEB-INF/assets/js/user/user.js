@@ -8,7 +8,7 @@ $(function(){
 			
 		init : function(){
 			//角色
-			$("#roles").select2({
+			$('#searchForm select[name="roles"').select2({
 				placeholder : '请选择角色',
 				allowClear : true,
 				multiple : true,
@@ -16,7 +16,7 @@ $(function(){
 			
 			
 			//开始和结束时间
-			var csDate = $('#csDate').datetimepicker({
+			$('#searchForm input[name="csDate"').datetimepicker({
 				format : 'yyyy-mm-dd',
 				language : 'zh_CN',
 				minView : 2,  //最精确的时间:0->分，2->日
@@ -24,10 +24,10 @@ $(function(){
 				clearBtn:true,
 				//todayBtn : true,
 			}).on('changeDate',function(e){  
-			    $('#ceDate').datetimepicker('setStartDate',e.date);  
+				$('#searchForm input[name="ceDate"').datetimepicker('setStartDate',e.date);  
 			}); 
 			
-			var ceDate = $('#ceDate').datetimepicker({
+			$('#searchForm input[name="ceDate"').datetimepicker({
 				format : 'yyyy-mm-dd',
 				language : 'zh_CN',
 				minView : 2,
@@ -35,7 +35,7 @@ $(function(){
 				clearBtn:true,
 				//todayBtn : true,
 			}).on('changeDate',function(e){  
-			    $('#csDate').datetimepicker('setEndDate',e.date);  
+				$('#searchForm input[name="csDate"').datetimepicker('setEndDate',e.date);  
 			});
 			
 			this.initBootstrapTable();
@@ -94,9 +94,12 @@ $(function(){
 					valign:'middle',
 					formatter: function (value, row, index) {
 						/*var viewOporator = "<a href='#' class='btn btn-primary btn-xs'><span class='fa fa-wrench'></span>授权</a>";*/
-						var updateOperator = "<button class='btn btn-info btn-xs edit'><span class='fa fa-edit'></span>编辑</button>";
-						var removeOperator = "<button  class='btn btn-warning btn-xs cancel'><span class='fa fa-trash'></span>删除</button> "
-						var htmlStr = updateOperator +removeOperator;
+						var updateOperator = "<button class='btn btn-info btn-sm edit'><span class='fa fa-edit'></span>编辑</button>";
+						var removeOperator = "<button  class='btn btn-warning btn-sm cancel'><span class='fa fa-trash'></span>删除</button> "
+						var htmlStr = updateOperator;
+						if(row.isDeleted=="0"){
+							htmlStr += removeOperator;
+						}
                         return htmlStr;  
                     },
                     events : {
@@ -111,7 +114,15 @@ $(function(){
             			            onshown: function(dialogRef){
             			            	$("#editDialog>form input[name='id']").val(row.id);
                             			$("#editDialog>form input[name='username']").val(row.username);
-                            			$("#editDialog>form input[name='description']").val(row.description);
+                            			$("#editDialog>form input[name='email']").val(row.email);
+                            			$("#editDialog>form input[name='isDeleted'][value="+row.isDeleted+"]").prop("checked",true);
+                            			var roles =row.rolesDesc == null ? null : row.rolesDesc.split(",");
+                            			$('#editDialog select[name="roles"').select2({
+                            				placeholder : '请选择角色',
+                            				allowClear : true,
+                            				multiple : true,
+                            			}).val(roles).trigger("change");
+                            			
             			            },
             			            buttons: [{
             			                label: '取消',
@@ -217,12 +228,12 @@ $(function(){
 				queryParams : function(params) {
 					return {
 						//添加查询属性值
-						username :  $("#username").val(),
-						email :  $("#email").val(),
+						username :  $('#searchForm input[name="username"').val(),
+						email :  $('#searchForm input[name="email"').val(),
 						isDeleted :  $('#searchForm input:radio[name="isDeleted"]:checked').val(),//单选框的值
-						csDate :  $("#csDate").val(),
-						ceDate :  $("#ceDate").val(),
-						roles : $("#roles").select2("val"),
+						csDate : $('#searchForm input[name="csDate"').val(), 
+						ceDate :  $('#searchForm input[name="ceDate"').val(),
+						roles :  $('#searchForm select[name="roles"').select2("val"),
 						limit : params.limit,
 						offset : params.offset,
 						sortName : params.sort ,
@@ -327,7 +338,7 @@ $(function(){
 			$("#refleshBtn").on('click', function() {
 				//清空查询表单内容
 				$("#searchForm")[0].reset();
-				$("#roles").select2({
+				$('#searchForm select[name="roles"').select2({
 					placeholder : '请选择角色',
 					allowClear : true,
 					multiple : true,

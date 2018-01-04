@@ -46,8 +46,6 @@ public class AuthUserController {
 	@Autowired
 	private AuthRoleService authRoleService;
 	
-	
-
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String toUserListPage(Model model) {
@@ -84,9 +82,9 @@ public class AuthUserController {
 
 	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<AuthUser> editUser(AuthUser authUser) {
-		logger.info("user===>{}", authUser);
-		authUserService.updateByPrimaryKeySelective(authUser);
+	public ResultDto<AuthUser> updateUser(AuthUserDTO authUserDTO) {
+		logger.info("user===>{}", authUserDTO);
+		authUserService.updateUser(authUserDTO);
 		return ResultDtoFactory.toAck(null);
 
 	}

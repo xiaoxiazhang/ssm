@@ -23,5 +23,7 @@ public interface AuthRoleService extends BaseService<AuthRole>{
 	
 	List<AuthRole> findAll();
 
+	AuthRole getAuthRoleByRole(String role);
+
 
 }

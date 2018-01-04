@@ -34,4 +34,7 @@ public interface AuthRoleMapper {
 
 	@Select("select * from auth_role a where a.is_deleted=0")
 	List<AuthRole> findAll();
+	
+	@Select("select * from auth_role a where a.role=#{role} and a.is_deleted=0")
+	AuthRole getAuthRoleByRole(String role);
 }
