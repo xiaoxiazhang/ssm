@@ -39,7 +39,7 @@ public class ShiroRealm extends AuthorizingRealm {
 		UsernamePasswordToken upToken = (UsernamePasswordToken) token;
 		String username = upToken.getUsername();
 		AuthUser userInfo = authUserService.findByUsername(username);
-		logger.info("登录用户userinfo:{}",userInfo);
+		logger.info("登录用户userinfo===>{}",userInfo);
 		if (userInfo == null) {
 			throw new UnknownAccountException("该用户不存在!");
 		}

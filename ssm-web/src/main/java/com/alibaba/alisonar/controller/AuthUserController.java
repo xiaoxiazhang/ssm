@@ -96,6 +96,16 @@ public class AuthUserController {
 		return ResultDtoFactory.toAck(null);
 
 	}
+	
+	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
+	@ResponseBody
+	public ResultDto<String> resetPassword(Long id) {
+		authUserService.resetPassword(id);
+		return ResultDtoFactory.toAck(null);
+
+	}
+	
+	
 
 	@RequestMapping(value = "/exportUserExcel", method = RequestMethod.GET)
 	public void toExcle( AuthUserSearch search,HttpServletRequest request, HttpServletResponse response)  {

@@ -94,9 +94,11 @@ $(function(){
 					valign:'middle',
 					formatter: function (value, row, index) {
 						/*var viewOporator = "<a href='#' class='btn btn-primary btn-xs'><span class='fa fa-wrench'></span>授权</a>";*/
-						var updateOperator = "<button class='btn btn-info btn-sm edit'><span class='fa fa-edit'></span>编辑</button>";
-						var removeOperator = "<button  class='btn btn-warning btn-sm cancel'><span class='fa fa-trash'></span>删除</button> "
-						var htmlStr = updateOperator;
+						var updateOperator = "<button class='btn btn-info btn-xs edit'><span class='fa fa-edit'></span>编辑</button> ";
+						var removeOperator = "<button  class='btn btn-warning btn-xs cancel'><span class='fa fa-trash'></span>删除</button> "
+						var resetPass = "<button  class='btn btn-primary btn-xs reset'><span class='fa fa-unlock-alt'></span>重置密码</button> ";
+						var htmlStr = updateOperator + resetPass;
+						
 						if(row.isDeleted=="0"){
 							htmlStr += removeOperator;
 						}
@@ -214,7 +216,30 @@ $(function(){
                     		        }
                     		    }]
                     		});
-                    	}
+                    	},
+                    	'click .reset' : function(e,value,row,index){
+                    		//添加删除message
+                    		var message = "确定要重置用户【"+ row.username +"】的密码？\n重置后的密码为:123456！"
+                    		var data = {id : row.id};
+                    		BootstrapDialog.show({
+                    		    title: '提示',
+                    			closable:false ,
+                    			message : message,
+                    			type : BootstrapDialog.TYPE_PRIMARY,
+                    		    buttons: [{            
+                    		        label: '取消',
+                    		        action: function(dialogRef){    
+                    		            dialogRef.close(); 
+                    		        }
+                    		    },{            
+                    		        label: '确定',
+                    		        cssClass: 'btn-primary', 
+                    		        action: function(dialogRef){   
+                    		        	that.resetPassword(dialogRef,data);
+                    		        }
+                    		    }]
+                    		});
+                    	},
                     },
 				} ],// 页面需要展示的列，后端交互对象的属性
 				cache : false, // 是否使用缓存 
@@ -383,6 +408,28 @@ $(function(){
 		},
 		
 		doDelete :function(dialogRef,data){
+			var that = this;
+			$.ajax({
+	        	url : that.deleteURL,
+	        	type : "POST",
+	        	data : data,
+	        	success : function(data) {
+	        		dialogRef.close();
+	        		if(data.code==200){
+	        			$.NOTIFY.show();
+	        			$("#tableList").bootstrapTable('refresh');
+	        		}else{
+	        			$.NOTIFY.show('删除失败','服务器异常！','dange');
+	        		}
+	        	},
+	        	error : function(){
+	        		dialogRef.close();
+	        		$.NOTIFY.show('删除失败','服务器异常！','dange');
+	        	} 
+	        });
+		},
+		
+		resetPassword :function(dialogRef,data){
 			var that = this;
 			$.ajax({
 	        	url : that.deleteURL,

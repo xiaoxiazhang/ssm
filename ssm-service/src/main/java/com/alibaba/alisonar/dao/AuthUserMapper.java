@@ -3,6 +3,7 @@ package com.alibaba.alisonar.dao;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
@@ -55,6 +56,10 @@ public interface AuthUserMapper {
 
 	
 	@SelectProvider(type=AuthUserDynaSqlProvider.class,method="listAuthUserSql")
-	List<AuthUserDTO> listAuthUser(AuthUserDTO authUserDTO);	
+	List<AuthUserDTO> listAuthUser(AuthUserDTO authUserDTO);
+
+	@Update("update auth_user a set a.password=#{password} where a.id=#{id}")
+	void updateUserPassword(@Param("id")Long id ,@Param("Password")String password);
+	
 	
 }

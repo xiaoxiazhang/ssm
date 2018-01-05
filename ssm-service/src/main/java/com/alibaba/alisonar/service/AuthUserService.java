@@ -42,5 +42,7 @@ public interface AuthUserService extends BaseService<AuthUser> {
 
 	void updateUser(AuthUserDTO authUserDTO);
 
+	void resetPassword(Long id);
+
 
 }

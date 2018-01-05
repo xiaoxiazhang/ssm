@@ -47,24 +47,23 @@ public class AuthUserServiceImpl implements AuthUserService {
 
 	@Autowired
 	private AuthUserMapper authUserMapper;
-	
+
 	@Autowired
 	private AuthRoleService authRoleService;
-	
+
 	@Autowired
 	private AuthUserRoleService authUserRoleService;
-	
+
 	@Autowired
 	private AuthUserConventor authUserConventor;
-	
+
 	@Override
 	public int insertSelective(AuthUser record) {
 		record.setSalt("18868801131");
 		record.setPassword(PasswordHelper.encryptPassword("md5", 2, "123456", record.getSalt()));
 		return authUserMapper.insertSelective(record);
-		
+
 	}
-	
 
 	@Override
 	public AuthUser selectByPrimaryKey(Long id) {
@@ -80,7 +79,6 @@ public class AuthUserServiceImpl implements AuthUserService {
 	public int deleteByPrimaryKey(Long id) {
 		return authUserMapper.deleteByPrimaryKey(id);
 	}
-	
 
 	@Override
 	public AuthUser findByUsername(String username) {
@@ -93,55 +91,53 @@ public class AuthUserServiceImpl implements AuthUserService {
 		return authUserMapper.findAll();
 	}
 
-	
 	@Override
 	public DatatableDto<AuthUserDTO> buildDatatableDto(AuthUserDTO authUserDTO) {
 		DatatableDto<AuthUserDTO> resultDto = new DatatableDto<AuthUserDTO>();
-		PageHelper.startPage(authUserDTO.getOffset()/authUserDTO.getLimit()+1, authUserDTO.getLimit());
+		PageHelper.startPage(authUserDTO.getOffset() / authUserDTO.getLimit() + 1, authUserDTO.getLimit());
 		List<AuthUserDTO> list = authUserMapper.listAuthUser(authUserDTO);
-		PageInfo<AuthUserDTO> page= new PageInfo(list);
+		PageInfo<AuthUserDTO> page = new PageInfo(list);
 		resultDto.setRows(page.getList());
 		resultDto.setTotal(page.getTotal());
 		return resultDto;
 	}
-	
+
 	@Override
 	public void saveUser(AuthUserDTO authUserDTO) {
 		AuthUser authUser = authUserConventor.DTO2entity(authUserDTO);
 		String salt = RandomStringUtils.randomAlphabetic(8);
-		authUser.setSalt(salt); 
-		authUser.setPassword(PasswordHelper.encryptPassword("md5", 2, "123456", salt)); //默认密码123456
+		authUser.setSalt(salt);
+		authUser.setPassword(PasswordHelper.encryptPassword("md5", 2, "123456", salt)); // 默认密码123456
 		authUserMapper.insertSelective(authUser);
-		
-		for(String role:authUserDTO.getRoles()){
-			AuthRole authRole = authRoleService.getAuthRoleByRole(role);
-			AuthUserRole authUserRole = new AuthUserRole();
-			authUserRole.setAuthRoleId(authRole.getId());
-			authUserRole.setAuthUserId(authUser.getId());
-			authUserRoleService.insertSelective(authUserRole);
+		if (authUserDTO.getRoles() != null) {
+			for (String role : authUserDTO.getRoles()) {
+				AuthRole authRole = authRoleService.getAuthRoleByRole(role);
+				AuthUserRole authUserRole = new AuthUserRole();
+				authUserRole.setAuthRoleId(authRole.getId());
+				authUserRole.setAuthUserId(authUser.getId());
+				authUserRoleService.insertSelective(authUserRole);
+			}
 		}
 	}
-	
-	
+
 	@Override
 	public void updateUser(AuthUserDTO authUserDTO) {
 		AuthUser authUser = authUserConventor.DTO2entity(authUserDTO);
-		logger.info("authUser===>{}",authUser);
+		logger.info("authUser===>{}", authUser);
 		authUserMapper.updateByPrimaryKeySelective(authUser);
-		//删存然后重新插入
+		// 删存然后重新插入
 		authUserRoleService.deleteByUserId(authUser.getId());
-		for(String role:authUserDTO.getRoles()){
-			AuthRole authRole = authRoleService.getAuthRoleByRole(role);
-			AuthUserRole authUserRole = new AuthUserRole();
-			authUserRole.setAuthRoleId(authRole.getId());
-			authUserRole.setAuthUserId(authUser.getId());
-			authUserRoleService.insertSelective(authUserRole);
-			
-			
+		if (authUserDTO.getRoles() != null) {
+			for (String role : authUserDTO.getRoles()) {
+				AuthRole authRole = authRoleService.getAuthRoleByRole(role);
+				AuthUserRole authUserRole = new AuthUserRole();
+				authUserRole.setAuthRoleId(authRole.getId());
+				authUserRole.setAuthUserId(authUser.getId());
+				authUserRoleService.insertSelective(authUserRole);
+
+			}
 		}
-		
-		
-		
+
 	}
 
 	@Override
@@ -161,11 +157,20 @@ public class AuthUserServiceImpl implements AuthUserService {
 		return authUserMapper.findProvidedUserCount(search);
 
 	}
-	
+
 	@Override
 	public void deleteUser(Long id) {
 		authUserMapper.deleteUser(id);
-		
+
+	}
+
+	@Override
+	public void resetPassword(Long id) {
+		AuthUser authUser = authUserMapper.selectByPrimaryKey(id);
+		String password = "123456"; // 默认密码
+		password = PasswordHelper.encryptPassword("md5", 2, password, authUser.getSalt());
+		authUserMapper.updateUserPassword(id, password);
+
 	}
 
 	@Override
@@ -197,13 +202,13 @@ public class AuthUserServiceImpl implements AuthUserService {
 	@Override
 	public Set<String> findRoles(String username) {
 		return authUserMapper.findRoles(username);
-		
+
 	}
 
 	@Override
 	public Set<String> findPermissions(String username) {
 		return authUserMapper.findPermissions(username);
-		
+
 	}
 
 }
