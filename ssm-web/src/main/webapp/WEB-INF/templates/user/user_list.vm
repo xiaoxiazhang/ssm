@@ -78,7 +78,7 @@
 						<button type="submit" id="exportBtn" class="btn">
 							<span class="fa  fa-download"></span>导出Excel
 						</button>
-						<button  id="uploadBtn" class="btn">
+						<button type="button" id="uploadBtn" class="btn">
 							<span class="fa fa-upload"></span>上传
 						</button>
 					</div>

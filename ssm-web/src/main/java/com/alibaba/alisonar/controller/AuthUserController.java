@@ -120,7 +120,7 @@ public class AuthUserController {
 			wb.write(outputStream);
 			outputStream.flush();
 		} catch (IOException e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 		}
 
 	}

@@ -45,7 +45,7 @@ public class ExcelUtil {
 			// 设置整体列格式
 			sheet.setColumnWidth(i, 16 * 256);
 			HSSFCell cell = headRow.createCell(i);
-			cell.setCellValue(header[i].toString());
+			cell.setCellValue(header[i]);
 			cell.setCellStyle(headerCellStyle);
 		}
 

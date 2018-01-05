@@ -7,13 +7,13 @@ $(function(){
 		searchTableURL: "listAuthUser",
 			
 		init : function(){
+			
 			//角色
 			$('#searchForm select[name="roles"').select2({
 				placeholder : '请选择角色',
 				allowClear : true,
 				multiple : true,
 			}).val(null).trigger("change");
-			
 			
 			//开始和结束时间
 			$('#searchForm input[name="csDate"').datetimepicker({
