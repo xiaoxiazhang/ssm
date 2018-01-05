@@ -28,7 +28,7 @@ public interface AuthUserService extends BaseService<AuthUser> {
 
 	Integer findProvidedUserCount(AuthUserSearch search);
 
-	HSSFWorkbook buildExcelWorkBook(AuthUserSearch search);
+	HSSFWorkbook buildExcelWorkBook(AuthUserDTO authUserDTO);
 
 	Set<String> findRoles(String username);
 

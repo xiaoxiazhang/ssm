@@ -3,52 +3,134 @@
  */
 package com.alibaba.alisonar.util;
 
+import java.lang.reflect.Field;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.alibaba.alisonar.annotation.ExcelColumnMeta;
 
 /**
  * @author wb-zxx263018
  *
  */
 public class ExcelUtil {
-	public static HSSFWorkbook buildExcelWorkBook(String sheetName, String[] header, List<Object[]> datas,
-			int[] disMergeCols) {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
+	
+	
+	//简单excel构造
+	public static <T> HSSFWorkbook  buildCommonExcel(String sheetName,List<T> dtos, Class<T> dtoClass){
 		HSSFWorkbook workBook = new HSSFWorkbook();
-		CellStyle headerCellStyle = createCellStyle(workBook, true);
-		CellStyle bodyCellStyle = createCellStyle(workBook, false);
-		buildExcelHeader(workBook, sheetName, header, headerCellStyle);
-		if (datas != null) {
-			buildExcelBody(workBook, datas, disMergeCols, bodyCellStyle);
-
-		}
+		buildExcelHeader(workBook, sheetName, dtoClass);
+		buildCommonExcelBody(workBook, dtos, dtoClass);
 		return workBook;
+	}
+	
+	public static HSSFCellStyle createCellStyle(HSSFWorkbook workBook, boolean isHeader) {
+		HSSFCellStyle cellStyle = workBook.createCellStyle();
+		cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 下边框
+		cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);// 左边框
+		cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
+		cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);// 右边框
+		// 自动换行
+		cellStyle.setWrapText(true);
 
+		// 表头的样式
+		if (isHeader) {
+			cellStyle.setFillForegroundColor((short) 13);// 设置背景色
+			cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+			cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+			// 表头字体设置
+			HSSFFont font = workBook.createFont();
+			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 粗体显示
+			cellStyle.setFont(font);
+		}
+		return cellStyle;
 	}
 
-	public static void buildExcelHeader(HSSFWorkbook workBook, String sheetName, String[] header,
-			CellStyle headerCellStyle) {
-
+	public static <T> void buildExcelHeader(HSSFWorkbook workBook, String sheetName, Class<T> dtoClass) {
 		// 创建sheet
 		HSSFSheet sheet = workBook.createSheet(sheetName);
-
+		CellStyle headerCellStyle = createCellStyle(workBook,true);
 		HSSFRow headRow = sheet.createRow(0);
-		for (int i = 0; i < header.length; i++) {
-			// 设置整体列格式
+		
+		Map<Integer, String> map = new TreeMap<Integer, String>(new Comparator<Integer>() {
+			@Override
+			public int compare(Integer o1, Integer o2) {
+				return o1.compareTo(o2);
+			}
+		});
+		Field[] fields = dtoClass.getDeclaredFields();
+		int max = -1;
+		for (int n = 0; n < fields.length; n++) {
+			ExcelColumnMeta meta = fields[n].getAnnotation(ExcelColumnMeta.class);
+			if (meta != null && StringUtils.isNotBlank(meta.colName()) && meta.colIndex()>=0) {
+				if(meta.colIndex() > max) max= meta.colIndex();
+				map.put(meta.colIndex(), meta.colName());
+			}
+		}
+		logger.info("excel列信息===>{}",map.keySet());
+		for(int i = 0; i <= max; i++){
 			sheet.setColumnWidth(i, 16 * 256);
 			HSSFCell cell = headRow.createCell(i);
-			cell.setCellValue(header[i]);
+			String colName = map.get(i)==null ? "未知列-" + i:map.get(i);
+			cell.setCellValue(colName);
 			cell.setCellStyle(headerCellStyle);
 		}
+	}
+	
+	public  static <T> void buildCommonExcelBody(HSSFWorkbook workBook,List<T> dtos,Class<T> dtoClass){
+		HSSFSheet sheet = workBook.getSheetAt(0);
+		CellStyle bodyCellStyle = createCellStyle(workBook, false);
+		Map<Integer, Field> map = new HashMap<Integer, Field>();
+		Field[] fields = dtoClass.getDeclaredFields();
+		int max = -1;
+		for (int n = 0; n < fields.length; n++) {
+			ExcelColumnMeta meta = fields[n].getAnnotation(ExcelColumnMeta.class);
+			if (meta != null && StringUtils.isNotBlank(meta.colName()) && meta.colIndex()>=0) {
+				if(meta.colIndex() > max) max= meta.colIndex();
+				fields[n].setAccessible(true);
+				map.put(meta.colIndex(), fields[n]);
 
+			}
+		}
+		try {
+			for (int i = 0; i < dtos.size(); i++) {
+				HSSFRow row = sheet.createRow(i + 1);
+				T dto = dtos.get(i);
+				for (int j = 0; j <= max; j++) {
+					Field field = map.get(j);
+					if (field == null) {
+						row.createCell(j).setCellValue("-");
+					} else {
+						Object obj = field.get(dto);
+						HSSFCell cell = row.createCell(j);
+						cell.setCellValue(obj==null? "-" : obj.toString());
+						cell.setCellStyle(bodyCellStyle);
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	public static void buildExcelBody(HSSFWorkbook workBook, List<Object[]> datas, int[] disMergeCols,
@@ -80,30 +162,6 @@ public class ExcelUtil {
 		}
 	}
 
-	public static HSSFCellStyle createCellStyle(HSSFWorkbook workBook, boolean isHeader) {
-		HSSFCellStyle cellStyle = workBook.createCellStyle();
-		cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 下边框
-		cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);// 左边框
-		cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
-		cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);// 右边框
-		// 自动换行
-		cellStyle.setWrapText(true);
-
-		// 设置字体
-		HSSFFont font = workBook.createFont();
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 粗体显示
-
-		// 表头的样式
-		if (isHeader) {
-			cellStyle.setFillForegroundColor((short) 13);// 设置背景色
-			cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-			cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-			// 表头字体设置
-			cellStyle.setFont(font);
-
-		}
-
-		return cellStyle;
-	}
+	
 
 }

@@ -2,16 +2,22 @@ package com.alibaba.alisonar.dto;
 
 import java.util.List;
 
+import com.alibaba.alisonar.annotation.ExcelColumnMeta;
+
 public class AuthUserDTO extends BaseSearchTableDTO{
 
 	private Long id;
 
+	@ExcelColumnMeta(colIndex=0,colName="用户名")
 	private String username;
 
+	@ExcelColumnMeta(colIndex=1,colName="邮件名")
 	private String email;
 
+	@ExcelColumnMeta(colIndex=4,colName="启用状态")
 	private Integer isDeleted;
 	
+	@ExcelColumnMeta(colIndex=3,colName="创建时间")
 	private String createDate;
 	
 	private String csDate; //创建开始时间
@@ -20,6 +26,7 @@ public class AuthUserDTO extends BaseSearchTableDTO{
 	
 	private List<String> roles; //
 	
+	@ExcelColumnMeta(colIndex=2,colName="角色类型")
 	private String rolesDesc; 
 
 	public Long getId() {
@@ -96,7 +103,5 @@ public class AuthUserDTO extends BaseSearchTableDTO{
 	public void setRolesDesc(String rolesDesc) {
 		this.rolesDesc = rolesDesc;
 	}
-	
-	
 
 }

@@ -108,9 +108,9 @@ public class AuthUserController {
 	
 
 	@RequestMapping(value = "/exportUserExcel", method = RequestMethod.GET)
-	public void toExcle( AuthUserSearch search,HttpServletRequest request, HttpServletResponse response)  {
+	public void toExcle( AuthUserDTO authUserDTO,HttpServletRequest request, HttpServletResponse response)  {
 		
-		HSSFWorkbook wb = authUserService.buildExcelWorkBook(search);
+		HSSFWorkbook wb = authUserService.buildExcelWorkBook(authUserDTO);
 		String excelName = "用户详情.xls";
 		try {
 			response.setContentType("application/vnd.ms-excel;charset=utf-8");
