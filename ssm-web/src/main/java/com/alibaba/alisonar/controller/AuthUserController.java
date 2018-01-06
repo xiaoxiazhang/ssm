@@ -4,14 +4,12 @@
 package com.alibaba.alisonar.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +27,7 @@ import com.alibaba.alisonar.dto.AuthUserDTO;
 import com.alibaba.alisonar.service.AuthRoleService;
 import com.alibaba.alisonar.service.AuthUserService;
 import com.alibaba.alisonar.util.DatatableDto;
+import com.alibaba.alisonar.util.ExcelUtil;
 import com.alibaba.alisonar.util.ResultDto;
 import com.alibaba.alisonar.util.ResultDtoFactory;
 
@@ -109,8 +108,26 @@ public class AuthUserController {
 	@RequestMapping(value = "/exportUserExcel", method = RequestMethod.GET)
 	public void toExcle(AuthUserDTO authUserDTO, HttpServletRequest request, HttpServletResponse response) {
 
-		HSSFWorkbook wb = authUserService.buildExcelWorkBook(authUserDTO);
+		
+		Workbook wb = authUserService.buildExcelWorkBook(authUserDTO);
 		String excelName = "用户详情.xls";
+		try {
+			response.setContentType("application/vnd.ms-excel;charset=utf-8");
+			response.setHeader("Content-disposition",
+					"attachment;filename=" + new String(excelName.getBytes("GB2312"), "ISO8859-1"));
+			ServletOutputStream outputStream = response.getOutputStream();
+			wb.write(outputStream);
+			outputStream.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value = "/getTemplateExcel", method = RequestMethod.GET)
+	public void getTemplateExcel(AuthUserDTO authUserDTO, HttpServletRequest request, HttpServletResponse response) {
+
+		Workbook wb = ExcelUtil.buildTemplateExcel("用户模板",  AuthUserDTO.class);
+		String excelName = "导入模板.xlsx";
 		try {
 			response.setContentType("application/vnd.ms-excel;charset=utf-8");
 			response.setHeader("Content-disposition",

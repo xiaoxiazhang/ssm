@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 
 import com.alibaba.alisonar.domain.AuthUser;
 import com.alibaba.alisonar.dto.AuthUserDTO;
@@ -30,7 +30,7 @@ public interface AuthUserService extends BaseService<AuthUser> {
 
 	Integer findProvidedUserCount(AuthUserSearch search);
 
-	HSSFWorkbook buildExcelWorkBook(AuthUserDTO authUserDTO);
+	Workbook buildExcelWorkBook(AuthUserDTO authUserDTO);
 
 	Set<String> findRoles(String username);
 

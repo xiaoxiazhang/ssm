@@ -12,4 +12,6 @@
 <script src="$rc.contextPath/dist/js/app.min.js"></script>
 <script src="$rc.contextPath/assets/js/jquery.validate.min.js"></script>
 <script src="$rc.contextPath/assets/js/messages_zh.min.js"></script>
+<script src="$rc.contextPath/assets/js/fileinput.min.js"></script>
+<script src="$rc.contextPath/assets/js/fileinput_zh.js"></script>
 <script src="$rc.contextPath/assets/js/app_tools.js"></script>

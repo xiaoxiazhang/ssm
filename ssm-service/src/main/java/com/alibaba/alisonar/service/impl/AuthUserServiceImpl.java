@@ -9,9 +9,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -176,7 +174,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 	}
 
 	@Override
-	public HSSFWorkbook buildExcelWorkBook(AuthUserDTO authUserDTO) {
+	public Workbook buildExcelWorkBook(AuthUserDTO authUserDTO) {
 		List<AuthUserDTO> dtos = authUserMapper.listAuthUser(authUserDTO);
 		return ExcelUtil.buildCommonExcel("用户详情", dtos, AuthUserDTO.class);
 	}
