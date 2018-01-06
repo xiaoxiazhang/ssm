@@ -3,6 +3,7 @@
  */
 package com.alibaba.alisonar.util;
 
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -25,6 +26,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,10 +87,10 @@ public class ExcelUtil {
 		int max = -1;
 		for (int n = 0; n < fields.length; n++) {
 			ExcelColumnMeta meta = fields[n].getAnnotation(ExcelColumnMeta.class);
-			if (meta != null && StringUtils.isNotBlank(meta.colName()) && meta.colIndex() >= 0) {
-				if (meta.colIndex() > max)
-					max = meta.colIndex();
-				map.put(meta.colIndex(), meta.colName());
+			if (meta != null && StringUtils.isNotBlank(meta.colName()) && meta.outputColIndex() >= 0) {
+				if (meta.outputColIndex() > max)
+					max = meta.outputColIndex();
+				map.put(meta.outputColIndex(), meta.colName());
 			}
 		}
 		logger.info("excel列信息===>{}", map.keySet());
@@ -109,11 +111,11 @@ public class ExcelUtil {
 		int max = -1;
 		for (int n = 0; n < fields.length; n++) {
 			ExcelColumnMeta meta = fields[n].getAnnotation(ExcelColumnMeta.class);
-			if (meta != null && StringUtils.isNotBlank(meta.colName()) && meta.colIndex() >= 0) {
-				if (meta.colIndex() > max)
-					max = meta.colIndex();
+			if (meta != null && StringUtils.isNotBlank(meta.colName()) && meta.outputColIndex() >= 0) {
+				if (meta.outputColIndex() > max)
+					max = meta.outputColIndex();
 				fields[n].setAccessible(true);
-				map.put(meta.colIndex(), fields[n]);
+				map.put(meta.outputColIndex(), fields[n]);
 
 			}
 		}
@@ -168,23 +170,25 @@ public class ExcelUtil {
 		}
 	}
 
-	public static <T> List<T> loadExcelData(Class<T> dtoClass, Workbook workbook) {
+	public static <T> List<T> loadExcelData(Class<T> dtoClass, InputStream inputStream) {
 		List<T> result = new ArrayList<T>();
-		Sheet sheet = workbook.getSheetAt(0);
-		/*
-		 * 通过注解绑定excel列和对象域的关系到map
-		 */
-		Map<Integer, Field> map = new HashMap<Integer, Field>();
-		Field[] fields = dtoClass.getDeclaredFields();
-		for (int n = 0; n < fields.length; n++) {
-			ExcelColumnMeta meta = fields[n].getAnnotation(ExcelColumnMeta.class);
-			if (meta != null && meta.colIndex() >= 0) {
-				fields[n].setAccessible(true);
-				map.put(meta.colIndex(), fields[n]);
-			}
-		}
-
 		try {
+			Workbook workbook = WorkbookFactory.create(inputStream);
+			Sheet sheet = workbook.getSheetAt(0);
+			/*
+			 * 通过注解绑定excel列和对象域的关系到map
+			 */
+			Map<Integer, Field> map = new HashMap<Integer, Field>();
+			Field[] fields = dtoClass.getDeclaredFields();
+			for (int n = 0; n < fields.length; n++) {
+				ExcelColumnMeta meta = fields[n].getAnnotation(ExcelColumnMeta.class);
+				if (meta != null && meta.inputColIndex() >= 0) {
+					fields[n].setAccessible(true);
+					map.put(meta.inputColIndex(), fields[n]);
+				}
+			}
+			logger.info("列和对象filed关系===>{}", map);
+
 			// 遍历（除标题行0）,把excel中行数据放入dto对象
 			for (int n = 1; n <= sheet.getLastRowNum(); n++) {
 				Row row = sheet.getRow(n);
@@ -196,15 +200,18 @@ public class ExcelUtil {
 				for (int i = 0; i < row.getLastCellNum(); i++) {
 					Cell cell = row.getCell(i);
 					// 绑定值到importDto对应的field上面
-					if (map.get(i + 1) != null) {
-						String typeInfo = map.get(i + 1).getAnnotatedType().toString();
-						map.get(i + 1).set(dto, getCellValue(cell, typeInfo));
+					if (map.get(i) != null) {
+						String typeInfo = map.get(i).getGenericType().toString();
+						Object cellValue = getCellValue(cell, typeInfo);
+						logger.info("行信息===>{},列信息===>{},类型信息===>{},值===>{}", n, i, typeInfo, cellValue);
+						map.get(i).set(dto, cellValue);
 					}
 				}
 				result.add(dto);
+				
 			}
 		} catch (Exception e) {
-			logger.info("加载excel数据失败" + e.getCause());
+			logger.info("加载excel数据失败：", e);
 		}
 		return result;
 	}
@@ -212,19 +219,23 @@ public class ExcelUtil {
 	public static Object getCellValue(Cell cell, String typeInfo) {
 		if (cell == null || getCellValue(cell) == null)
 			return null;
+
 		Object obj = null;
 
 		if (typeInfo.endsWith("String")) {
 			obj = getCellValue(cell).toString();
 
 		} else if (typeInfo.endsWith("Long")) {
-			obj = Long.valueOf(getCellValue(cell).toString());
+			obj = Double.valueOf(getCellValue(cell).toString());
+			obj = (long) obj;
 
 		} else if (typeInfo.endsWith("Integer")) {
-			obj = Integer.valueOf(getCellValue(cell).toString());
+			int i = (int) Double.valueOf(getCellValue(cell).toString()).doubleValue();
+			obj = Integer.valueOf(i);
 
 		} else if (typeInfo.endsWith("Double")) {
-			obj = Double.valueOf(getCellValue(cell).toString());
+			long l = (long) Double.valueOf(getCellValue(cell).toString()).doubleValue();
+			obj = Long.valueOf(l);
 
 		} else if (typeInfo.endsWith("Date")) {
 			String[] pattern = new String[] { "yyyyMMdd", "yyyy-MM-dd", "yyyy/MM/dd", "yyyyMMddHHmmss",
@@ -245,7 +256,7 @@ public class ExcelUtil {
 		Object obj = null;
 		switch (cell.getCellType()) {
 		case Cell.CELL_TYPE_STRING:
-			obj = cell.getStringCellValue();
+			obj = StringUtils.isBlank(cell.getStringCellValue()) ? null : cell.getStringCellValue();
 			break;
 
 		case Cell.CELL_TYPE_NUMERIC:

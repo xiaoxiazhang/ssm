@@ -9,16 +9,16 @@ public class AuthUserDTO extends BaseSearchTableDTO{
 	
 	private Long id;
 
-	@ExcelColumnMeta(colIndex=0,colName="用户名")
+	@ExcelColumnMeta(outputColIndex=0,colName="用户名",inputColIndex=0)
 	private String username;
 
-	@ExcelColumnMeta(colIndex=1,colName="邮件名")
+	@ExcelColumnMeta(outputColIndex=1,colName="邮件名",inputColIndex=1)
 	private String email;
 
-	@ExcelColumnMeta(colIndex=4,colName="启用状态")
+	@ExcelColumnMeta(outputColIndex=4,colName="启用状态",inputColIndex=2)
 	private Integer isDeleted;
 	
-	@ExcelColumnMeta(colIndex=3,colName="创建时间")
+	@ExcelColumnMeta(outputColIndex=3,colName="创建时间")
 	private String createDate;
 	
 	private String csDate; //创建开始时间
@@ -27,7 +27,7 @@ public class AuthUserDTO extends BaseSearchTableDTO{
 	
 	private List<String> roles; //
 	
-	@ExcelColumnMeta(colIndex=2,colName="角色类型")
+	@ExcelColumnMeta(outputColIndex=2,colName="角色类型")
 	private String rolesDesc; 
 
 	public Long getId() {
@@ -104,5 +104,15 @@ public class AuthUserDTO extends BaseSearchTableDTO{
 	public void setRolesDesc(String rolesDesc) {
 		this.rolesDesc = rolesDesc;
 	}
+
+	@Override
+	public String toString() {
+		return "AuthUserDTO [id=" + id + ", username=" + username + ", email=" + email + ", isDeleted=" + isDeleted
+				+ ", createDate=" + createDate + ", csDate=" + csDate + ", ceDate=" + ceDate + ", roles=" + roles
+				+ ", rolesDesc=" + rolesDesc + ", getLimit()=" + getLimit() + ", getOffset()=" + getOffset()
+				+ ", getSortName()=" + getSortName() + ", getSortOrder()=" + getSortOrder() + "]";
+	}
+
+	
 
 }

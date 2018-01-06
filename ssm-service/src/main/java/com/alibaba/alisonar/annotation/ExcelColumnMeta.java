@@ -16,8 +16,10 @@ import java.lang.annotation.Target;
 @Target({ ElementType.FIELD })
 public @interface ExcelColumnMeta {
 	
-    public int colIndex() default -1; //从0开始
+	public int outputColIndex() default -1; //输出列
+	
+    public int inputColIndex() default -1; //导入列
     
-    public String colName() default "";
+    public String colName() default ""; //列名
 
 }

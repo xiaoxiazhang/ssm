@@ -11,6 +11,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ import com.alibaba.alisonar.util.ExcelUtil;
 import com.alibaba.alisonar.util.MyStringUtil;
 import com.alibaba.alisonar.util.PasswordHelper;
 import com.alibaba.alisonar.util.ResultDto;
+import com.alibaba.alisonar.util.ResultDtoFactory;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -193,7 +195,19 @@ public class AuthUserServiceImpl implements AuthUserService {
 
 	@Override
 	public ResultDto<String> saveAuthUserByExcel(InputStream inputStream) {
-		return null;
+		try {
+			List<AuthUserDTO> dtos = ExcelUtil.loadExcelData(AuthUserDTO.class, inputStream);
+			logger.info("excel解析后List<AuthUserDTO>===>{}", dtos);
+			for(AuthUserDTO dto: dtos){
+				saveUser(dto);
+			}
+			return ResultDtoFactory.toAck(null);
+		} catch (Exception e) {
+			logger.error("读入流失败：" , e);
+			return ResultDtoFactory.toNack(500, "读入流失败");
+			
+		}
+		
 	}
 
 }
