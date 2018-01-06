@@ -3,12 +3,14 @@
  */
 package com.alibaba.alisonar.service.impl;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ import com.alibaba.alisonar.util.DatatableDto;
 import com.alibaba.alisonar.util.ExcelUtil;
 import com.alibaba.alisonar.util.MyStringUtil;
 import com.alibaba.alisonar.util.PasswordHelper;
+import com.alibaba.alisonar.util.ResultDto;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -186,6 +189,11 @@ public class AuthUserServiceImpl implements AuthUserService {
 	public Set<String> findPermissions(String username) {
 		return authUserMapper.findPermissions(username);
 
+	}
+
+	@Override
+	public ResultDto<String> saveAuthUserByExcel(InputStream inputStream) {
+		return null;
 	}
 
 }

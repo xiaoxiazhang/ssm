@@ -4,6 +4,8 @@
 package com.alibaba.alisonar.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -20,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.alisonar.domain.AuthUser;
 import com.alibaba.alisonar.dto.AuthUserDTO;
-import com.alibaba.alisonar.dto.AuthUserSearch;
 import com.alibaba.alisonar.service.AuthRoleService;
 import com.alibaba.alisonar.service.AuthUserService;
 import com.alibaba.alisonar.util.DatatableDto;
@@ -42,10 +44,9 @@ public class AuthUserController {
 
 	@Autowired
 	private AuthUserService authUserService;
-	
+
 	@Autowired
 	private AuthRoleService authRoleService;
-	
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String toUserListPage(Model model) {
@@ -70,11 +71,11 @@ public class AuthUserController {
 		return ResultDtoFactory.toAck(null);
 
 	}
-	
+
 	@RequestMapping(value = "/checkUsername", method = RequestMethod.POST)
 	@ResponseBody
-	public boolean checkUsername(@RequestParam String username){
-		if(authUserService.findByUsername(username) != null){
+	public boolean checkUsername(@RequestParam String username) {
+		if (authUserService.findByUsername(username) != null) {
 			return false;
 		}
 		return true;
@@ -96,7 +97,7 @@ public class AuthUserController {
 		return ResultDtoFactory.toAck(null);
 
 	}
-	
+
 	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultDto<String> resetPassword(Long id) {
@@ -104,12 +105,10 @@ public class AuthUserController {
 		return ResultDtoFactory.toAck(null);
 
 	}
-	
-	
 
 	@RequestMapping(value = "/exportUserExcel", method = RequestMethod.GET)
-	public void toExcle( AuthUserDTO authUserDTO,HttpServletRequest request, HttpServletResponse response)  {
-		
+	public void toExcle(AuthUserDTO authUserDTO, HttpServletRequest request, HttpServletResponse response) {
+
 		HSSFWorkbook wb = authUserService.buildExcelWorkBook(authUserDTO);
 		String excelName = "用户详情.xls";
 		try {
@@ -121,6 +120,25 @@ public class AuthUserController {
 			outputStream.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	@RequestMapping(value = "/saveAuthUserByExcel", method = RequestMethod.POST)
+	@ResponseBody
+	public ResultDto<String> saveAuthUserByExcel(@RequestParam("fileInput") MultipartFile file,
+			HttpServletRequest request) {
+		if (file == null || file.isEmpty()) { // 判断文件不为空
+			return ResultDtoFactory.toNack(500, "不存在文件");
+		}
+
+		if (!file.getOriginalFilename().endsWith(".xls") && !file.getOriginalFilename().endsWith(".xlsx")) {// 判断文件类型
+			return ResultDtoFactory.toNack(500, "文件类型有误");
+		}
+		try {
+			return authUserService.saveAuthUserByExcel(file.getInputStream());
+		} catch (Exception e) {
+			return  ResultDtoFactory.toNack(500, "保存excel数据失败");
+
 		}
 
 	}

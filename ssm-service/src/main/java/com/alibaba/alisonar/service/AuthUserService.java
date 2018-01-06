@@ -3,6 +3,7 @@
  */
 package com.alibaba.alisonar.service;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import com.alibaba.alisonar.domain.AuthUser;
 import com.alibaba.alisonar.dto.AuthUserDTO;
 import com.alibaba.alisonar.dto.AuthUserSearch;
 import com.alibaba.alisonar.util.DatatableDto;
+import com.alibaba.alisonar.util.ResultDto;
 
 /**
  * @author wb-zxx263018
@@ -43,6 +45,8 @@ public interface AuthUserService extends BaseService<AuthUser> {
 	void updateUser(AuthUserDTO authUserDTO);
 
 	void resetPassword(Long id);
+
+	ResultDto<String> saveAuthUserByExcel(InputStream inputStream);
 
 
 }

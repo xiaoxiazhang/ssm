@@ -4,6 +4,7 @@
 package com.alibaba.alisonar.util;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -12,14 +13,18 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.formula.functions.T;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,18 +36,17 @@ import com.alibaba.alisonar.annotation.ExcelColumnMeta;
  *
  */
 public class ExcelUtil {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
-	
-	
-	//简单excel构造
-	public static <T> HSSFWorkbook  buildCommonExcel(String sheetName,List<T> dtos, Class<T> dtoClass){
+
+	// 简单excel构造
+	public static <T> HSSFWorkbook buildCommonExcel(String sheetName, List<T> dtos, Class<T> dtoClass) {
 		HSSFWorkbook workBook = new HSSFWorkbook();
 		buildExcelHeader(workBook, sheetName, dtoClass);
 		buildCommonExcelBody(workBook, dtos, dtoClass);
 		return workBook;
 	}
-	
+
 	public static HSSFCellStyle createCellStyle(HSSFWorkbook workBook, boolean isHeader) {
 		HSSFCellStyle cellStyle = workBook.createCellStyle();
 		cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 下边框
@@ -68,9 +72,9 @@ public class ExcelUtil {
 	public static <T> void buildExcelHeader(HSSFWorkbook workBook, String sheetName, Class<T> dtoClass) {
 		// 创建sheet
 		HSSFSheet sheet = workBook.createSheet(sheetName);
-		CellStyle headerCellStyle = createCellStyle(workBook,true);
+		CellStyle headerCellStyle = createCellStyle(workBook, true);
 		HSSFRow headRow = sheet.createRow(0);
-		
+
 		Map<Integer, String> map = new TreeMap<Integer, String>(new Comparator<Integer>() {
 			@Override
 			public int compare(Integer o1, Integer o2) {
@@ -81,22 +85,23 @@ public class ExcelUtil {
 		int max = -1;
 		for (int n = 0; n < fields.length; n++) {
 			ExcelColumnMeta meta = fields[n].getAnnotation(ExcelColumnMeta.class);
-			if (meta != null && StringUtils.isNotBlank(meta.colName()) && meta.colIndex()>=0) {
-				if(meta.colIndex() > max) max= meta.colIndex();
+			if (meta != null && StringUtils.isNotBlank(meta.colName()) && meta.colIndex() >= 0) {
+				if (meta.colIndex() > max)
+					max = meta.colIndex();
 				map.put(meta.colIndex(), meta.colName());
 			}
 		}
-		logger.info("excel列信息===>{}",map.keySet());
-		for(int i = 0; i <= max; i++){
+		logger.info("excel列信息===>{}", map.keySet());
+		for (int i = 0; i <= max; i++) {
 			sheet.setColumnWidth(i, 16 * 256);
 			HSSFCell cell = headRow.createCell(i);
-			String colName = map.get(i)==null ? "未知列-" + i:map.get(i);
+			String colName = map.get(i) == null ? "未知列-" + i : map.get(i);
 			cell.setCellValue(colName);
 			cell.setCellStyle(headerCellStyle);
 		}
 	}
-	
-	public  static <T> void buildCommonExcelBody(HSSFWorkbook workBook,List<T> dtos,Class<T> dtoClass){
+
+	public static <T> void buildCommonExcelBody(HSSFWorkbook workBook, List<T> dtos, Class<T> dtoClass) {
 		HSSFSheet sheet = workBook.getSheetAt(0);
 		CellStyle bodyCellStyle = createCellStyle(workBook, false);
 		Map<Integer, Field> map = new HashMap<Integer, Field>();
@@ -104,8 +109,9 @@ public class ExcelUtil {
 		int max = -1;
 		for (int n = 0; n < fields.length; n++) {
 			ExcelColumnMeta meta = fields[n].getAnnotation(ExcelColumnMeta.class);
-			if (meta != null && StringUtils.isNotBlank(meta.colName()) && meta.colIndex()>=0) {
-				if(meta.colIndex() > max) max= meta.colIndex();
+			if (meta != null && StringUtils.isNotBlank(meta.colName()) && meta.colIndex() >= 0) {
+				if (meta.colIndex() > max)
+					max = meta.colIndex();
 				fields[n].setAccessible(true);
 				map.put(meta.colIndex(), fields[n]);
 
@@ -117,20 +123,20 @@ public class ExcelUtil {
 				T dto = dtos.get(i);
 				for (int j = 0; j <= max; j++) {
 					Field field = map.get(j);
+					HSSFCell cell = row.createCell(j);
 					if (field == null) {
-						row.createCell(j).setCellValue("-");
+						cell.setCellValue("-");
 					} else {
 						Object obj = field.get(dto);
-						HSSFCell cell = row.createCell(j);
-						cell.setCellValue(obj==null? "-" : obj.toString());
-						cell.setCellStyle(bodyCellStyle);
+						cell.setCellValue(obj == null ? "-" : obj.toString());
 					}
+					cell.setCellStyle(bodyCellStyle);
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public static void buildExcelBody(HSSFWorkbook workBook, List<Object[]> datas, int[] disMergeCols,
@@ -162,6 +168,93 @@ public class ExcelUtil {
 		}
 	}
 
-	
+	public static <T> List<T> loadExcelData(Class<T> dtoClass, Workbook workbook) {
+		List<T> result = new ArrayList<T>();
+		Sheet sheet = workbook.getSheetAt(0);
+		/*
+		 * 通过注解绑定excel列和对象域的关系到map
+		 */
+		Map<Integer, Field> map = new HashMap<Integer, Field>();
+		Field[] fields = dtoClass.getDeclaredFields();
+		for (int n = 0; n < fields.length; n++) {
+			ExcelColumnMeta meta = fields[n].getAnnotation(ExcelColumnMeta.class);
+			if (meta != null && meta.colIndex() >= 0) {
+				fields[n].setAccessible(true);
+				map.put(meta.colIndex(), fields[n]);
+			}
+		}
+
+		try {
+			// 遍历（除标题行0）,把excel中行数据放入dto对象
+			for (int n = 1; n <= sheet.getLastRowNum(); n++) {
+				Row row = sheet.getRow(n);
+				if (row == null)
+					continue;
+				T dto = dtoClass.newInstance();
+
+				// 遍历列， 把列值绑定到importDto对象的域中
+				for (int i = 0; i < row.getLastCellNum(); i++) {
+					Cell cell = row.getCell(i);
+					// 绑定值到importDto对应的field上面
+					if (map.get(i + 1) != null) {
+						String typeInfo = map.get(i + 1).getAnnotatedType().toString();
+						map.get(i + 1).set(dto, getCellValue(cell, typeInfo));
+					}
+				}
+				result.add(dto);
+			}
+		} catch (Exception e) {
+			logger.info("加载excel数据失败" + e.getCause());
+		}
+		return result;
+	}
+
+	public static Object getCellValue(Cell cell, String typeInfo) {
+		if (cell == null || getCellValue(cell) == null)
+			return null;
+		Object obj = null;
+
+		if (typeInfo.endsWith("String")) {
+			obj = getCellValue(cell).toString();
+
+		} else if (typeInfo.endsWith("Long")) {
+			obj = Long.valueOf(getCellValue(cell).toString());
+
+		} else if (typeInfo.endsWith("Integer")) {
+			obj = Integer.valueOf(getCellValue(cell).toString());
+
+		} else if (typeInfo.endsWith("Double")) {
+			obj = Double.valueOf(getCellValue(cell).toString());
+
+		} else if (typeInfo.endsWith("Date")) {
+			String[] pattern = new String[] { "yyyyMMdd", "yyyy-MM-dd", "yyyy/MM/dd", "yyyyMMddHHmmss",
+					"yyyy-MM-dd HH:mm:ss", "yyyy/MM/dd HH:mm:ss" };
+			try {
+				obj = DateUtils.parseDate(getCellValue(cell).toString(), pattern);
+			} catch (Exception e) {
+				logger.error("时间日期转换失败" + e.getCause().toString());
+			}
+
+		} else {
+			logger.warn("存在没有处理的类型信息===》{}", typeInfo);
+		}
+		return obj;
+	}
+
+	public static Object getCellValue(Cell cell) {
+		Object obj = null;
+		switch (cell.getCellType()) {
+		case Cell.CELL_TYPE_STRING:
+			obj = cell.getStringCellValue();
+			break;
+
+		case Cell.CELL_TYPE_NUMERIC:
+			obj = cell.getNumericCellValue();
+			break;
+		default:
+			break;
+		}
+		return obj;
+	}
 
 }

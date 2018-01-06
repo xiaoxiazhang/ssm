@@ -6,6 +6,7 @@ import com.alibaba.alisonar.annotation.ExcelColumnMeta;
 
 public class AuthUserDTO extends BaseSearchTableDTO{
 
+	
 	private Long id;
 
 	@ExcelColumnMeta(colIndex=0,colName="用户名")
