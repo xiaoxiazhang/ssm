@@ -1,9 +1,9 @@
-package com.alibaba.alisonar.util;
+package com.alibaba.alisonar.dto;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class DatatableDto<T> implements Serializable{
+public class DatatableDTO<T> implements Serializable{
 	
 	private static final long serialVersionUID = -3331686649021065001L;
 

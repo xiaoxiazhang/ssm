@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.alisonar.domain.Department;
 import com.alibaba.alisonar.domain.Employee;
 import com.alibaba.alisonar.dto.EmployeeDTO;
+import com.alibaba.alisonar.dto.ResultDTO;
 import com.alibaba.alisonar.enumeration.IsDeletedEnum;
 import com.alibaba.alisonar.service.DepartmentService;
 import com.alibaba.alisonar.service.EmployeeService;
-import com.alibaba.alisonar.util.ResultDto;
 import com.alibaba.alisonar.util.ResultDtoFactory;
 import com.github.pagehelper.PageInfo;
 
@@ -74,7 +74,7 @@ public class EmployeeController {
 
 	@RequestMapping(value = "/saveEmp", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<String> saveEmp(@Valid Employee employee,BindingResult result) {
+	public ResultDTO<String> saveEmp(@Valid Employee employee,BindingResult result) {
 		logger.info("employee===>{}", employee);
 		employee.setIsDeleted(IsDeletedEnum.NO.getCode());
 		employeeService.saveEmp(employee);
@@ -84,7 +84,7 @@ public class EmployeeController {
 	
 	@RequestMapping(value = "/getEmp/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResultDto<EmployeeDTO> getEmpById(@PathVariable Integer id){
+	public ResultDTO<EmployeeDTO> getEmpById(@PathVariable Integer id){
 		logger.info("id===>{}", id);
 		return ResultDtoFactory.toAck(employeeService.getEmpById(id));
 		
@@ -103,7 +103,7 @@ public class EmployeeController {
 	
 	@RequestMapping(value = "/updateEmp", method = RequestMethod.PUT)
 	@ResponseBody
-	public ResultDto<String> updateEmp(@ModelAttribute("employee") @Valid Employee employee){
+	public ResultDTO<String> updateEmp(@ModelAttribute("employee") @Valid Employee employee){
 		employeeService.updateEmp(employee);
 		return ResultDtoFactory.toAck(null);
 	}
@@ -112,7 +112,7 @@ public class EmployeeController {
 
 	@RequestMapping(value = "/deleteEmp/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResultDto<String> deleteEmp(@PathVariable Integer id){
+	public ResultDTO<String> deleteEmp(@PathVariable Integer id){
 		employeeService.deleteEmp(id);
 		return ResultDtoFactory.toAck(null); 
 		
@@ -120,7 +120,7 @@ public class EmployeeController {
 	
 	@RequestMapping(value = "/multiDeleteEmps", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<String> multiDeleteEmps(@RequestParam(value = "ids[]") Integer[] ids){
+	public ResultDTO<String> multiDeleteEmps(@RequestParam(value = "ids[]") Integer[] ids){
 		employeeService.multiDeleteEmps(ids);
 		return ResultDtoFactory.toAck(null); 
 		
@@ -128,7 +128,7 @@ public class EmployeeController {
 	
 	@RequestMapping(value = "/multiDeleteEmps2", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<String> multiDeleteEmps2(String ids){
+	public ResultDTO<String> multiDeleteEmps2(String ids){
 		employeeService.multiDeleteEmps2(ids);
 		return ResultDtoFactory.toAck(null); 
 		

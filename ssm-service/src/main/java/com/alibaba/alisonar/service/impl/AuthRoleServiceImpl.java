@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import com.alibaba.alisonar.dao.AuthRoleMapper;
 import com.alibaba.alisonar.domain.AuthRole;
 import com.alibaba.alisonar.dto.AuthRoleDTO;
+import com.alibaba.alisonar.dto.DatatableDTO;
 import com.alibaba.alisonar.service.AuthRoleService;
-import com.alibaba.alisonar.util.DatatableDto;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -50,8 +50,8 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 	}
 
 	@Override
-	public DatatableDto<AuthRoleDTO> buildDatatableDto(AuthRoleDTO authRoleDTO) {
-		DatatableDto<AuthRoleDTO> resultDto = new DatatableDto<AuthRoleDTO>();
+	public DatatableDTO<AuthRoleDTO> buildDatatableDto(AuthRoleDTO authRoleDTO) {
+		DatatableDTO<AuthRoleDTO> resultDto = new DatatableDTO<AuthRoleDTO>();
 		PageHelper.startPage(authRoleDTO.getOffset()/authRoleDTO.getLimit()+1, authRoleDTO.getLimit());
 		List<AuthRoleDTO> list = authRoleMapper.listAuthRole(authRoleDTO);
 		PageInfo<AuthRoleDTO> page= new PageInfo(list);

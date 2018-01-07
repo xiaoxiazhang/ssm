@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.alisonar.dto.ResultDTO;
 import com.alibaba.alisonar.dto.UserLoginDTO;
-import com.alibaba.alisonar.util.ResultDto;
 import com.alibaba.alisonar.util.ResultDtoFactory;
 
 /**
@@ -41,7 +41,7 @@ public class LoginController {
 	//登录验证
 	@RequestMapping(value = "/doLogin", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<String> login(UserLoginDTO userLoginDTO,HttpSession session) {
+	public ResultDTO<String> login(UserLoginDTO userLoginDTO,HttpSession session) {
 
 		logger.info("userLoginDTO======>{}", userLoginDTO);
 		Subject currentUser = SecurityUtils.getSubject();

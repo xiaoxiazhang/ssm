@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import com.alibaba.alisonar.dao.AuthPermissionMapper;
 import com.alibaba.alisonar.domain.AuthPermission;
 import com.alibaba.alisonar.dto.AuthPermissionDTO;
+import com.alibaba.alisonar.dto.DatatableDTO;
 import com.alibaba.alisonar.service.AuthPermissionService;
-import com.alibaba.alisonar.util.DatatableDto;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -53,8 +53,8 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 
 
 	@Override
-	public DatatableDto<AuthPermissionDTO> buildDatatableDto(AuthPermissionDTO authPermissionDTO) {
-		DatatableDto<AuthPermissionDTO> resultDto = new DatatableDto<AuthPermissionDTO>();
+	public DatatableDTO<AuthPermissionDTO> buildDatatableDto(AuthPermissionDTO authPermissionDTO) {
+		DatatableDTO<AuthPermissionDTO> resultDto = new DatatableDTO<AuthPermissionDTO>();
 		PageHelper.startPage(authPermissionDTO.getOffset()/authPermissionDTO.getLimit()+1, authPermissionDTO.getLimit());
 		List<AuthPermissionDTO> list = authPermissionMapper.listAuthPermission(authPermissionDTO);
 		PageInfo<AuthPermissionDTO> page= new PageInfo(list);

@@ -22,15 +22,15 @@ import com.alibaba.alisonar.domain.AuthUser;
 import com.alibaba.alisonar.domain.AuthUserRole;
 import com.alibaba.alisonar.dto.AuthUserDTO;
 import com.alibaba.alisonar.dto.AuthUserSearch;
+import com.alibaba.alisonar.dto.DatatableDTO;
+import com.alibaba.alisonar.dto.ResultDTO;
 import com.alibaba.alisonar.mapstuct.AuthUserConventor;
 import com.alibaba.alisonar.service.AuthRoleService;
 import com.alibaba.alisonar.service.AuthUserRoleService;
 import com.alibaba.alisonar.service.AuthUserService;
-import com.alibaba.alisonar.util.DatatableDto;
 import com.alibaba.alisonar.util.ExcelUtil;
 import com.alibaba.alisonar.util.MyStringUtil;
 import com.alibaba.alisonar.util.PasswordHelper;
-import com.alibaba.alisonar.util.ResultDto;
 import com.alibaba.alisonar.util.ResultDtoFactory;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -92,8 +92,8 @@ public class AuthUserServiceImpl implements AuthUserService {
 	}
 
 	@Override
-	public DatatableDto<AuthUserDTO> buildDatatableDto(AuthUserDTO authUserDTO) {
-		DatatableDto<AuthUserDTO> resultDto = new DatatableDto<AuthUserDTO>();
+	public DatatableDTO<AuthUserDTO> buildDatatableDto(AuthUserDTO authUserDTO) {
+		DatatableDTO<AuthUserDTO> resultDto = new DatatableDTO<AuthUserDTO>();
 		PageHelper.startPage(authUserDTO.getOffset() / authUserDTO.getLimit() + 1, authUserDTO.getLimit());
 		List<AuthUserDTO> list = authUserMapper.listAuthUser(authUserDTO);
 		PageInfo<AuthUserDTO> page = new PageInfo(list);
@@ -192,7 +192,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 	}
 
 	@Override
-	public ResultDto<String> saveAuthUserByExcel(InputStream inputStream) {
+	public ResultDTO<String> saveAuthUserByExcel(InputStream inputStream) {
 		try {
 			List<AuthUserDTO> dtos = ExcelUtil.loadExcelData(AuthUserDTO.class, inputStream);
 			logger.info("excel解析后List<AuthUserDTO>===>{}", dtos);

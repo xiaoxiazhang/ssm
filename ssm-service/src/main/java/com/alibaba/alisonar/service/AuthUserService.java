@@ -12,8 +12,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import com.alibaba.alisonar.domain.AuthUser;
 import com.alibaba.alisonar.dto.AuthUserDTO;
 import com.alibaba.alisonar.dto.AuthUserSearch;
-import com.alibaba.alisonar.util.DatatableDto;
-import com.alibaba.alisonar.util.ResultDto;
+import com.alibaba.alisonar.dto.DatatableDTO;
+import com.alibaba.alisonar.dto.ResultDTO;
 
 /**
  * @author wb-zxx263018
@@ -37,7 +37,7 @@ public interface AuthUserService extends BaseService<AuthUser> {
 
 	void deleteUser(Long id);
 
-	DatatableDto<AuthUserDTO> buildDatatableDto(AuthUserDTO authUserDTO);
+	DatatableDTO<AuthUserDTO> buildDatatableDto(AuthUserDTO authUserDTO);
 
 	void saveUser(AuthUserDTO authUserDTO);
 
@@ -45,5 +45,5 @@ public interface AuthUserService extends BaseService<AuthUser> {
 
 	void resetPassword(Long id);
 
-	ResultDto<String> saveAuthUserByExcel(InputStream inputStream);
+	ResultDTO<String> saveAuthUserByExcel(InputStream inputStream);
 }

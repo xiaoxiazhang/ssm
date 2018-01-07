@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.alibaba.alisonar.domain.AuthRole;
 import com.alibaba.alisonar.dto.AuthRoleDTO;
-import com.alibaba.alisonar.util.DatatableDto;
+import com.alibaba.alisonar.dto.DatatableDTO;
 
 /**
  * @author wb-zxx263018
@@ -15,7 +15,7 @@ import com.alibaba.alisonar.util.DatatableDto;
  */
 public interface AuthRoleService extends BaseService<AuthRole>{
 
-	DatatableDto<AuthRoleDTO> buildDatatableDto(AuthRoleDTO authRoleDTO);
+	DatatableDTO<AuthRoleDTO> buildDatatableDto(AuthRoleDTO authRoleDTO);
 
 	boolean checkRole(AuthRoleDTO authRoleDTO);
 

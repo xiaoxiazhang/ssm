@@ -5,7 +5,7 @@ package com.alibaba.alisonar.service;
 
 import com.alibaba.alisonar.domain.AuthPermission;
 import com.alibaba.alisonar.dto.AuthPermissionDTO;
-import com.alibaba.alisonar.util.DatatableDto;
+import com.alibaba.alisonar.dto.DatatableDTO;
 
 /**
  * @author wb-zxx263018
@@ -13,7 +13,7 @@ import com.alibaba.alisonar.util.DatatableDto;
  */
 public interface AuthPermissionService extends BaseService<AuthPermission> {
 
-	DatatableDto<AuthPermissionDTO> buildDatatableDto(AuthPermissionDTO authPermissionDTO);
+	DatatableDTO<AuthPermissionDTO> buildDatatableDto(AuthPermissionDTO authPermissionDTO);
 
 	boolean checkPermission(AuthPermissionDTO authPermissionDTO);
 

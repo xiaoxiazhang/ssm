@@ -24,11 +24,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.alisonar.domain.AuthUser;
 import com.alibaba.alisonar.dto.AuthUserDTO;
+import com.alibaba.alisonar.dto.DatatableDTO;
+import com.alibaba.alisonar.dto.ResultDTO;
 import com.alibaba.alisonar.service.AuthRoleService;
 import com.alibaba.alisonar.service.AuthUserService;
-import com.alibaba.alisonar.util.DatatableDto;
 import com.alibaba.alisonar.util.ExcelUtil;
-import com.alibaba.alisonar.util.ResultDto;
 import com.alibaba.alisonar.util.ResultDtoFactory;
 
 /**
@@ -56,7 +56,7 @@ public class AuthUserController {
 
 	@RequestMapping(value = "/listAuthUser", method = RequestMethod.POST)
 	@ResponseBody
-	public DatatableDto<AuthUserDTO> listAuthUser(@RequestBody AuthUserDTO authUserDTO) {
+	public DatatableDTO<AuthUserDTO> listAuthUser(@RequestBody AuthUserDTO authUserDTO) {
 		logger.info("AuthUserSearch===>{}", authUserDTO);
 		return authUserService.buildDatatableDto(authUserDTO);
 
@@ -64,7 +64,7 @@ public class AuthUserController {
 
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<AuthUser> saveUser(AuthUserDTO authUserDTO) {
+	public ResultDTO<AuthUser> saveUser(AuthUserDTO authUserDTO) {
 		logger.info("user===>{}", authUserDTO);
 		authUserService.saveUser(authUserDTO);
 		return ResultDtoFactory.toAck(null);
@@ -82,7 +82,7 @@ public class AuthUserController {
 
 	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<AuthUser> updateUser(AuthUserDTO authUserDTO) {
+	public ResultDTO<AuthUser> updateUser(AuthUserDTO authUserDTO) {
 		logger.info("user===>{}", authUserDTO);
 		authUserService.updateUser(authUserDTO);
 		return ResultDtoFactory.toAck(null);
@@ -91,7 +91,7 @@ public class AuthUserController {
 
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<String> deleteUser(Long id) {
+	public ResultDTO<String> deleteUser(Long id) {
 		authUserService.deleteUser(id);
 		return ResultDtoFactory.toAck(null);
 
@@ -99,7 +99,7 @@ public class AuthUserController {
 
 	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<String> resetPassword(Long id) {
+	public ResultDTO<String> resetPassword(Long id) {
 		authUserService.resetPassword(id);
 		return ResultDtoFactory.toAck(null);
 
@@ -141,7 +141,7 @@ public class AuthUserController {
 
 	@RequestMapping(value = "/saveAuthUserByExcel", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<String> saveAuthUserByExcel(@RequestParam("fileInput") MultipartFile file,
+	public ResultDTO<String> saveAuthUserByExcel(@RequestParam("fileInput") MultipartFile file,
 			HttpServletRequest request) {
 		if (file == null || file.isEmpty()) { // 判断文件不为空
 			return ResultDtoFactory.toNack(500, "不存在文件");

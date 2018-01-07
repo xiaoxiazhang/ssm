@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.alisonar.domain.AuthPermission;
 import com.alibaba.alisonar.dto.AuthPermissionDTO;
+import com.alibaba.alisonar.dto.DatatableDTO;
+import com.alibaba.alisonar.dto.ResultDTO;
 import com.alibaba.alisonar.service.AuthPermissionService;
-import com.alibaba.alisonar.util.DatatableDto;
-import com.alibaba.alisonar.util.ResultDto;
 import com.alibaba.alisonar.util.ResultDtoFactory;
 
 /**
@@ -43,7 +43,7 @@ public class AuthPermissionController {
 	
 	@RequestMapping(value = "/listAuthPermission", method = RequestMethod.POST)
 	@ResponseBody
-	public DatatableDto<AuthPermissionDTO> listAuthPermission(@RequestBody AuthPermissionDTO authPermissionDTO) {
+	public DatatableDTO<AuthPermissionDTO> listAuthPermission(@RequestBody AuthPermissionDTO authPermissionDTO) {
 		logger.info("AuthUserSearch===>{}", authPermissionDTO);
 		return authPermissionService.buildDatatableDto(authPermissionDTO);
 
@@ -58,7 +58,7 @@ public class AuthPermissionController {
 	
 	@RequestMapping(value = "/savePermission", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<String> saveAuthPermission(AuthPermission authPermission) {
+	public ResultDTO<String> saveAuthPermission(AuthPermission authPermission) {
 		logger.info("authPermission===>{}", authPermission);
 		authPermissionService.insertSelective(authPermission);
 		return ResultDtoFactory.toAck(null);
@@ -67,7 +67,7 @@ public class AuthPermissionController {
 	
 	@RequestMapping(value = "/updatePermission", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<String> updatePermission(AuthPermission authPermission) {
+	public ResultDTO<String> updatePermission(AuthPermission authPermission) {
 		authPermissionService.updateByPrimaryKeySelective(authPermission);
 		return ResultDtoFactory.toAck(null);
 
@@ -76,7 +76,7 @@ public class AuthPermissionController {
 	
 	@RequestMapping(value = "/deletePermission", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<String> deletePermission(Long id) {
+	public ResultDTO<String> deletePermission(Long id) {
 		authPermissionService.deletePermission(id);
 		return ResultDtoFactory.toAck(null);
 

@@ -1,13 +1,13 @@
 /**
  * 
  */
-package com.alibaba.alisonar.util;
+package com.alibaba.alisonar.dto;
 
 /**
  * @author wb-zxx263018
  *
  */
-public class ResultDto<T> {
+public class ResultDTO<T> {
 	private Integer code;
 	private String message;
 	private T data;

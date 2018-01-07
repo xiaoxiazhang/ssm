@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.alisonar.domain.AuthPermission;
 import com.alibaba.alisonar.domain.AuthRole;
 import com.alibaba.alisonar.dto.AuthRoleDTO;
+import com.alibaba.alisonar.dto.DatatableDTO;
+import com.alibaba.alisonar.dto.ResultDTO;
 import com.alibaba.alisonar.service.AuthRoleService;
-import com.alibaba.alisonar.util.DatatableDto;
-import com.alibaba.alisonar.util.ResultDto;
 import com.alibaba.alisonar.util.ResultDtoFactory;
 
 /**
@@ -47,7 +47,7 @@ public class AuthRoleController {
 	
 	@RequestMapping(value = "/listAuthRole", method = RequestMethod.POST)
 	@ResponseBody
-	public DatatableDto<AuthRoleDTO> listAuthPermission(@RequestBody AuthRoleDTO authRoleDTO) {
+	public DatatableDTO<AuthRoleDTO> listAuthPermission(@RequestBody AuthRoleDTO authRoleDTO) {
 		logger.info("authRoleDTO===>{}", authRoleDTO);
 		return authRoleService.buildDatatableDto(authRoleDTO);
 
@@ -62,7 +62,7 @@ public class AuthRoleController {
 	
 	@RequestMapping(value = "/saveRole", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<String> saveRole(AuthRole authRole) {
+	public ResultDTO<String> saveRole(AuthRole authRole) {
 		logger.info("authRole===>{}", authRole);
 		authRoleService.insertSelective(authRole);
 		return ResultDtoFactory.toAck(null);
@@ -71,7 +71,7 @@ public class AuthRoleController {
 	
 	@RequestMapping(value = "/updateRole", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<String> updateRole(AuthRole authRole) {
+	public ResultDTO<String> updateRole(AuthRole authRole) {
 		authRoleService.updateByPrimaryKeySelective(authRole);
 		return ResultDtoFactory.toAck(null);
 
@@ -80,7 +80,7 @@ public class AuthRoleController {
 	
 	@RequestMapping(value = "/deleteRole", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDto<String> deleteRole(Long id) {
+	public ResultDTO<String> deleteRole(Long id) {
 		authRoleService.deleteRole(id);
 		return ResultDtoFactory.toAck(null);
 
