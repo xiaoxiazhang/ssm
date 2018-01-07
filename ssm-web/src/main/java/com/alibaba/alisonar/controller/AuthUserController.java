@@ -108,7 +108,6 @@ public class AuthUserController {
 	@RequestMapping(value = "/exportUserExcel", method = RequestMethod.GET)
 	public void toExcle(AuthUserDTO authUserDTO, HttpServletRequest request, HttpServletResponse response) {
 
-		
 		Workbook wb = authUserService.buildExcelWorkBook(authUserDTO);
 		String excelName = "用户详情.xls";
 		try {
@@ -122,11 +121,11 @@ public class AuthUserController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping(value = "/getTemplateExcel", method = RequestMethod.GET)
 	public void getTemplateExcel(AuthUserDTO authUserDTO, HttpServletRequest request, HttpServletResponse response) {
 
-		Workbook wb = ExcelUtil.buildTemplateExcel("用户模板",  AuthUserDTO.class);
+		Workbook wb = ExcelUtil.buildTemplateExcel("用户模板", AuthUserDTO.class);
 		String excelName = "导入模板.xlsx";
 		try {
 			response.setContentType("application/vnd.ms-excel;charset=utf-8");
@@ -154,7 +153,7 @@ public class AuthUserController {
 		try {
 			return authUserService.saveAuthUserByExcel(file.getInputStream());
 		} catch (Exception e) {
-			return  ResultDtoFactory.toNack(500, "保存excel数据失败");
+			return ResultDtoFactory.toNack(500, "保存excel数据失败");
 
 		}
 
