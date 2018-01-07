@@ -27,7 +27,7 @@ import com.alibaba.alisonar.dto.ResultDTO;
 import com.alibaba.alisonar.enumeration.IsDeletedEnum;
 import com.alibaba.alisonar.service.DepartmentService;
 import com.alibaba.alisonar.service.EmployeeService;
-import com.alibaba.alisonar.util.ResultDtoFactory;
+import com.alibaba.alisonar.util.ResultDTOFactory;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -78,7 +78,7 @@ public class EmployeeController {
 		logger.info("employee===>{}", employee);
 		employee.setIsDeleted(IsDeletedEnum.NO.getCode());
 		employeeService.saveEmp(employee);
-		return ResultDtoFactory.toAck(null);
+		return ResultDTOFactory.toAck(null);
 
 	}
 	
@@ -86,7 +86,7 @@ public class EmployeeController {
 	@ResponseBody
 	public ResultDTO<EmployeeDTO> getEmpById(@PathVariable Integer id){
 		logger.info("id===>{}", id);
-		return ResultDtoFactory.toAck(employeeService.getEmpById(id));
+		return ResultDTOFactory.toAck(employeeService.getEmpById(id));
 		
 	}
 	
@@ -105,7 +105,7 @@ public class EmployeeController {
 	@ResponseBody
 	public ResultDTO<String> updateEmp(@ModelAttribute("employee") @Valid Employee employee){
 		employeeService.updateEmp(employee);
-		return ResultDtoFactory.toAck(null);
+		return ResultDTOFactory.toAck(null);
 	}
 	
 	
@@ -114,7 +114,7 @@ public class EmployeeController {
 	@ResponseBody
 	public ResultDTO<String> deleteEmp(@PathVariable Integer id){
 		employeeService.deleteEmp(id);
-		return ResultDtoFactory.toAck(null); 
+		return ResultDTOFactory.toAck(null); 
 		
 	}
 	
@@ -122,7 +122,7 @@ public class EmployeeController {
 	@ResponseBody
 	public ResultDTO<String> multiDeleteEmps(@RequestParam(value = "ids[]") Integer[] ids){
 		employeeService.multiDeleteEmps(ids);
-		return ResultDtoFactory.toAck(null); 
+		return ResultDTOFactory.toAck(null); 
 		
 	}
 	
@@ -130,7 +130,7 @@ public class EmployeeController {
 	@ResponseBody
 	public ResultDTO<String> multiDeleteEmps2(String ids){
 		employeeService.multiDeleteEmps2(ids);
-		return ResultDtoFactory.toAck(null); 
+		return ResultDTOFactory.toAck(null); 
 		
 	}
 	

@@ -18,7 +18,7 @@ import com.alibaba.alisonar.dto.AuthPermissionDTO;
 import com.alibaba.alisonar.dto.DatatableDTO;
 import com.alibaba.alisonar.dto.ResultDTO;
 import com.alibaba.alisonar.service.AuthPermissionService;
-import com.alibaba.alisonar.util.ResultDtoFactory;
+import com.alibaba.alisonar.util.ResultDTOFactory;
 
 /**
  * @author wb-zxx263018
@@ -61,7 +61,7 @@ public class AuthPermissionController {
 	public ResultDTO<String> saveAuthPermission(AuthPermission authPermission) {
 		logger.info("authPermission===>{}", authPermission);
 		authPermissionService.insertSelective(authPermission);
-		return ResultDtoFactory.toAck(null);
+		return ResultDTOFactory.toAck(null);
 
 	}
 	
@@ -69,7 +69,7 @@ public class AuthPermissionController {
 	@ResponseBody
 	public ResultDTO<String> updatePermission(AuthPermission authPermission) {
 		authPermissionService.updateByPrimaryKeySelective(authPermission);
-		return ResultDtoFactory.toAck(null);
+		return ResultDTOFactory.toAck(null);
 
 	}
 	
@@ -78,7 +78,7 @@ public class AuthPermissionController {
 	@ResponseBody
 	public ResultDTO<String> deletePermission(Long id) {
 		authPermissionService.deletePermission(id);
-		return ResultDtoFactory.toAck(null);
+		return ResultDTOFactory.toAck(null);
 
 	}
 	

@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 import com.alibaba.alisonar.dto.ResultDTO;
 
-public class ResultDtoFactory {
+public class ResultDTOFactory {
 
 	public static <T> ResultDTO<T> toAck(T data) {
 		ResultDTO<T> dto = new ResultDTO<T>();

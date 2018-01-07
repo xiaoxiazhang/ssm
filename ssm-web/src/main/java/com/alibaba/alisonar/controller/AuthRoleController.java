@@ -19,7 +19,7 @@ import com.alibaba.alisonar.dto.AuthRoleDTO;
 import com.alibaba.alisonar.dto.DatatableDTO;
 import com.alibaba.alisonar.dto.ResultDTO;
 import com.alibaba.alisonar.service.AuthRoleService;
-import com.alibaba.alisonar.util.ResultDtoFactory;
+import com.alibaba.alisonar.util.ResultDTOFactory;
 
 /**
  * @author wb-zxx263018
@@ -65,7 +65,7 @@ public class AuthRoleController {
 	public ResultDTO<String> saveRole(AuthRole authRole) {
 		logger.info("authRole===>{}", authRole);
 		authRoleService.insertSelective(authRole);
-		return ResultDtoFactory.toAck(null);
+		return ResultDTOFactory.toAck(null);
 
 	}
 	
@@ -73,7 +73,7 @@ public class AuthRoleController {
 	@ResponseBody
 	public ResultDTO<String> updateRole(AuthRole authRole) {
 		authRoleService.updateByPrimaryKeySelective(authRole);
-		return ResultDtoFactory.toAck(null);
+		return ResultDTOFactory.toAck(null);
 
 	}
 	
@@ -82,7 +82,7 @@ public class AuthRoleController {
 	@ResponseBody
 	public ResultDTO<String> deleteRole(Long id) {
 		authRoleService.deleteRole(id);
-		return ResultDtoFactory.toAck(null);
+		return ResultDTOFactory.toAck(null);
 
 	}
 	

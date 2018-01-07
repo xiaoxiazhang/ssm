@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.alisonar.dto.ResultDTO;
 import com.alibaba.alisonar.dto.UserLoginDTO;
-import com.alibaba.alisonar.util.ResultDtoFactory;
+import com.alibaba.alisonar.util.ResultDTOFactory;
 
 /**
  * @author wb-zxx263018
@@ -52,12 +52,12 @@ public class LoginController {
 				currentUser.login(token);
 			} catch (AuthenticationException ae) {
 				logger.error("exception:" + ae.getMessage());
-				return ResultDtoFactory.toNack(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户认证失败");
+				return ResultDTOFactory.toNack(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户认证失败");
 			}
 		}
 		logger.info("当前的用户是===>{}",currentUser.getPrincipal());
 		session.setAttribute("username", currentUser.getPrincipal());
-		return ResultDtoFactory.toAck(null);
+		return ResultDTOFactory.toAck(null);
 	}
 	
 	

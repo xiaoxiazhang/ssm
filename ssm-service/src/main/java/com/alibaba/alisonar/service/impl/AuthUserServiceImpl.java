@@ -31,7 +31,7 @@ import com.alibaba.alisonar.service.AuthUserService;
 import com.alibaba.alisonar.util.ExcelUtil;
 import com.alibaba.alisonar.util.MyStringUtil;
 import com.alibaba.alisonar.util.PasswordHelper;
-import com.alibaba.alisonar.util.ResultDtoFactory;
+import com.alibaba.alisonar.util.ResultDTOFactory;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -199,10 +199,10 @@ public class AuthUserServiceImpl implements AuthUserService {
 			for(AuthUserDTO dto: dtos){
 				saveUser(dto);
 			}
-			return ResultDtoFactory.toAck(null);
+			return ResultDTOFactory.toAck(null);
 		} catch (Exception e) {
 			logger.error("读入流失败：" , e);
-			return ResultDtoFactory.toNack(500, "读入流失败");
+			return ResultDTOFactory.toNack(500, "读入流失败");
 			
 		}
 		

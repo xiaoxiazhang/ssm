@@ -29,7 +29,7 @@ import com.alibaba.alisonar.dto.ResultDTO;
 import com.alibaba.alisonar.service.AuthRoleService;
 import com.alibaba.alisonar.service.AuthUserService;
 import com.alibaba.alisonar.util.ExcelUtil;
-import com.alibaba.alisonar.util.ResultDtoFactory;
+import com.alibaba.alisonar.util.ResultDTOFactory;
 
 /**
  * @author wb-zxx263018
@@ -67,7 +67,7 @@ public class AuthUserController {
 	public ResultDTO<AuthUser> saveUser(AuthUserDTO authUserDTO) {
 		logger.info("user===>{}", authUserDTO);
 		authUserService.saveUser(authUserDTO);
-		return ResultDtoFactory.toAck(null);
+		return ResultDTOFactory.toAck(null);
 
 	}
 
@@ -85,7 +85,7 @@ public class AuthUserController {
 	public ResultDTO<AuthUser> updateUser(AuthUserDTO authUserDTO) {
 		logger.info("user===>{}", authUserDTO);
 		authUserService.updateUser(authUserDTO);
-		return ResultDtoFactory.toAck(null);
+		return ResultDTOFactory.toAck(null);
 
 	}
 
@@ -93,7 +93,7 @@ public class AuthUserController {
 	@ResponseBody
 	public ResultDTO<String> deleteUser(Long id) {
 		authUserService.deleteUser(id);
-		return ResultDtoFactory.toAck(null);
+		return ResultDTOFactory.toAck(null);
 
 	}
 
@@ -101,7 +101,7 @@ public class AuthUserController {
 	@ResponseBody
 	public ResultDTO<String> resetPassword(Long id) {
 		authUserService.resetPassword(id);
-		return ResultDtoFactory.toAck(null);
+		return ResultDTOFactory.toAck(null);
 
 	}
 
@@ -144,16 +144,16 @@ public class AuthUserController {
 	public ResultDTO<String> saveAuthUserByExcel(@RequestParam("fileInput") MultipartFile file,
 			HttpServletRequest request) {
 		if (file == null || file.isEmpty()) { // 判断文件不为空
-			return ResultDtoFactory.toNack(500, "不存在文件");
+			return ResultDTOFactory.toNack(500, "不存在文件");
 		}
 
 		if (!file.getOriginalFilename().endsWith(".xls") && !file.getOriginalFilename().endsWith(".xlsx")) {// 判断文件类型
-			return ResultDtoFactory.toNack(500, "文件类型有误");
+			return ResultDTOFactory.toNack(500, "文件类型有误");
 		}
 		try {
 			return authUserService.saveAuthUserByExcel(file.getInputStream());
 		} catch (Exception e) {
-			return ResultDtoFactory.toNack(500, "保存excel数据失败");
+			return ResultDTOFactory.toNack(500, "保存excel数据失败");
 
 		}
 
