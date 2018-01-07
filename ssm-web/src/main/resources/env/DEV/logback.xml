@@ -8,7 +8,7 @@
 	</appender>
 	<appender name="rollFile"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${catalina.base}/logs/3t-admin.log</file>
+		<file>${catalina.base}/logs/sonar.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<FileNamePattern>${catalina.base}/logs/sonar.log.%d{yyyy-MM-dd}.log
 			</FileNamePattern>
@@ -20,16 +20,16 @@
 		</encoder>
 	</appender>
 	
-	<logger name="org.apache.ibatis" level="DEBUG">
+	<logger name="org.apache.ibatis" level="DEBUG" additivity="false">
 		<appender-ref ref="console" />
 	</logger>
 
-	<logger name="java.sql" level="DEBUG">
+	<logger name="java.sql" level="DEBUG" additivity="false">
 		<appender-ref ref="console" />
 	</logger>
-
+	
 	<root level="info">
 		<appender-ref ref="console" />
-		<appender-ref ref="rollFile" level="error" />
+		<appender-ref ref="rollFile"/>
 	</root>
 </configuration>

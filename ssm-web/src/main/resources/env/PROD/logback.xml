@@ -8,7 +8,7 @@
 	</appender>
 	<appender name="rollFile"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${catalina.base}/logs/3t-admin.log</file>
+		<file>${catalina.base}/logs/3t-sonar.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<FileNamePattern>${catalina.base}/logs/sonar.log.%d{yyyy-MM-dd}.log
 			</FileNamePattern>
