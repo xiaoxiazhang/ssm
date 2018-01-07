@@ -21,7 +21,6 @@ import com.alibaba.alisonar.util.ResultDto;
  */
 public interface AuthUserService extends BaseService<AuthUser> {
 	
-	
 	AuthUser findByUsername(String username);
 	
 	List<AuthUser> findAll();
@@ -47,6 +46,4 @@ public interface AuthUserService extends BaseService<AuthUser> {
 	void resetPassword(Long id);
 
 	ResultDto<String> saveAuthUserByExcel(InputStream inputStream);
-
-
 }

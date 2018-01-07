@@ -63,7 +63,6 @@ $(function(){
 					title : '邮件名',
 					align : 'center',
 					valign:'middle',
-					sortable : true,
 				},{
 					field : 'createDate',
 					title : '创建时间',
