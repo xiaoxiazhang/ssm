@@ -82,4 +82,13 @@ public class AuthUser {
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
     }
+
+	@Override
+	public String toString() {
+		return "AuthUser [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
+				+ ", salt=" + salt + ", isDeleted=" + isDeleted + ", gmtCreate=" + gmtCreate + ", gmtModified="
+				+ gmtModified + "]";
+	}
+    
+    
 }
