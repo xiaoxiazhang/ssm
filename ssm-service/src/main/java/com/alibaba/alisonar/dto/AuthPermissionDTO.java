@@ -13,6 +13,8 @@ public class AuthPermissionDTO extends BaseSearchTableDTO{
 	
 	private Long id;
 
+	private Long parentId;
+	
     private String permission;
 
     private String description;
@@ -81,6 +83,15 @@ public class AuthPermissionDTO extends BaseSearchTableDTO{
 
 	public void setParentNodesStr(String parentNodesStr) {
 		this.parentNodesStr = parentNodesStr;
+	}
+	
+
+	public Long getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
 	}
 
 	@Override

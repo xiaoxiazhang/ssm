@@ -16,7 +16,7 @@ public class AuthPermissionDynaSqlProvider {
 	
 	public String listAuthPermissionSql(AuthPermissionDTO authPermissionDTO){
 		
-		SQL sql = new SQL().SELECT("id,permission,description,level,perm_url permUrl").FROM("auth_permission ap").WHERE("ap.is_deleted =0");
+		SQL sql = new SQL().SELECT("id,permission,description,level,perm_url permUrl,parent_id parentId").FROM("auth_permission ap").WHERE("ap.is_deleted =0");
 		String permission = authPermissionDTO.getPermission();
 		if(StringUtils.isNotBlank(permission)){
 			sql.WHERE("ap.permission = #{permission}");

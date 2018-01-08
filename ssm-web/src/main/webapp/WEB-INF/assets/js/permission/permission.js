@@ -40,7 +40,7 @@ $(function(){
 				},{
 					field : 'permUrl',
 					title : '权限URL',
-					align : 'center',
+					align : 'left',
 					valign:'middle',
 					
 				},{
@@ -70,9 +70,9 @@ $(function(){
 					width : '20%',
 					formatter: function (value, row, index) {
 						var viewOporator = "<a href='#' class='btn btn-primary btn-xs view'><span class='fa fa-eye'></span>查看</a>";
-						var updateOperator = "<button class='btn btn-info btn-xs edit'><span class='fa fa-edit'></span>修改</button>";
+						var updateOperator = "<button class='btn btn-info btn-xs edit'><span class='fa fa-edit'></span>编辑</button>";
 						var removeOperator = "<button  class='btn btn-warning btn-xs cancel'><span class='fa fa-trash'></span>删除</button> "
-						var htmlStr = viewOporator + updateOperator +removeOperator;
+						var htmlStr =updateOperator +removeOperator;
                         return htmlStr;  
                     },
                     events : {
@@ -87,7 +87,13 @@ $(function(){
             			            onshown: function(dialogRef){
             			            	$("#editDialog>form input[name='id']").val(row.id);
                             			$("#editDialog>form input[name='permission']").val(row.permission);
+                            			$("#editDialog>form input[name='permUrl']").val(row.permUrl);
                             			$("#editDialog>form input[name='description']").val(row.description);
+                            			$('#editDialog select[name="level"] option[value="'+ row.level+'"]').prop("selected","selected");
+                            			$('#editDialog select[name="parentId"]').select2({
+                            				placeholder : '请选择角色',
+                            				allowClear : true,
+                            			}).val(row.parentId).trigger("change");
             			            },
             			            buttons: [{
             			                label: '取消',
