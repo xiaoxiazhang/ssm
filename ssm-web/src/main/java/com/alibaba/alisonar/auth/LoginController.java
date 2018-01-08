@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.alisonar.dto.ResultDTO;
 import com.alibaba.alisonar.dto.UserLoginDTO;
-import com.alibaba.alisonar.util.ResultDTOFactory;
+import com.alibaba.alisonar.factory.ResultDTOFactory;
 
 /**
  * @author wb-zxx263018

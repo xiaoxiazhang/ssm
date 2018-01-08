@@ -3,6 +3,8 @@
  */
 package com.alibaba.alisonar.dto;
 
+import java.util.List;
+
 /**
  * @author wb-zxx263018
  *
@@ -14,6 +16,14 @@ public class AuthPermissionDTO extends BaseSearchTableDTO{
     private String permission;
 
     private String description;
+    
+    private String permUrl;
+
+    private Integer level;
+    
+    private List<Long> parentNodes;
+    
+    private String parentNodesStr;
 
 	public Long getId() {
 		return id;
@@ -37,6 +47,48 @@ public class AuthPermissionDTO extends BaseSearchTableDTO{
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getPermUrl() {
+		return permUrl;
+	}
+
+	public void setPermUrl(String permUrl) {
+		this.permUrl = permUrl;
+	}
+
+	public Integer getLevel() {
+		return level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
+	public List<Long> getParentNodes() {
+		return parentNodes;
+	}
+
+	public void setParentNodes(List<Long> parentNodes) {
+		this.parentNodes = parentNodes;
+	}
+	
+	
+
+	public String getParentNodesStr() {
+		return parentNodesStr;
+	}
+
+	public void setParentNodesStr(String parentNodesStr) {
+		this.parentNodesStr = parentNodesStr;
+	}
+
+	@Override
+	public String toString() {
+		return "AuthPermissionDTO [id=" + id + ", permission=" + permission + ", description=" + description
+				+ ", permUrl=" + permUrl + ", level=" + level + ", parentNodes=" + parentNodes + ", getLimit()="
+				+ getLimit() + ", getOffset()=" + getOffset() + ", getSortName()=" + getSortName() + ", getSortOrder()="
+				+ getSortOrder() + "]";
 	}
     
 

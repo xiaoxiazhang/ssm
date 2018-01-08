@@ -2,7 +2,8 @@ package com.alibaba.alisonar.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 
@@ -31,4 +32,8 @@ public interface AuthPermissionMapper {
 
     @Update("update auth_permission a set a.is_deleted=1 where a.id = #{id}")
 	void deletePermission(Long id);
+
+    @Select("select * from auth_permission a where a.`level` in (1,2) and a.is_deleted=0")
+    @ResultMap("BaseResultMap")
+	List<AuthPermission> getAllParentNode();
 }

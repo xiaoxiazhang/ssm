@@ -7,6 +7,14 @@ $(function(){
 		searchTableURL: "listAuthPermission",
 			
 		init : function(){
+			
+			//父节点
+			$('#searchForm select[name="parentId"').select2({
+				placeholder : '请选择父节点',
+				allowClear : true,
+				multiple : true,
+			}).val(null).trigger("change");
+			
 			this.initBootstrapTable();
 			this.bindEvents();
 		},
@@ -29,6 +37,26 @@ $(function(){
 					align : 'center',
 					valign:'middle',
 					
+				},{
+					field : 'permUrl',
+					title : '权限URL',
+					align : 'center',
+					valign:'middle',
+					
+				},{
+					field : 'level',
+					title : '权限级别',
+					align : 'center',
+					valign:'middle',
+					formatter: function (value, row, index) {
+						if(row.level=="1"){
+							return "一级菜单";
+						}else if(row.level=="2"){
+							return "二级菜单";
+						}else if(row.level=="3"){
+							return "按钮权限";
+						}
+					}
 				},{
 					field : 'description',
 					title : '权限描述',
@@ -166,7 +194,10 @@ $(function(){
 					return {
 						//添加查询属性值
 						permission :  $("#searchForm input[name='permission']").val(),
+						permUrl :  $("#searchForm input[name='permUrl']").val(),
 						description : $("#searchForm input[name='description']").val(),
+						parentNodes :  $("#searchForm select[name='parentId']").val(),
+						level :  $("#searchForm select[name='level']").val(),
 						limit : params.limit,
 						offset : params.offset,
 						sortName : params.sort ,
@@ -186,6 +217,13 @@ $(function(){
 				BootstrapDialog.show({
 			            title: '添加',
 			            message: message,
+			            onshown: function(dialogRef){
+			            	$("#addDialog>form select[name='parentId']").select2({
+			    				placeholder : '请选择角色',
+			    				allowClear : true,
+			    			}).val(null).trigger("change");
+			            	
+			            },
 			            buttons: [{
 			                label: '取消',
 			                action: function(dialog) {

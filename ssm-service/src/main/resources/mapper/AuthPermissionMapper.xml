@@ -3,14 +3,18 @@
 <mapper namespace="com.alibaba.alisonar.dao.AuthPermissionMapper">
   <resultMap id="BaseResultMap" type="com.alibaba.alisonar.domain.AuthPermission">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
     <result column="permission" jdbcType="VARCHAR" property="permission" />
+    <result column="perm_url" jdbcType="VARCHAR" property="permUrl" />
+    <result column="level" jdbcType="INTEGER" property="level" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, permission, description, is_deleted, gmt_create, gmt_modified
+    id, parent_id, permission, perm_url, level, description, is_deleted, gmt_create, 
+    gmt_modified
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -26,9 +30,11 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into auth_permission (permission, description, is_deleted, 
+    insert into auth_permission (parent_id, permission, perm_url, 
+      level, description, is_deleted, 
       gmt_create, gmt_modified)
-    values (#{permission,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+    values (#{parentId,jdbcType=BIGINT}, #{permission,jdbcType=VARCHAR}, #{permUrl,jdbcType=VARCHAR}, 
+      #{level,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.alibaba.alisonar.domain.AuthPermission">
@@ -37,8 +43,17 @@
     </selectKey>
     insert into auth_permission
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="parentId != null">
+        parent_id,
+      </if>
       <if test="permission != null">
         permission,
+      </if>
+      <if test="permUrl != null">
+        perm_url,
+      </if>
+      <if test="level != null">
+        level,
       </if>
       <if test="description != null">
         description,
@@ -54,8 +69,17 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
       <if test="permission != null">
         #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="permUrl != null">
+        #{permUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
       </if>
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
@@ -74,8 +98,17 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.alibaba.alisonar.domain.AuthPermission">
     update auth_permission
     <set>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
       <if test="permission != null">
         permission = #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="permUrl != null">
+        perm_url = #{permUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
       </if>
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
@@ -94,7 +127,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.alibaba.alisonar.domain.AuthPermission">
     update auth_permission
-    set permission = #{permission,jdbcType=VARCHAR},
+    set parent_id = #{parentId,jdbcType=BIGINT},
+      permission = #{permission,jdbcType=VARCHAR},
+      perm_url = #{permUrl,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
       description = #{description,jdbcType=VARCHAR},
       is_deleted = #{isDeleted,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},

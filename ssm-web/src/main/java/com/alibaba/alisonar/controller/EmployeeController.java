@@ -25,9 +25,9 @@ import com.alibaba.alisonar.domain.Employee;
 import com.alibaba.alisonar.dto.EmployeeDTO;
 import com.alibaba.alisonar.dto.ResultDTO;
 import com.alibaba.alisonar.enumeration.IsDeletedEnum;
+import com.alibaba.alisonar.factory.ResultDTOFactory;
 import com.alibaba.alisonar.service.DepartmentService;
 import com.alibaba.alisonar.service.EmployeeService;
-import com.alibaba.alisonar.util.ResultDTOFactory;
 import com.github.pagehelper.PageInfo;
 
 /**

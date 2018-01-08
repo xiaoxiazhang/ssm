@@ -24,6 +24,7 @@ import com.alibaba.alisonar.dto.AuthUserDTO;
 import com.alibaba.alisonar.dto.AuthUserSearch;
 import com.alibaba.alisonar.dto.DatatableDTO;
 import com.alibaba.alisonar.dto.ResultDTO;
+import com.alibaba.alisonar.factory.ResultDTOFactory;
 import com.alibaba.alisonar.mapstuct.AuthUserConventor;
 import com.alibaba.alisonar.service.AuthRoleService;
 import com.alibaba.alisonar.service.AuthUserRoleService;
@@ -31,7 +32,6 @@ import com.alibaba.alisonar.service.AuthUserService;
 import com.alibaba.alisonar.util.ExcelUtil;
 import com.alibaba.alisonar.util.MyStringUtil;
 import com.alibaba.alisonar.util.PasswordHelper;
-import com.alibaba.alisonar.util.ResultDTOFactory;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 

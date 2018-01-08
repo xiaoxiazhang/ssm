@@ -41,9 +41,10 @@
 
 
 		<!-- table指定每个表的生成策略 -->
-		<table tableName="auth_user" domainObjectName="AuthUser" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+		<table tableName="auth_permission" domainObjectName="AuthPermission" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
 			<generatedKey column="id" sqlStatement="MySql" identity="true" />
 			<columnOverride column="is_deleted"  jdbcType="INTEGER" javaType="java.lang.Integer"/>  
+			<columnOverride column="level"  jdbcType="INTEGER" javaType="java.lang.Integer"/>  
 		</table>
 		
 		

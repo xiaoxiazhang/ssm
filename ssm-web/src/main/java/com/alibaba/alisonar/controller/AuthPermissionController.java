@@ -17,8 +17,8 @@ import com.alibaba.alisonar.domain.AuthPermission;
 import com.alibaba.alisonar.dto.AuthPermissionDTO;
 import com.alibaba.alisonar.dto.DatatableDTO;
 import com.alibaba.alisonar.dto.ResultDTO;
+import com.alibaba.alisonar.factory.ResultDTOFactory;
 import com.alibaba.alisonar.service.AuthPermissionService;
-import com.alibaba.alisonar.util.ResultDTOFactory;
 
 /**
  * @author wb-zxx263018
@@ -37,6 +37,7 @@ public class AuthPermissionController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String toPermissionListPage(Model model) {
+		model.addAttribute("parentNode", authPermissionService.getAllParentNode());
 		return "permission/permission_list";
 
 	}

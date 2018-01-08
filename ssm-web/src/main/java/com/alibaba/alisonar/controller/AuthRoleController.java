@@ -18,8 +18,8 @@ import com.alibaba.alisonar.domain.AuthRole;
 import com.alibaba.alisonar.dto.AuthRoleDTO;
 import com.alibaba.alisonar.dto.DatatableDTO;
 import com.alibaba.alisonar.dto.ResultDTO;
+import com.alibaba.alisonar.factory.ResultDTOFactory;
 import com.alibaba.alisonar.service.AuthRoleService;
-import com.alibaba.alisonar.util.ResultDTOFactory;
 
 /**
  * @author wb-zxx263018

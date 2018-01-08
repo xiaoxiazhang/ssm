@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.alisonar.dao.AuthPermissionMapper;
 import com.alibaba.alisonar.domain.AuthPermission;
@@ -22,6 +23,7 @@ import com.github.pagehelper.PageInfo;
  */
 
 @Service
+@Transactional
 public class AuthPermissionServiceImpl implements AuthPermissionService {
 
 	@Autowired
@@ -77,6 +79,13 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	@Override
 	public void deletePermission(Long id) {
 		authPermissionMapper.deletePermission(id);
+		
+	}
+
+
+	@Override
+	public List<AuthPermission> getAllParentNode() {
+		return authPermissionMapper.getAllParentNode();
 		
 	}
 
