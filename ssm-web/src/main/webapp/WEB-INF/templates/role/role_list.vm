@@ -1,4 +1,34 @@
 #set($layout = "layout/layout.vm")
+<style>
+.listbox {
+	width: 100%;
+	border: 1px solid #ccc;
+	overflow: hidden;
+	margin-bottom: 5px;
+}
+
+.listleft {
+	float: left;
+	border-right: 1px solid #ccc;
+	width: 200px;
+	padding: 5px 10px;
+}
+
+.listright {
+	float: left;
+	width: auto;
+	padding: 5px 10px;
+}
+
+#authTable>thead>tr>th{
+	font-weight: bold;
+    text-align: -internal-center;
+}
+
+.authorizationDialog .modal-content{
+     width: 800px;
+}
+</style>
 <section class="content-header">
 	<h1>
 		角色管理<small>Role</small>
@@ -21,7 +51,7 @@
 					
 					<label  class="col-sm-1 control-label">角色描述:</label>
 					<div class="col-sm-3">
-						<input type="type" class="form-control"  name="description" placeholder="请输入角色描述">
+						<input type="text" class="form-control"  name="description" placeholder="请输入角色描述">
 					</div>
 				</div>
 
@@ -81,6 +111,66 @@
 			</div>
 		</div>
 	</form>
+</div>
+
+<div id="authorizationFormHtml" style="display: none">
+	<table class="table" id="authTable">
+		<thead>
+			<tr>
+				<th>用户权限管理 <label>
+						<input type="checkbox" class="ace check1" />
+				</label>
+				</th>
+				<th>
+					<div class="listbox">
+						<div class="listleft">
+							用户管理 <label class="position-relative"> <input
+								type="checkbox" class="ace check2" name="node_ids[]" />
+							</label>
+						</div>
+						<div class="listright">
+							用户查询 <label> <input type="checkbox" class="ace check3" /></label>
+							添加用户 <label> <input type="checkbox" class="ace check3" /></label>
+							编辑用户 <label> <input type="checkbox" class="ace check3" /></label>
+							删除用户 <label> <input type="checkbox" class="ace check3" /></label>
+						</div>
+					</div>
+
+					<div class="listbox">
+						<div class="listleft">
+							角色管理 <label class="position-relative"> <input
+								type="checkbox" class="ace check2" name="node_ids[]" />
+							</label>
+						</div>
+						<div class="listright">
+							角色查询 <label> <input type="checkbox" class="ace check3" /></label>
+							添加角色 <label> <input type="checkbox" class="ace check3" /></label>
+							编辑角色 <label> <input type="checkbox" class="ace check3" /></label>
+							删除角色 <label> <input type="checkbox" class="ace check3" /></label>
+							删除角色 <label> <input type="checkbox" class="ace check3" /></label>
+						</div>
+					</div>
+
+					<div class="listbox">
+						<div class="listleft">
+							权限管理 <label class="position-relative"> <input
+								type="checkbox" class="ace check2" name="node_ids[]" />
+							</label>
+						</div>
+						<div class="listright">
+							权限查询 <label> <input type="checkbox" class="ace check3" /></label>
+							添加权限 <label> <input type="checkbox" class="ace check3" /></label>
+							编辑权限 <label> <input type="checkbox" class="ace check3" /></label>
+							删除权限 <label> <input type="checkbox" class="ace check3" /></label>
+						</div>
+					</div>
+
+				</th>
+			</tr>
+
+		</thead>
+	</table>
+
 </div>
 <script src="$rc.contextPath/assets/js/role/role.js"></script>
 

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.alisonar.domain.AuthPermission;
 import com.alibaba.alisonar.domain.AuthRole;
 import com.alibaba.alisonar.dto.AuthRoleDTO;
 import com.alibaba.alisonar.dto.DatatableDTO;

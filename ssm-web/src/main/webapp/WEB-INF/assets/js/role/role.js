@@ -41,7 +41,7 @@ $(function(){
 					valign:'middle',
 					width : '20%',
 					formatter: function (value, row, index) {
-						var viewOporator = "<a href='authorize' class='btn btn-primary btn-xs'><span class='fa fa-wrench'></span>授权</a>";
+						var viewOporator = "<button class='btn btn-primary btn-xs authorization'><span class='fa fa-wrench'></span>授权</button>";
 						var updateOperator = "<button class='btn btn-info btn-xs edit'><span class='fa fa-edit'></span>修改</button>";
 						var removeOperator = "<button  class='btn btn-warning btn-xs cancel'><span class='fa fa-trash'></span>删除</button> "
 						var htmlStr = viewOporator + updateOperator +removeOperator;
@@ -151,7 +151,32 @@ $(function(){
                     		        }
                     		    }]
                     		});
-                    	}
+                    	},
+                    	'click .authorization' : function(e,value,row,index){
+                    		var message = $("#authorizationFormHtml").html();
+            				message = message.trim().replace(/\n/g,'');
+            				message = "<div id='authorizationDialog'>"+message + "</div>"
+                    		var data = {id : row.id};
+                    		BootstrapDialog.show({
+                    		    title: '授权',
+                    			closable:false ,
+                    			message : message,
+                    			cssClass: 'authorizationDialog',
+                    			type : BootstrapDialog.TYPE_PRIMARY,
+                    		    buttons: [{            
+                    		        label: '取消',
+                    		        action: function(dialogRef){    
+                    		            dialogRef.close(); 
+                    		        }
+                    		    },{            
+                    		        label: '确定',
+                    		        cssClass: 'btn-primary', 
+                    		        action: function(dialogRef){   
+                    		        	that.doAuthorization(dialogRef,data);
+                    		        }
+                    		    }]
+                    		});
+                    	},
                     },
 				} ],// 页面需要展示的列，后端交互对象的属性
 				cache : false, // 是否使用缓存 
@@ -254,6 +279,7 @@ $(function(){
 			$("#searchBtn").on('click',function(){
 				$("#tableList").bootstrapTable('refresh');
 			});
+			
 		},
 		
 		doSave : function(){
@@ -293,6 +319,28 @@ $(function(){
 			var that = this;
 			$.ajax({
 	        	url : that.deleteURL,
+	        	type : "POST",
+	        	data : data,
+	        	success : function(data) {
+	        		dialogRef.close();
+	        		if(data.code==200){
+	        			$.NOTIFY.show();
+	        			$("#tableList").bootstrapTable('refresh');
+	        		}else{
+	        			$.NOTIFY.show('删除失败','服务器异常！','dange');
+	        		}
+	        	},
+	        	error : function(){
+	        		dialogRef.close();
+	        		$.NOTIFY.show('删除失败','服务器异常！','dange');
+	        	} 
+	        });
+		},
+		
+		doAuthorization:function(dialogRef,data){
+			var that = this;
+			$.ajax({
+	        	url : that.authorizeURL,
 	        	type : "POST",
 	        	data : data,
 	        	success : function(data) {
