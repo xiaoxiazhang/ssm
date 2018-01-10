@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import com.alibaba.alisonar.domain.AuthUser;
@@ -16,7 +17,7 @@ import com.alibaba.alisonar.dto.AuthUserDTO;
  * @author wb-zxx263018
  *
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AuthUserConventor {
 	AuthUserConventor MAPPER = Mappers.getMapper(AuthUserConventor.class);
 
@@ -24,6 +25,7 @@ public interface AuthUserConventor {
 	/*@Mappings({ @Mapping(source = "", target = "")
 
 	})*/
+	
 	public AuthUserDTO entity2DTO(AuthUser entity);
 	
 	@InheritInverseConfiguration

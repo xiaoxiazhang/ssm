@@ -26,6 +26,10 @@ public class AuthPermissionDTO extends BaseSearchTableDTO{
     private List<Long> parentNodes;
     
     private String parentNodesStr;
+    
+    private Boolean checked;
+    
+    private List<AuthPermissionDTO> childNodes;
 
 	public Long getId() {
 		return id;
@@ -92,6 +96,24 @@ public class AuthPermissionDTO extends BaseSearchTableDTO{
 
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
+	}
+	
+	
+
+	public Boolean getChecked() {
+		return checked;
+	}
+
+	public void setChecked(Boolean checked) {
+		this.checked = checked;
+	}
+
+	public List<AuthPermissionDTO> getChildNodes() {
+		return childNodes;
+	}
+
+	public void setChildNodes(List<AuthPermissionDTO> childNodes) {
+		this.childNodes = childNodes;
 	}
 
 	@Override

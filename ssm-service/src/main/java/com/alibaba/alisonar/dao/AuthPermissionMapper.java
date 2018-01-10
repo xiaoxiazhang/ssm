@@ -12,6 +12,7 @@ import com.alibaba.alisonar.domain.AuthPermission;
 import com.alibaba.alisonar.dto.AuthPermissionDTO;
 
 public interface AuthPermissionMapper {
+	
     int deleteByPrimaryKey(Long id);
 
     int insert(AuthPermission record);
@@ -36,4 +37,12 @@ public interface AuthPermissionMapper {
     @Select("select * from auth_permission a where a.`level` in (1,2) and a.is_deleted=0")
     @ResultMap("BaseResultMap")
 	List<AuthPermission> getAllParentNode();
+
+    @Select("select * from auth_permission a where a.`level`=1 and a.is_deleted=0")
+    @ResultMap("BaseResultMap")
+	List<AuthPermission> getLevel1();
+
+    @Select("select * from auth_permission a where a.parent_id=#{id} and a.is_deleted=0")
+    @ResultMap("BaseResultMap")
+	List<AuthPermission> getAllChildNodes(Long id);
 }

@@ -153,29 +153,76 @@ $(function(){
                     		});
                     	},
                     	'click .authorization' : function(e,value,row,index){
-                    		var message = $("#authorizationFormHtml").html();
-            				message = message.trim().replace(/\n/g,'');
-            				message = "<div id='authorizationDialog'>"+message + "</div>"
-                    		var data = {id : row.id};
-                    		BootstrapDialog.show({
-                    		    title: '授权',
-                    			closable:false ,
-                    			message : message,
-                    			cssClass: 'authorizationDialog',
-                    			type : BootstrapDialog.TYPE_PRIMARY,
-                    		    buttons: [{            
-                    		        label: '取消',
-                    		        action: function(dialogRef){    
-                    		            dialogRef.close(); 
-                    		        }
-                    		    },{            
-                    		        label: '确定',
-                    		        cssClass: 'btn-primary', 
-                    		        action: function(dialogRef){   
-                    		        	that.doAuthorization(dialogRef,data);
-                    		        }
-                    		    }]
+                    		$.ajax({
+                    			url : "getAllPermissionByRoleId",
+                    			type : "get",
+                    			data : {id : row.id},
+                    			dataType : "json",
+                    			success : function(data){
+                    				if(data.code==200){
+                    					var message = '<div class="tree well"><ul>';
+                    					var level1 = data.data;
+                    					for(var i=0 ; i<level1.length;i++){
+                    						if(level1[i].checked){
+                    							message = message + '<li class="f1"><span><i class="icon-folder-open"></i><input type="checkbox" value="'+ level1[i].permission+'" name="permission" class="level1" checked/>'+level1[i].description +'</span><ul>';
+                    						}else{
+                    							message = message + '<li class="f1"><span><i class="icon-folder-open"></i><input type="checkbox" value="'+ level1[i].permission+'" name="permission" class="level1" />'+level1[i].description +'</span><ul>';
+                    						}
+                    						var level2 = level1[i].childNodes;
+                    						for(var j=0 ; j<level2.length;j++){
+                    							if(level2[j].checked){
+                    								message = message + '<li class="f2"> <span><i class="icon-minus-sign"></i><input type="checkbox" value="'+ level2[j].permission+'" name="permission" class="level2" checked/>'+level2[j].description +'</span> <ul><li class="f3">';
+                    							}else{
+                    								message = message + '<li class="f2"> <span><i class="icon-minus-sign"></i><input type="checkbox" value="'+ level2[j].permission+'" name="permission" class="level2" />'+level2[j].description +'</span> <ul><li class="f3">';
+                    							}
+                    							
+                    							
+                    							var level3 = level2[j].childNodes;
+                    							for(var k=0 ; k<level3.length;k++){
+                    								if(level3[k].checked){
+                    									message = message + '<span><i class="icon-leaf"></i><input type="checkbox" value="'+ level3[k].permission+'" name="permission" class="level3" checked/>'+level3[k].description +'</span>';
+                    								}else{
+                    									message = message + '<span><i class="icon-leaf"></i><input type="checkbox" value="'+ level3[k].permission+'" name="permission" class="level3" />'+level3[k].description +'</span>';
+                    								}
+                    							}
+                    							message = message + '</li></ul></li>';
+                    						}
+                    						message = message + '</ul></li>';
+                    					}
+                    					message += '</ul></div>';
+                    					//var message = $("#authorizationFormHtml").html();
+                        				message = message.trim().replace(/\n/g,'');
+                        				message = "<div id='authorizationDialog'>"+message + "</div>"
+                                		var data = {id : row.id};
+                        				BootstrapDialog.show({
+                                		    title: '授权',
+                                			closable:false ,
+                                			message : message,
+                                			cssClass: 'authorizationDialog',
+                                			type : BootstrapDialog.TYPE_PRIMARY,
+                                		    buttons: [{            
+                                		        label: '取消',
+                                		        action: function(dialogRef){    
+                                		            dialogRef.close(); 
+                                		        }
+                                		    },{            
+                                		        label: '确定',
+                                		        cssClass: 'btn-primary', 
+                                		        action: function(dialogRef){   
+                                		        	that.doAuthorization(dialogRef,data);
+                                		        }
+                                		    }]
+                                		});
+                    				}
+                    			},
+                    			error :function(){
+                    				
+                    			}
                     		});
+                    		
+                    		
+                    		
+                    		
                     	},
                     },
 				} ],// 页面需要展示的列，后端交互对象的属性

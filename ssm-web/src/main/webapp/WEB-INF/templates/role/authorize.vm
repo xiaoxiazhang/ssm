@@ -87,50 +87,313 @@
 	<div class="box box-info">
 		<div class="box-header with-border"></div>
 		<div class="box-body">
-		<div class="row">
-			<div class="col-md-12">
-			<div class="tree well">
-				<ul>
-					<li><span><i class="icon-folder-open"></i><input type="checkbox" class="ace check3" /> 用户权限管理</span>
-						<ul>
-							<li><span><i class="icon-minus-sign"></i><input type="checkbox" class="ace check3" /> 用户管理</span>
-								<ul>
-									<li>
-										<span><i class="icon-leaf"></i><input type="checkbox" class="ace check3" /> 用户查询</span> 
-										<span><i class="icon-leaf"></i><input type="checkbox" class="ace check3" /> 用户添加</span> 
-										<span><i class="icon-leaf"></i><input type="checkbox" class="ace check3" /> 用户更新</span> 
-										<span><i class="icon-leaf"></i><input type="checkbox" class="ace check3" /> 用户删除</span> 
-									</li>
-								</ul></li>
-							<li><span><i class="icon-minus-sign"></i> <input type="checkbox" class="ace check3" /> 角色管理</span>
-								<ul>
-									<li>
-										<span><i class="icon-leaf"></i><input type="checkbox" class="ace check3" /> 角色查询</span> 
-										<span><i class="icon-leaf"></i><input type="checkbox" class="ace check3" /> 角色添加</span> 
-										<span><i class="icon-leaf"></i><input type="checkbox" class="ace check3" /> 角色更新</span> 
-										<span><i class="icon-leaf"></i><input type="checkbox" class="ace check3" /> 角色删除</span> 
-										<span><i class="icon-leaf"></i><input type="checkbox" class="ace check3" /> 角色授权 </span> 
-									</li>
-									
-								</ul></li>
-							<li><span><i class="icon-minus-sign"></i><input type="checkbox" class="ace check3" /> 权限管理</span>
-								<ul>
-									<li>
-										<span><i class="icon-leaf"></i><input type="checkbox" class="ace check3" /> 权限查询</span> 
-										<span><i class="icon-leaf"></i><input type="checkbox" class="ace check3" /> 权限添加</span> 
-										<span><i class="icon-leaf"></i><input type="checkbox" class="ace check3" /> 权限更新</span> 
-										<span><i class="icon-leaf"></i><input type="checkbox" class="ace check3" /> 权限删除</span> 
-									</li>
-									
-								</ul></li>
-						</ul>
-					</li>
-				</ul>
-			</div>
+		  <div class="page-header">
+          <h1> 表格 <small> <i class="ace-icon fa fa-angle-double-right"></i> Static & Dynamic Tables </small> </h1>
+         </div>
+
+                <table id="sample-table-1" class="table table-striped table-bordered table-hover dataTable">
+                  <thead id="checkwrap">
+                    <tr>
+                      <th class="center "> 
+                        客户管理 全选
+                        <label class="position-relative menu-all">
+                          <input type="checkbox" class="ace check1" />
+                        </label>
+                      </th>
+                      <th>
+                        <div class="listbox">
+                            <div class="listleft">
+                                亲属信息管理11
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check2" name="node_ids[]"/>
+                                </label>
+                            </div>
+                            <div class="listright">
+                                基本信息管理
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+                            
+                                基本信息管理2
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" /> 
+                                </label>
+                            
+                                基本信息管理3
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="listbox">
+                            <div class="listleft">
+                                亲属信息管理11
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check2" name="node_ids[]"/>
+                                </label>
+                            </div>
+                            <div class="listright">
+                                基本信息管理
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+                            
+                                基本信息管理2
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" /> 
+                                </label>
+                            
+                                基本信息管理3
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+                            </div>
+                        </div>
+                        
+                      </th>
+
+                      
+                    </tr>
+                     <tr>
+                      <th class="center "> 
+                        客户管理 全选
+                        <label class="position-relative menu-all">
+                          <input type="checkbox" class="ace check1" />
+                        </label>
+                      </th>
+                      <th>
+                        <div class="listbox">
+                            <div class="listleft">
+                                亲属信息管理11
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check2" name="node_ids[]"/>
+                                </label>
+                            </div>
+                            <div class="listright">
+                                基本信息管理
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+                            
+                                基本信息管理2
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" /> 
+                                </label>
+                            
+                                基本信息管理3
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="listbox">
+                            <div class="listleft">
+                                亲属信息管理11
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check2" name="node_ids[]"/>
+                                </label>
+                            </div>
+                            <div class="listright">
+                                基本信息管理
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+                            
+                                基本信息管理2
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" /> 
+                                </label>
+                            
+                                基本信息管理3
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+                            </div>
+                        </div>
+                        
+                      </th>
+
+                      
+                    </tr>
+                     <tr>
+                      <th class="center "> 
+                        客户管理 全选
+                        <label class="position-relative menu-all">
+                          <input type="checkbox" class="ace check1" />
+                        </label>
+                      </th>
+                      <th>
+                        <div class="listbox">
+                            <div class="listleft">
+                                亲属信息管理11
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check2" name="node_ids[]"/>
+                                </label>
+                            </div>
+                            <div class="listright">
+                                基本信息管理
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+                            
+                                基本信息管理2
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" /> 
+                                </label>
+                            
+                                基本信息管理3
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="listbox">
+                            <div class="listleft">
+                                亲属信息管理11
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check2" name="node_ids[]"/>
+                                </label>
+                            </div>
+                            <div class="listright">
+                                基本信息管理
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+                            
+                                基本信息管理2
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" /> 
+                                </label>
+                            
+                                基本信息管理3
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+                            </div>
+                        </div>
+                        
+                      </th>
+
+                      
+                    </tr>
+                     <tr>
+                      <th class="center "> 
+                        客户管理 全选
+                        <label class="position-relative menu-all">
+                          <input type="checkbox" class="ace check1" />
+                        </label>
+                      </th>
+                      <th>
+                        <div class="listbox">
+                            <div class="listleft">
+                                亲属信息管理11
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check2" name="node_ids[]"/>
+                                </label>
+                            </div>
+                            <div class="listright">
+                                基本信息管理
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+                            
+                                基本信息管理2
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" /> 
+                                </label>
+                            
+                                基本信息管理3
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="listbox">
+                            <div class="listleft">
+                                亲属信息管理11
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check2" name="node_ids[]"/>
+                                </label>
+                            </div>
+                            <div class="listright">
+                                基本信息管理
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+                            
+                                基本信息管理2
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" /> 
+                                </label>
+                            
+                                基本信息管理3
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+								
+								 基本信息管理4
+                                <label class="position-relative">
+                                  <input type="checkbox" class="ace check3" />
+                                </label>
+								
+                            </div>
+                        </div>
+                        
+                      </th>
+
+                      
+                    </tr>
+                  </thead>
+                  
+                </table>
+                <script>
+			$(function(){
+				check3();
+				check2();
+				check1();
+			})
+			function check1(){
+				$('.check1').click(function(){
+					var ok=$(this).prop("checked");
+					$(this).parents('tr').find("input[type='checkbox']").prop('checked',ok);
+				})
+			};
+			function check2()
+			{
+				$('.check2').click(function(){
+					var ok=$(this).prop("checked");
+					$(this).parents('.listleft').siblings().andSelf().find('.check3').prop("checked",ok);
+					var oCheck2=$(this).parents('.listbox').siblings().andSelf().find(".check2");	
+					$(this).parents('tr').find('.check1').prop("checked",trueorfalse(oCheck2));
+					
+				})
+			}
+
+			function check3()
+			{
+				$('.check3').click(function(){
+					var ockeck3 = $(this).parent().siblings().andSelf().find(".check3");
+					$(this).parents('.listbox').find('.check2').prop("checked",trueorfalse(ockeck3));
+					var oCheck1=$(this).parents('.listbox').siblings().andSelf().find('.check2');
+					$(this).parents('tr').find('.check1').prop("checked",trueorfalse(oCheck1))
+					
+				})
+			}
 			
-			</div>
-		
-		</div>
+			// 找同级元素的checked状态
+			function trueorfalse(obj)
+			{
+				var bool = false;
+				$(obj).each(function(){
+
+					if($(this).prop("checked"))
+					{
+						bool= true;
+					}
+				})
+				return bool;
+			} 
+		</script>
 			
 		</div>
 	</div>

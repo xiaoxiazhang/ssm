@@ -3,6 +3,8 @@
  */
 package com.alibaba.alisonar.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.alisonar.domain.AuthRole;
+import com.alibaba.alisonar.dto.AuthPermissionDTO;
 import com.alibaba.alisonar.dto.AuthRoleDTO;
 import com.alibaba.alisonar.dto.DatatableDTO;
 import com.alibaba.alisonar.dto.ResultDTO;
@@ -82,6 +85,14 @@ public class AuthRoleController {
 	public ResultDTO<String> deleteRole(Long id) {
 		authRoleService.deleteRole(id);
 		return ResultDTOFactory.toAck(null);
+
+	}
+	
+	
+	@RequestMapping(value = "/getAllPermissionByRoleId", method = RequestMethod.GET)
+	@ResponseBody
+	public ResultDTO<List<AuthPermissionDTO>> getAllPermissionByRoleId(Long id) {
+		return ResultDTOFactory.toAck(authRoleService.getAllPermissionByRoleId(id));
 
 	}
 	

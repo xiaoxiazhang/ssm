@@ -1,28 +1,75 @@
 #set($layout = "layout/layout.vm")
 <style>
-.listbox {
-	width: 100%;
-	border: 1px solid #ccc;
-	overflow: hidden;
-	margin-bottom: 5px;
+.tree {
+	min-height: 20px;
+	padding: 19px;
+	margin-bottom: 20px;
+	background-color: #fbfbfb;
+	border: 1px solid #999;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05)
 }
 
-.listleft {
-	float: left;
-	border-right: 1px solid #ccc;
-	width: 200px;
-	padding: 5px 10px;
+.tree li {
+	list-style-type: none;
+	margin: 0;
+	padding: 10px 5px 0 5px;
+	position: relative
 }
 
-.listright {
-	float: left;
-	width: auto;
-	padding: 5px 10px;
+.tree li::before, .tree li::after {
+	content: '';
+	left: -20px;
+	position: absolute;
+	right: auto
 }
 
-#authTable>thead>tr>th{
-	font-weight: bold;
-    text-align: -internal-center;
+.tree li::before {
+	border-left: 1px solid #999;
+	bottom: 50px;
+	height: 100%;
+	top: 0;
+	width: 1px
+}
+
+.tree li::after {
+	border-top: 1px solid #999;
+	height: 20px;
+	top: 25px;
+	width: 25px
+}
+
+.tree li span {
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid #999;
+	border-radius: 5px;
+	display: inline-block;
+	padding: 3px 8px;
+	text-decoration: none
+}
+
+.tree li.parent_li>span {
+	cursor: pointer
+}
+
+.tree>ul>li::before, .tree>ul>li::after {
+	border: 0
+}
+
+.tree li:last-child::before {
+	height: 30px
+}
+
+.tree li.parent_li>span:hover, .tree li.parent_li>span:hover+ul li span
+	{
+	background: #eee;
+	border: 1px solid #94a0b4;
+	color: #000
 }
 
 .authorizationDialog .modal-content{
@@ -114,63 +161,91 @@
 </div>
 
 <div id="authorizationFormHtml" style="display: none">
-	<table class="table" id="authTable">
-		<thead>
-			<tr>
-				<th>用户权限管理 <label>
-						<input type="checkbox" class="ace check1" />
-				</label>
-				</th>
-				<th>
-					<div class="listbox">
-						<div class="listleft">
-							用户管理 <label class="position-relative"> <input
-								type="checkbox" class="ace check2" name="node_ids[]" />
-							</label>
-						</div>
-						<div class="listright">
-							用户查询 <label> <input type="checkbox" class="ace check3" /></label>
-							添加用户 <label> <input type="checkbox" class="ace check3" /></label>
-							编辑用户 <label> <input type="checkbox" class="ace check3" /></label>
-							删除用户 <label> <input type="checkbox" class="ace check3" /></label>
-						</div>
-					</div>
-
-					<div class="listbox">
-						<div class="listleft">
-							角色管理 <label class="position-relative"> <input
-								type="checkbox" class="ace check2" name="node_ids[]" />
-							</label>
-						</div>
-						<div class="listright">
-							角色查询 <label> <input type="checkbox" class="ace check3" /></label>
-							添加角色 <label> <input type="checkbox" class="ace check3" /></label>
-							编辑角色 <label> <input type="checkbox" class="ace check3" /></label>
-							删除角色 <label> <input type="checkbox" class="ace check3" /></label>
-							删除角色 <label> <input type="checkbox" class="ace check3" /></label>
-						</div>
-					</div>
-
-					<div class="listbox">
-						<div class="listleft">
-							权限管理 <label class="position-relative"> <input
-								type="checkbox" class="ace check2" name="node_ids[]" />
-							</label>
-						</div>
-						<div class="listright">
-							权限查询 <label> <input type="checkbox" class="ace check3" /></label>
-							添加权限 <label> <input type="checkbox" class="ace check3" /></label>
-							编辑权限 <label> <input type="checkbox" class="ace check3" /></label>
-							删除权限 <label> <input type="checkbox" class="ace check3" /></label>
-						</div>
-					</div>
-
-				</th>
-			</tr>
-
-		</thead>
-	</table>
+	<div class="tree well">
+		<!-- 用户权限管理模块 -->
+		<ul>
+			<li class="f1"><span><i class="icon-folder-open"></i><input type="checkbox" class="level1" /> 用户权限管理</span>
+				<ul>
+					<li class="f2">
+						<span><i class="icon-minus-sign"></i><input type="checkbox" name="permission" class="level2" /> 用户管理</span>
+						<ul>
+							<li class="f3">
+								<span><i class="icon-leaf"></i><input type="checkbox" name="permission" class="level3" /> 用户查询</span> 
+								<span><i class="icon-leaf"></i><input type="checkbox" name="permission" class="level3" /> 用户添加</span> 
+								<span><i class="icon-leaf"></i><input type="checkbox" name="permission" class="level3" /> 用户更新</span> 
+								<span><i class="icon-leaf"></i><input type="checkbox" name="permission" class="level3" /> 用户删除</span>
+							</li>
+						</ul>
+					</li>
+					<li class="f2">
+						<span><i class="icon-minus-sign"></i> <input type="checkbox" name="permission" class="level2" /> 角色管理</span>
+						<ul>
+							<li class="f3">
+								<span><i class="icon-leaf"></i><input type="checkbox" name="permission" class="level3" /> 角色查询</span> 
+								<span><i class="icon-leaf"></i><input type="checkbox" name="permission" class="level3" /> 角色添加</span> 
+								<span><i class="icon-leaf"></i><input type="checkbox" name="permission" class="level3" /> 角色更新</span> 
+								<span><i class="icon-leaf"></i><input type="checkbox" name="permission" class="level3" /> 角色删除</span> 
+								<span><i class="icon-leaf"></i><input type="checkbox" name="permission" class="level3" /> 角色授权 </span>
+							</li>
+						</ul>
+					</li>
+					<li class="f2">
+						<span><i class="icon-minus-sign"></i><input type="checkbox" name="permission" class="level2" /> 权限管理</span>
+						<ul>
+							<li class="f3">
+								<span><i class="icon-leaf"></i><input type="checkbox" name="permission" class="level3" /> 权限查询</span> 
+								<span><i class="icon-leaf"></i><input type="checkbox" name="permission" class="level3" /> 权限添加</span> 
+								<span><i class="icon-leaf"></i><input type="checkbox" name="permission" class="level3" /> 权限更新</span> 
+								<span><i class="icon-leaf"></i><input type="checkbox" name="permission" class="level3" /> 权限删除</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		
+	</div>
 
 </div>
 <script src="$rc.contextPath/assets/js/role/role.js"></script>
+<script>
+$(function(){
+	
+	function trueorfalse(obj){
+		var bool = false;
+		$(obj).each(function(){
+			if($(this).prop("checked")){
+				bool= true;
+			}
+		})
+		return bool;
+	} 
+	
+	$(document).on('click','#authorizationDialog .level1',function(){
+		var status = $(this).prop("checked");
+		$(this).parents(".f1").find("input[name='permission']").prop('checked',status);
+		
+	});
+	
+	$(document).on('click','#authorizationDialog .level2',function(){
+		var status = $(this).prop("checked");
+		$(this).parents(".f2").find("input[name='permission']").prop('checked',status);
+		$(this).parents(".f1").find(".level1").prop('checked',trueorfalse($(this).parents(".f2").siblings().andSelf().find(".level2")));
+		
+	});
+	
+	
+	$(document).on('click','#authorizationDialog .level3',function(){
+		debugger;
+		$(this).parents(".f2").find(".level2").prop('checked',trueorfalse($(this).parents(".f3").find(".level3")));
+		
+		$(this).parents(".f1").find(".level1").prop('checked',trueorfalse($(this).parents(".f1").find(".level3")));
+		
+	});
+	
+	
+})
 
+
+
+</script>
