@@ -16,11 +16,10 @@ public class AuthRoleDynaSqlProvider {
 	
 public String listAuthRoleSql(AuthRoleDTO authRoleDTO){
 		
-		SQL sql = new SQL().SELECT("ar.id,ar.role,ar.description,ap.permission").FROM("auth_role ar").LEFT_OUTER_JOIN("auth_role_permission arp on ar.id=arp.auth_role_id")
-				.LEFT_OUTER_JOIN("auth_permission ap on ap.id=arp.auth_permission_id and ap.is_deleted=0").WHERE("ar.is_deleted=0");
+		SQL sql = new SQL().SELECT("ar.id,ar.role,ar.description").FROM("auth_role ar").WHERE("ar.is_deleted=0");
 		String role = authRoleDTO.getRole();
 		if(StringUtils.isNotBlank(role)){
-			sql.WHERE("ar.role = #{role}");
+			sql.WHERE("ar.role like CONCAT('%',#{role},'%')");
 		}
 		String description = authRoleDTO.getDescription();
 		if(StringUtils.isNotBlank(description)){

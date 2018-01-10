@@ -3,6 +3,8 @@
  */
 package com.alibaba.alisonar.dto;
 
+import java.util.List;
+
 /**
  * @author wb-zxx263018
  *
@@ -16,6 +18,8 @@ public class AuthRoleDTO extends BaseSearchTableDTO {
 	private String description;
 
 	private String permission;
+	
+	private List<String> permissions;
 	
 	public Long getId() {
 		return id;
@@ -48,5 +52,15 @@ public class AuthRoleDTO extends BaseSearchTableDTO {
 	public void setPermission(String permission) {
 		this.permission = permission;
 	}
+
+	public List<String> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(List<String> permissions) {
+		this.permissions = permissions;
+	}
+	
+	
 
 }

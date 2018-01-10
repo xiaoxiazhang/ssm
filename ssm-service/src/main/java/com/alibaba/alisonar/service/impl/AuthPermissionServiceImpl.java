@@ -97,7 +97,7 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 
 
 	@Override
-	public List<AuthPermission> getAllChildNodes(Long id) {
+	public List<AuthPermission> getChildNodes(Long id) {
 		return authPermissionMapper.getAllChildNodes(id);
 	}
 

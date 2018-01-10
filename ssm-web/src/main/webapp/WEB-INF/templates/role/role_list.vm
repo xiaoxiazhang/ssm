@@ -236,9 +236,7 @@ $(function(){
 	
 	
 	$(document).on('click','#authorizationDialog .level3',function(){
-		debugger;
 		$(this).parents(".f2").find(".level2").prop('checked',trueorfalse($(this).parents(".f3").find(".level3")));
-		
 		$(this).parents(".f1").find(".level1").prop('checked',trueorfalse($(this).parents(".f1").find(".level3")));
 		
 	});

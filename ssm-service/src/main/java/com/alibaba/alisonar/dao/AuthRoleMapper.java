@@ -39,6 +39,6 @@ public interface AuthRoleMapper {
 	@Select("select * from auth_role a where a.role=#{role} and a.is_deleted=0")
 	AuthRole getAuthRoleByRole(String role);
 
-	@Select("select c.permission from auth_role a join auth_role_permission b on a.id=b.auth_role_id join auth_permission c on b.auth_permission_id=c.id where a.id = 1 and a.is_deleted=0 and c.is_deleted=0")
+	@Select("select c.permission from auth_role a join auth_role_permission b on a.id=b.auth_role_id join auth_permission c on b.auth_permission_id=c.id where a.id = #{id} and a.is_deleted=0 and c.is_deleted=0")
 	List<String> getPermissionByRoleId(Long id);
 }

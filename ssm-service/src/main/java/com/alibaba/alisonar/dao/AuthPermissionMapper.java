@@ -45,4 +45,8 @@ public interface AuthPermissionMapper {
     @Select("select * from auth_permission a where a.parent_id=#{id} and a.is_deleted=0")
     @ResultMap("BaseResultMap")
 	List<AuthPermission> getAllChildNodes(Long id);
+
+    @Select("select * from auth_permission a where a.permission=#{permissson} and a.is_deleted=0")
+    @ResultMap("BaseResultMap")
+	AuthPermission getPermissionByName(String permissson);
 }

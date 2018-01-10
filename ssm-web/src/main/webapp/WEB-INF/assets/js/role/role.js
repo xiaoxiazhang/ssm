@@ -5,6 +5,7 @@ $(function(){
 		updateURL : "updateRole",
 		deleteURL : "deleteRole",	
 		searchTableURL: "listAuthRole",
+		authorizeURL: "roleAuthorization",
 			
 		init : function(){
 			this.initBootstrapTable();
@@ -180,9 +181,9 @@ $(function(){
                     							var level3 = level2[j].childNodes;
                     							for(var k=0 ; k<level3.length;k++){
                     								if(level3[k].checked){
-                    									message = message + '<span><i class="icon-leaf"></i><input type="checkbox" value="'+ level3[k].permission+'" name="permission" class="level3" checked/>'+level3[k].description +'</span>';
+                    									message = message + '<span><i class="icon-leaf"></i><input type="checkbox" value="'+ level3[k].permission+'" name="permission" class="level3" checked/>'+level3[k].description +'</span> ';
                     								}else{
-                    									message = message + '<span><i class="icon-leaf"></i><input type="checkbox" value="'+ level3[k].permission+'" name="permission" class="level3" />'+level3[k].description +'</span>';
+                    									message = message + '<span><i class="icon-leaf"></i><input type="checkbox" value="'+ level3[k].permission+'" name="permission" class="level3" />'+level3[k].description +'</span> ';
                     								}
                     							}
                     							message = message + '</li></ul></li>';
@@ -208,7 +209,12 @@ $(function(){
                                 		    },{            
                                 		        label: '确定',
                                 		        cssClass: 'btn-primary', 
-                                		        action: function(dialogRef){   
+                                		        action: function(dialogRef){
+                                		        	var permissions =[]; 
+                                		        	$('input[name="permission"]:checked').each(function(){ 
+                                		        		permissions.push($(this).val()); 
+                                		        	}); 
+                                		        	var data = {id:row.id,permissions: permissions};
                                 		        	that.doAuthorization(dialogRef,data);
                                 		        }
                                 		    }]
@@ -219,9 +225,6 @@ $(function(){
                     				
                     			}
                     		});
-                    		
-                    		
-                    		
                     		
                     	},
                     },
@@ -389,7 +392,8 @@ $(function(){
 			$.ajax({
 	        	url : that.authorizeURL,
 	        	type : "POST",
-	        	data : data,
+	        	data : JSON.stringify(data),
+	        	contentType:"application/json", // 指定这个协议很重要
 	        	success : function(data) {
 	        		dialogRef.close();
 	        		if(data.code==200){

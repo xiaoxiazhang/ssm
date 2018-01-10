@@ -37,6 +37,8 @@ public class AuthRoleController {
 	@Autowired 
 	private AuthRoleService authRoleService;
 	
+	
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String toRoleListPage(Model model) {
 		return "role/role_list";
@@ -93,6 +95,14 @@ public class AuthRoleController {
 	@ResponseBody
 	public ResultDTO<List<AuthPermissionDTO>> getAllPermissionByRoleId(Long id) {
 		return ResultDTOFactory.toAck(authRoleService.getAllPermissionByRoleId(id));
+
+	}
+	
+	@RequestMapping(value = "/roleAuthorization", method = RequestMethod.POST)
+	@ResponseBody
+	public ResultDTO<String> roleAuthorization(@RequestBody AuthRoleDTO dto) {
+		authRoleService.roleAuthorization(dto);
+		return ResultDTOFactory.toAck(null);
 
 	}
 	

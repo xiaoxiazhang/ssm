@@ -28,6 +28,9 @@ public interface AuthRoleService extends BaseService<AuthRole>{
 
 	List<AuthPermissionDTO> getAllPermissionByRoleId(Long id);
 
+	void roleAuthorization(AuthRoleDTO dto);
+
+
 
 
 }
