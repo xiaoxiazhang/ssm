@@ -7,14 +7,17 @@
     <result column="permission" jdbcType="VARCHAR" property="permission" />
     <result column="perm_url" jdbcType="VARCHAR" property="permUrl" />
     <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon" />
     <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="is_active" jdbcType="INTEGER" property="isActive" />
     <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, parent_id, permission, perm_url, level, description, is_deleted, gmt_create, 
-    gmt_modified
+    id, parent_id, permission, perm_url, level, order_num, menu_icon, description, is_active, 
+    is_deleted, gmt_create, gmt_modified
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -31,10 +34,12 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into auth_permission (parent_id, permission, perm_url, 
-      level, description, is_deleted, 
+      level, order_num, menu_icon, 
+      description, is_active, is_deleted, 
       gmt_create, gmt_modified)
     values (#{parentId,jdbcType=BIGINT}, #{permission,jdbcType=VARCHAR}, #{permUrl,jdbcType=VARCHAR}, 
-      #{level,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{level,jdbcType=INTEGER}, #{orderNum,jdbcType=INTEGER}, #{menuIcon,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{isActive,jdbcType=INTEGER}, #{isDeleted,jdbcType=INTEGER}, 
       #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.alibaba.alisonar.domain.AuthPermission">
@@ -55,8 +60,17 @@
       <if test="level != null">
         level,
       </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="menuIcon != null">
+        menu_icon,
+      </if>
       <if test="description != null">
         description,
+      </if>
+      <if test="isActive != null">
+        is_active,
       </if>
       <if test="isDeleted != null">
         is_deleted,
@@ -81,8 +95,17 @@
       <if test="level != null">
         #{level,jdbcType=INTEGER},
       </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="menuIcon != null">
+        #{menuIcon,jdbcType=VARCHAR},
+      </if>
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isActive != null">
+        #{isActive,jdbcType=INTEGER},
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=INTEGER},
@@ -110,8 +133,17 @@
       <if test="level != null">
         level = #{level,jdbcType=INTEGER},
       </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="menuIcon != null">
+        menu_icon = #{menuIcon,jdbcType=VARCHAR},
+      </if>
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isActive != null">
+        is_active = #{isActive,jdbcType=INTEGER},
       </if>
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=INTEGER},
@@ -131,7 +163,10 @@
       permission = #{permission,jdbcType=VARCHAR},
       perm_url = #{permUrl,jdbcType=VARCHAR},
       level = #{level,jdbcType=INTEGER},
+      order_num = #{orderNum,jdbcType=INTEGER},
+      menu_icon = #{menuIcon,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
+      is_active = #{isActive,jdbcType=INTEGER},
       is_deleted = #{isDeleted,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}

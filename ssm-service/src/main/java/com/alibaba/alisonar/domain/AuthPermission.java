@@ -14,7 +14,13 @@ public class AuthPermission implements Serializable {
 
     private Integer level;
 
+    private Integer orderNum;
+
+    private String menuIcon;
+
     private String description;
+
+    private Integer isActive;
 
     private Integer isDeleted;
 
@@ -64,12 +70,36 @@ public class AuthPermission implements Serializable {
         this.level = level;
     }
 
+    public Integer getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
+    }
+
+    public String getMenuIcon() {
+        return menuIcon;
+    }
+
+    public void setMenuIcon(String menuIcon) {
+        this.menuIcon = menuIcon == null ? null : menuIcon.trim();
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
+    }
+
+    public Integer getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
 
     public Integer getIsDeleted() {
@@ -107,7 +137,10 @@ public class AuthPermission implements Serializable {
         sb.append(", permission=").append(permission);
         sb.append(", permUrl=").append(permUrl);
         sb.append(", level=").append(level);
+        sb.append(", orderNum=").append(orderNum);
+        sb.append(", menuIcon=").append(menuIcon);
         sb.append(", description=").append(description);
+        sb.append(", isActive=").append(isActive);
         sb.append(", isDeleted=").append(isDeleted);
         sb.append(", gmtCreate=").append(gmtCreate);
         sb.append(", gmtModified=").append(gmtModified);
@@ -133,7 +166,10 @@ public class AuthPermission implements Serializable {
             && (this.getPermission() == null ? other.getPermission() == null : this.getPermission().equals(other.getPermission()))
             && (this.getPermUrl() == null ? other.getPermUrl() == null : this.getPermUrl().equals(other.getPermUrl()))
             && (this.getLevel() == null ? other.getLevel() == null : this.getLevel().equals(other.getLevel()))
+            && (this.getOrderNum() == null ? other.getOrderNum() == null : this.getOrderNum().equals(other.getOrderNum()))
+            && (this.getMenuIcon() == null ? other.getMenuIcon() == null : this.getMenuIcon().equals(other.getMenuIcon()))
             && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
+            && (this.getIsActive() == null ? other.getIsActive() == null : this.getIsActive().equals(other.getIsActive()))
             && (this.getIsDeleted() == null ? other.getIsDeleted() == null : this.getIsDeleted().equals(other.getIsDeleted()))
             && (this.getGmtCreate() == null ? other.getGmtCreate() == null : this.getGmtCreate().equals(other.getGmtCreate()))
             && (this.getGmtModified() == null ? other.getGmtModified() == null : this.getGmtModified().equals(other.getGmtModified()));
@@ -148,7 +184,10 @@ public class AuthPermission implements Serializable {
         result = prime * result + ((getPermission() == null) ? 0 : getPermission().hashCode());
         result = prime * result + ((getPermUrl() == null) ? 0 : getPermUrl().hashCode());
         result = prime * result + ((getLevel() == null) ? 0 : getLevel().hashCode());
+        result = prime * result + ((getOrderNum() == null) ? 0 : getOrderNum().hashCode());
+        result = prime * result + ((getMenuIcon() == null) ? 0 : getMenuIcon().hashCode());
         result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
+        result = prime * result + ((getIsActive() == null) ? 0 : getIsActive().hashCode());
         result = prime * result + ((getIsDeleted() == null) ? 0 : getIsDeleted().hashCode());
         result = prime * result + ((getGmtCreate() == null) ? 0 : getGmtCreate().hashCode());
         result = prime * result + ((getGmtModified() == null) ? 0 : getGmtModified().hashCode());

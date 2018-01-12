@@ -5,9 +5,98 @@ $(function(){
 		updateURL : "updatePermission",
 		deleteURL : "deletePermission",	
 		searchTableURL: "listAuthPermission",
-			
+		addFormValidator : $("#addDialog > form").validate({
+			rules : {
+				permission : {
+					required: true,
+                    remote : {
+						url: "checkPermission",     //后台处理程序
+					    type: "post",               //数据发送方式
+					    dataType: "json",           //接受数据格式   
+					    cache:false,				
+			            async:false,				//同步校验
+					    data: {                     //要传递的数据
+					        permission: function() {
+					            return $("#addDialog form input[name='permission']").val();
+					        }
+					    }
+					},
+				},
+				description : {
+					required: true,
+				}
+			},
+			messages : {
+				permission : {
+					remote : '该权限已经存在！'
+				}
+			},
+			errorPlacement : function(error, element) {  
+	            element.next().remove(); 
+	            element.after(error); //错误在下一行显示
+	            element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');  
+	            //element.closest('.form-group').append(error);   //错误信息在同一行显示
+	        },  
+	        highlight : function(element) {  
+	            $(element).closest('.form-group').addClass('has-error has-feedback');  
+	        },  
+	        success : function(label) {  
+	            var el=label.closest('.form-group').find("input");  
+	            el.next().remove();  
+	            el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');  
+	            label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");  
+	            label.remove();  
+	        },  
+		}),
+		
+		editFormValidator : $("#editDialog>form").validate({
+			rules : {
+				permission : {
+					required: true,
+                    remote : {
+						url: "checkPermission",     //后台处理程序
+					    type: "post",               //数据发送方式
+					    dataType: "json",           //接受数据格式   
+					    cache:false,				
+			            async:false,				//同步校验
+					    data: {                     //要传递的数据
+					    	permission: function() {
+					            return $("#editDialog>form input[name='permission']").val();
+					        },
+					        id : function(){
+					        	return $("#editDialog>form input[name='id']").val();
+					        }
+					    }
+					},
+				},
+				description : {
+					required: true,
+				}
+			},
+			messages : {
+				permission : {
+					remote : '该权限已经存在！'
+				}
+			},
+			errorPlacement : function(error, element) {  
+	            element.next().remove(); 
+	            element.after(error); //错误在下一行显示
+	            element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');  
+	            //element.closest('.form-group').append(error);   //错误信息在同一行显示
+	        },  
+	        highlight : function(element) {  
+	            $(element).closest('.form-group').addClass('has-error has-feedback');  
+	        },  
+	        success : function(label) {  
+	            var el=label.closest('.form-group').find("input");  
+	            el.next().remove();  
+	            el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');  
+	            label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");  
+	            label.remove();  
+	        },  
+		}),
+		
 		init : function(){
-			
 			//父节点
 			$('#searchForm select[name="parentId"').select2({
 				placeholder : '请选择父节点',
@@ -18,6 +107,7 @@ $(function(){
 			this.initBootstrapTable();
 			this.bindEvents();
 		},
+		
 		initBootstrapTable : function(){
 			var that = this;
 			$("#tableList").bootstrapTable({
@@ -30,19 +120,16 @@ $(function(){
 					formatter: function (value, row, index) {  
                         return index+1;  
                     },
-                    
 				}, {
 					field : 'permission',
 					title : '权限标识',
 					align : 'center',
 					valign:'middle',
-					
 				},{
 					field : 'permUrl',
 					title : '权限URL',
 					align : 'left',
 					valign:'middle',
-					
 				},{
 					field : 'level',
 					title : '权限级别',
@@ -62,7 +149,6 @@ $(function(){
 					title : '权限描述',
 					align : 'center',
 					valign:'middle',
-					
 				}, { //添加需要展示列
 					title : '操作',
 					align : 'left',
@@ -105,53 +191,6 @@ $(function(){
             			                cssClass: 'btn-primary	',
             			                action: function(dialog) {
             			                	//添加前端校验
-            			        			var editFormValidator=$("#editDialog>form").validate({
-            			        				rules : {
-            			        					permission : {
-            			        						required: true,
-            			        	                    remote : {
-            			        							url: "checkPermission",     //后台处理程序
-            			        						    type: "post",               //数据发送方式
-            			        						    dataType: "json",           //接受数据格式   
-            			        						    cache:false,				
-            			        				            async:false,				//同步校验
-            			        						    data: {                     //要传递的数据
-            			        						    	permission: function() {
-            			        						            return $("#editDialog>form input[name='permission']").val();
-            			        						        },
-            			        						        id : function(){
-            			        						        	return $("#editDialog>form input[name='id']").val();
-            			        						        }
-            			        						    }
-            			        						},
-            			        					},
-            			        					description : {
-            			        						required: true,
-            			        					}
-            			        				},
-            			        				messages : {
-            			        					permission : {
-            			        						remote : '该权限已经存在！'
-            			        					}
-            			        				},
-            			        				errorPlacement : function(error, element) {  
-            			        		            element.next().remove(); 
-            			        		            element.after(error); //错误在下一行显示
-            			        		            element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');  
-            			        		            //element.closest('.form-group').append(error);   //错误信息在同一行显示
-            			        		        },  
-            			        		        highlight : function(element) {  
-            			        		            $(element).closest('.form-group').addClass('has-error has-feedback');  
-            			        		        },  
-            			        		        success : function(label) {  
-            			        		            var el=label.closest('.form-group').find("input");  
-            			        		            el.next().remove();  
-            			        		            el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');  
-            			        		            label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");  
-            			        		            label.remove();  
-            			        		        },  
-            			        			});
-            			                	
             			                	var $btn = this;
             			                	editFormValidator.valid();
             			    				if(editFormValidator.form()){
@@ -240,51 +279,8 @@ $(function(){
 			                cssClass: 'btn-primary	',
 			                action: function(dialog) {
 			                	//添加前端校验
-			        			var addFormValidator=$("#addDialog > form").validate({
-			        				rules : {
-			        					permission : {
-			        						required: true,
-			        	                    remote : {
-			        							url: "checkPermission",     //后台处理程序
-			        						    type: "post",               //数据发送方式
-			        						    dataType: "json",           //接受数据格式   
-			        						    cache:false,				
-			        				            async:false,				//同步校验
-			        						    data: {                     //要传递的数据
-			        						        permission: function() {
-			        						            return $("#addDialog form input[name='permission']").val();
-			        						        }
-			        						    }
-			        						},
-			        					},
-			        					description : {
-			        						required: true,
-			        					}
-			        				},
-			        				messages : {
-			        					permission : {
-			        						remote : '该权限已经存在！'
-			        					}
-			        				},
-			        				errorPlacement : function(error, element) {  
-			        		            element.next().remove(); 
-			        		            element.after(error); //错误在下一行显示
-			        		            element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');  
-			        		            //element.closest('.form-group').append(error);   //错误信息在同一行显示
-			        		        },  
-			        		        highlight : function(element) {  
-			        		            $(element).closest('.form-group').addClass('has-error has-feedback');  
-			        		        },  
-			        		        success : function(label) {  
-			        		            var el=label.closest('.form-group').find("input");  
-			        		            el.next().remove();  
-			        		            el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');  
-			        		            label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");  
-			        		            label.remove();  
-			        		        },  
-			        			});
 			                	var $btn = this;
-			    				if(addFormValidator.form()){
+			    				if(that.addFormValidator.form()){
 			    					$btn.disable();
 			    					that.doSave();
 			    					dialog.close();
@@ -299,7 +295,6 @@ $(function(){
 				$("#tableList").bootstrapTable('refresh');
 			});
 		},
-		
 		doSave : function(){
 			var that = this;
 			$.ajax({

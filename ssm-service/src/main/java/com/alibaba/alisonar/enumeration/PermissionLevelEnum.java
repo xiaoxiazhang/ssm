@@ -10,16 +10,16 @@ import org.slf4j.LoggerFactory;
  * @author wb-zxx263018
  *
  */
-public enum PermissionTypeEnum {
+public enum PermissionLevelEnum {
 	
 	
 	MENU_1(1,"一级菜单权限"),MEMU_2(2 , "二级菜单权限"),Button(3,"按钮权限");
 	
 	private Integer code;
 	private String value;
-	private static final Logger logger = LoggerFactory.getLogger(PermissionTypeEnum.class);
+	private static final Logger logger = LoggerFactory.getLogger(PermissionLevelEnum.class);
 	
-	private PermissionTypeEnum(Integer code, String value) {
+	private PermissionLevelEnum(Integer code, String value) {
 		this.code = code;
 		this.value = value;
 	}
@@ -41,7 +41,7 @@ public enum PermissionTypeEnum {
 	}
 	
 	public String getValueByCode(Integer code){
-		for(PermissionTypeEnum e : PermissionTypeEnum.values()){
+		for(PermissionLevelEnum e : PermissionLevelEnum.values()){
 			if(e.getCode().equals(code)){
 				return e.getValue();
 			}
