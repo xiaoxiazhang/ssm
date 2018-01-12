@@ -42,9 +42,14 @@
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="/login" />
-		<property name="successUrl" value="/list" />
+		<property name="successUrl" value="/home" />
 		<property name="unauthorizedUrl" value="/unauthorized" />
 		<property name="filterChainDefinitionMap" ref="filterChainDefinitionMap" />
+		<property name="filters">
+			<map>
+				<entry key="perms" value-ref="shiroPermsFilter"/>  
+			</map>
+		</property>
 		<!-- 配置哪些页面需要受保护. 以及访问这些页面需要的权限. 1). anon 可以被匿名访问 2). authc 必须认证(即登录)后才可能访问的页面. 
 			3). logout 登出. 4). roles 角色过滤器 -->
 		<!-- <property name="filterChainDefinitions">
@@ -55,14 +60,13 @@
 			    /dist/** = anon
 				/login = anon
 				/doLogin = anon
-				/logout = logout
+				/logout = anon
 				
 				/** = authc
 			</value>
 		</property> -->
 	</bean>
-
-
+	
 	<!-- 会话ID生成器 -->
 	<bean id="sessionIdGenerator"
 		class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator" />
@@ -117,6 +121,6 @@
 	
 	<!-- 使用工厂类配置 filterChainDefinitionMap-->
 	<bean id="filterChainDefinitionMap" factory-bean="filterChainDefinitionMapBuilder" factory-method="buildFilterChainDefinitionMap"></bean>
-	<bean id="filterChainDefinitionMapBuilder" class="com.alibaba.alisonar.factory.FilterChainDefinitionMapBuilder"></bean>
+	<!-- <bean id="filterChainDefinitionMapBuilder" class="com.alibaba.alisonar.factory.FilterChainDefinitionMapBuilder"></bean> -->
 
 </beans>

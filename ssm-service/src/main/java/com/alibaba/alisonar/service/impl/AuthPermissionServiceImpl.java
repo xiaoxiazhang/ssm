@@ -5,6 +5,7 @@ package com.alibaba.alisonar.service.impl;
 
 import java.util.List;
 
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import com.alibaba.alisonar.domain.AuthPermission;
 import com.alibaba.alisonar.dto.AuthPermissionDTO;
 import com.alibaba.alisonar.dto.DatatableDTO;
 import com.alibaba.alisonar.service.AuthPermissionService;
+import com.alibaba.alisonar.service.FilterChainDefinitionsService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -29,10 +31,16 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	@Autowired
 	private AuthPermissionMapper authPermissionMapper;
 	
+	@Autowired
+	private FilterChainDefinitionsService filterChainDefinitionsService;
+	
+	
 	
 	@Override
 	public int insertSelective(AuthPermission record) {
-		return authPermissionMapper.insertSelective(record);
+		int count = authPermissionMapper.insertSelective(record);
+		filterChainDefinitionsService.reloadFilterChains();
+		return count;
 	}
 
 	
@@ -44,13 +52,17 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 
 	@Override
 	public int updateByPrimaryKeySelective(AuthPermission record) {
-		return authPermissionMapper.updateByPrimaryKeySelective(record);
+		int count = authPermissionMapper.updateByPrimaryKeySelective(record);
+		filterChainDefinitionsService.reloadFilterChains();
+		return count;
 	}
 
 	
 	@Override
 	public int deleteByPrimaryKey(Long id) {
-		return authPermissionMapper.deleteByPrimaryKey(id);
+		int count = authPermissionMapper.deleteByPrimaryKey(id);
+		filterChainDefinitionsService.reloadFilterChains();
+		return count;
 	}
 
 
@@ -79,7 +91,7 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	@Override
 	public void deletePermission(Long id) {
 		authPermissionMapper.deletePermission(id);
-		
+		filterChainDefinitionsService.reloadFilterChains();
 	}
 
 
@@ -101,6 +113,10 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 		return authPermissionMapper.getAllChildNodes(id);
 	}
 
-	
+
+	@Override
+	public List<AuthPermission> getAllFilterPermission() {
+		return authPermissionMapper.getAllFilterPermission();
+	}
 
 }

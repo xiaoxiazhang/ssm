@@ -3,24 +3,33 @@
  */
 package com.alibaba.alisonar.factory;
 
+import java.text.MessageFormat;
 import java.util.LinkedHashMap;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.alibaba.alisonar.domain.AuthPermission;
+import com.alibaba.alisonar.service.AuthPermissionService;
+import com.alibaba.alisonar.service.FilterChainDefinitionsService;
 
 /**
  * @author wb-zxx263018
  *
  */
+@Component
 public class FilterChainDefinitionMapBuilder {
-	public LinkedHashMap< String, String> buildFilterChainDefinitionMap(){
-		LinkedHashMap< String, String> map = new LinkedHashMap<>();
-		map.put("/bootstrap/**", "anon");
-		map.put("/plugins/**", "anon");
-		map.put("/assets/**", "anon");
-		map.put("/dist/**", "anon");
-		map.put("/login", "anon");
-		map.put("/doLogin", "anon");
-		map.put("/logout", "logout");
-		map.put("/**", "authc");
-		return map;
+
+	@Autowired
+	private FilterChainDefinitionsService filterChainDefinitionsService;
+
+	public LinkedHashMap<String, String> buildFilterChainDefinitionMap() {
+		return filterChainDefinitionsService.buildFilterChainDefinitionMap();
 	}
 
 }

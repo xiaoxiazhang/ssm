@@ -27,5 +27,7 @@ public interface AuthPermissionService extends BaseService<AuthPermission> {
 
 	List<AuthPermission> getChildNodes(Long id);
 
+	List<AuthPermission> getAllFilterPermission();
+
 
 }

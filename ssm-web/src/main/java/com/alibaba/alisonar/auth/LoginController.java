@@ -3,6 +3,10 @@
  */
 package com.alibaba.alisonar.auth;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
@@ -60,6 +64,23 @@ public class LoginController {
 		return ResultDTOFactory.toAck(null);
 	}
 	
+	
+	@RequestMapping(value = "/unauthorized", method = RequestMethod.GET)
+	public String unauthorizePage(Model model) {
+		model.addAttribute("msg", "没有权限");
+		return "error";
+
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)  
+	public String logout(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {  
+		Subject currentUser = SecurityUtils.getSubject();
+	    // 如果已经登录，则跳转到管理首页  
+	    if(currentUser.getPrincipal() != null){  
+	    	currentUser.logout();  
+	    }  
+	    return "redirect:/login";  
+	}  
 	
 	
 	//首页
