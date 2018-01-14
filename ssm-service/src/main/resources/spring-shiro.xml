@@ -47,6 +47,7 @@
 		<property name="filterChainDefinitionMap" ref="filterChainDefinitionMap" />
 		<property name="filters">
 			<map>
+				<entry key="authc" value-ref="authcFilter"/>  
 				<entry key="perms" value-ref="shiroPermsFilter"/>  
 			</map>
 		</property>

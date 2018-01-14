@@ -97,15 +97,48 @@ $(function(){
 		}),
 		
 		init : function(){
-			//父节点
-			$('#searchForm select[name="parentId"').select2({
-				placeholder : '请选择父节点',
-				allowClear : true,
-				multiple : true,
-			}).val(null).trigger("change");
-			
+			this.initSelect2($('#searchForm select[name="parentId"'),{multiple : true},null);
 			this.initBootstrapTable();
 			this.bindEvents();
+		},
+		
+		initSelect2 :function(selector,option,data){
+			var select2Option = {
+				ajax: {
+				     type:'GET',
+				     url: "getSelect2ParentNode",
+				     dataType: 'json',
+				     delay: 400,
+				     data: function (params) {
+				         return {
+				             searchStr: params.term, // search term 请求参数 ， 请求框中输入的参数
+				         };
+				     },
+				     processResults: function (data, params) {
+				    	 var result = [];
+				         for(var i=0 ; i<data.length; i++){
+				        	 var item = {};
+				        	 item.id= data[i].id;
+				        	 item.text=data[i].description;
+				        	 result[i]=item;
+				         }
+					     return {results: result}
+				     },
+				     cache: true
+				 },
+				 placeholder:'请选择父节点',//默认文字提示
+				 language: "zh-CN",
+				 allowClear: true,//允许清空
+				 //multiple : true,
+				 escapeMarkup: function (markup) { return markup; }, // 自定义格式化防止xss注入
+				 minimumInputLength: 1,//最少输入多少个字符后开始查询
+				 formatResult: function formatRepo(repo){return repo.text;}, // 函数用来渲染结果
+				 formatSelection: function formatRepoSelection(repo){return repo.text;} // 函数用于呈现当前的选择
+			};
+			for(var key in option){
+				select2Option[key] = option[key];
+			}
+			selector.select2(select2Option).val(data).trigger("change");
 		},
 		
 		initBootstrapTable : function(){
@@ -131,22 +164,28 @@ $(function(){
 					align : 'left',
 					valign:'middle',
 				},{
-					field : 'level',
+					field : 'permissionLevel',
 					title : '权限级别',
 					align : 'center',
 					valign:'middle',
-					formatter: function (value, row, index) {
-						if(row.level=="1"){
-							return "一级菜单";
-						}else if(row.level=="2"){
-							return "二级菜单";
-						}else if(row.level=="3"){
-							return "按钮权限";
-						}
-					}
+				},{
+					field : 'orderNum',
+					title : '菜单序号',
+					align : 'center',
+					valign:'middle',
+				},{
+					field : 'menuIcon',
+					title : '菜单icon',
+					align : 'center',
+					valign:'middle',
 				},{
 					field : 'description',
 					title : '权限描述',
+					align : 'center',
+					valign:'middle',
+				},{
+					field : 'activeStatus',
+					title : '是否启用',
 					align : 'center',
 					valign:'middle',
 				}, { //添加需要展示列
@@ -243,6 +282,7 @@ $(function(){
 						description : $("#searchForm input[name='description']").val(),
 						parentNodes :  $("#searchForm select[name='parentId']").val(),
 						level :  $("#searchForm select[name='level']").val(),
+						isActive :  $("#searchForm select[name='isActive']").val(),
 						limit : params.limit,
 						offset : params.offset,
 						sortName : params.sort ,
@@ -263,10 +303,7 @@ $(function(){
 			            title: '添加',
 			            message: message,
 			            onshown: function(dialogRef){
-			            	$("#addDialog>form select[name='parentId']").select2({
-			    				placeholder : '请选择角色',
-			    				allowClear : true,
-			    			}).val(null).trigger("change");
+			            	that.initSelect2($("#addDialog>form select[name='parentId']"),null);
 			            	
 			            },
 			            buttons: [{
@@ -292,7 +329,7 @@ $(function(){
 			
 			//搜索事件
 			$("#searchBtn").on('click',function(){
-				$("#tableList").bootstrapTable('refresh');
+				$("#tableList").bootstrapTable('refresh' , {pageNumber:1});
 			});
 		},
 		doSave : function(){

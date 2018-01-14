@@ -23,13 +23,23 @@ public class AuthPermissionDTO extends BaseSearchTableDTO{
 
     private Integer level;
     
-    private List<Long> parentNodes;
+    private String permissionLevel;
     
-    private String parentNodesStr;
+    private Integer orderNum;
+    
+    private String menuIcon;
+    
+    private Integer isActive;
+    
+    private String activeStatus;
+    
+    private List<Long> parentNodes;
     
     private Boolean checked;
     
     private List<AuthPermissionDTO> childNodes;
+    
+    private String searchStr;
 
 	public Long getId() {
 		return id;
@@ -70,6 +80,15 @@ public class AuthPermissionDTO extends BaseSearchTableDTO{
 	public void setLevel(Integer level) {
 		this.level = level;
 	}
+	
+
+	public String getPermissionLevel() {
+		return permissionLevel;
+	}
+
+	public void setPermissionLevel(String permissionLevel) {
+		this.permissionLevel = permissionLevel;
+	}
 
 	public List<Long> getParentNodes() {
 		return parentNodes;
@@ -77,16 +96,6 @@ public class AuthPermissionDTO extends BaseSearchTableDTO{
 
 	public void setParentNodes(List<Long> parentNodes) {
 		this.parentNodes = parentNodes;
-	}
-	
-	
-
-	public String getParentNodesStr() {
-		return parentNodesStr;
-	}
-
-	public void setParentNodesStr(String parentNodesStr) {
-		this.parentNodesStr = parentNodesStr;
 	}
 	
 
@@ -114,6 +123,47 @@ public class AuthPermissionDTO extends BaseSearchTableDTO{
 
 	public void setChildNodes(List<AuthPermissionDTO> childNodes) {
 		this.childNodes = childNodes;
+	}
+	
+
+	public Integer getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(Integer orderNum) {
+		this.orderNum = orderNum;
+	}
+
+	public String getMenuIcon() {
+		return menuIcon;
+	}
+
+	public void setMenuIcon(String menuIcon) {
+		this.menuIcon = menuIcon;
+	}
+
+	public Integer getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Integer isActive) {
+		this.isActive = isActive;
+	}
+
+	public String getActiveStatus() {
+		return activeStatus;
+	}
+
+	public void setActiveStatus(String activeStatus) {
+		this.activeStatus = activeStatus;
+	}
+
+	public String getSearchStr() {
+		return searchStr;
+	}
+
+	public void setSearchStr(String searchStr) {
+		this.searchStr = searchStr;
 	}
 
 	@Override

@@ -10,16 +10,16 @@ import org.slf4j.LoggerFactory;
  * @author wb-zxx263018
  *
  */
-public enum PermissionLevelEnum {
-	
-	
-	MENU_1(1,"一级菜单权限"),MEMU_2(2 , "二级菜单权限"),Button(3,"按钮权限");
-	
+public enum ActiveStatusEnum {
+
+	CLOSED(0, "未启用")  , USED(1, "启用");
+
 	private Integer code;
 	private String value;
-	private static final Logger logger = LoggerFactory.getLogger(PermissionLevelEnum.class);
 	
-	private PermissionLevelEnum(Integer code, String value) {
+	private static final Logger logger = LoggerFactory.getLogger(ActiveStatusEnum.class);
+
+	private ActiveStatusEnum(Integer code, String value) {
 		this.code = code;
 		this.value = value;
 	}
@@ -39,22 +39,15 @@ public enum PermissionLevelEnum {
 	public void setValue(String value) {
 		this.value = value;
 	}
-	
-	public static String getValueByCode(Integer code){
-		for(PermissionLevelEnum e : PermissionLevelEnum.values()){
-			if(e.getCode().equals(code)){
+
+	public static String getValueByCode(Integer code) {
+		for (ActiveStatusEnum e : ActiveStatusEnum.values()) {
+			if (e.getCode().equals(code)) {
 				return e.getValue();
 			}
 		}
-		logger.warn("PermissionType中不存在该code值===>{}",code);
+		logger.warn("ActiveStatusEnum中不存在该code值===>{}", code);
 		return null;
 	}
-	
-
-	
-	
-	
-	
-	
 
 }

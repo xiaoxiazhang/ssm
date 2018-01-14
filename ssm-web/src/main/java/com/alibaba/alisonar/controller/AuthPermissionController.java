@@ -3,6 +3,8 @@
  */
 package com.alibaba.alisonar.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,7 @@ public class AuthPermissionController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String toPermissionListPage(Model model) {
-		model.addAttribute("parentNode", authPermissionService.getAllParentNode());
+		//model.addAttribute("parentNode", authPermissionService.getAllParentNode());
 		return "permission/permission_list";
 
 	}
@@ -80,6 +82,15 @@ public class AuthPermissionController {
 	public ResultDTO<String> deletePermission(Long id) {
 		authPermissionService.deletePermission(id);
 		return ResultDTOFactory.toAck(null);
+
+	}
+	
+	
+	@RequestMapping(value = "/getSelect2ParentNode", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AuthPermissionDTO> getSelect2ParentNode( AuthPermissionDTO authPermissionDTO) {
+		logger.info("AuthUserSearch===>{}", authPermissionDTO);
+		return authPermissionService.getSelect2ParentNode(authPermissionDTO.getSearchStr());
 
 	}
 	

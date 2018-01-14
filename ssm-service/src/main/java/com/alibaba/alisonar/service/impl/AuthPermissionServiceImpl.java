@@ -14,6 +14,9 @@ import com.alibaba.alisonar.dao.AuthPermissionMapper;
 import com.alibaba.alisonar.domain.AuthPermission;
 import com.alibaba.alisonar.dto.AuthPermissionDTO;
 import com.alibaba.alisonar.dto.DatatableDTO;
+import com.alibaba.alisonar.enumeration.ActiveStatusEnum;
+import com.alibaba.alisonar.enumeration.PermissionLevelEnum;
+import com.alibaba.alisonar.mapstuct.AuthPermissionConventor;
 import com.alibaba.alisonar.service.AuthPermissionService;
 import com.alibaba.alisonar.service.FilterChainDefinitionsService;
 import com.github.pagehelper.PageHelper;
@@ -33,6 +36,9 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	
 	@Autowired
 	private FilterChainDefinitionsService filterChainDefinitionsService;
+	
+	@Autowired
+	private AuthPermissionConventor authPermissionConventor;
 	
 	
 	
@@ -72,6 +78,10 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 		PageHelper.startPage(authPermissionDTO.getOffset()/authPermissionDTO.getLimit()+1, authPermissionDTO.getLimit());
 		List<AuthPermissionDTO> list = authPermissionMapper.listAuthPermission(authPermissionDTO);
 		PageInfo<AuthPermissionDTO> page= new PageInfo(list);
+		for(AuthPermissionDTO dto : page.getList()){
+			dto.setActiveStatus(ActiveStatusEnum.getValueByCode(dto.getIsActive()));
+			dto.setPermissionLevel(PermissionLevelEnum.getValueByCode(dto.getLevel()));
+		}
 		resultDto.setRows(page.getList());
 		resultDto.setTotal(page.getTotal());
 		return resultDto;
@@ -117,6 +127,13 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	@Override
 	public List<AuthPermission> getAllFilterPermission() {
 		return authPermissionMapper.getAllFilterPermission();
+	}
+
+
+	@Override
+	public List<AuthPermissionDTO> getSelect2ParentNode(String searchStr) {
+		List<AuthPermission> list = authPermissionMapper.getSelect2ParentNode(searchStr);
+		return authPermissionConventor.entities2DTOs(list);
 	}
 
 }

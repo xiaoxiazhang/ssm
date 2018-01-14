@@ -29,5 +29,7 @@ public interface AuthPermissionService extends BaseService<AuthPermission> {
 
 	List<AuthPermission> getAllFilterPermission();
 
+	List<AuthPermissionDTO> getSelect2ParentNode(String searchStr);
+
 
 }
