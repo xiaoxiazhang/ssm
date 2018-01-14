@@ -72,7 +72,7 @@ public class LoginController {
 
 	}
 	
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)  
+	/*@RequestMapping(value = "/logout", method = RequestMethod.GET)  
 	public String logout(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {  
 		Subject currentUser = SecurityUtils.getSubject();
 	    // 如果已经登录，则跳转到管理首页  
@@ -80,7 +80,7 @@ public class LoginController {
 	    	currentUser.logout();  
 	    }  
 	    return "redirect:/login";  
-	}  
+	}  */
 	
 	
 	//首页

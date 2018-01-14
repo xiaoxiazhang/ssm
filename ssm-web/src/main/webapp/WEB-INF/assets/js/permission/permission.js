@@ -5,49 +5,55 @@ $(function(){
 		updateURL : "updatePermission",
 		deleteURL : "deletePermission",	
 		searchTableURL: "listAuthPermission",
-		addFormValidator : $("#addDialog > form").validate({
-			rules : {
-				permission : {
-					required: true,
-                    remote : {
-						url: "checkPermission",     //后台处理程序
-					    type: "post",               //数据发送方式
-					    dataType: "json",           //接受数据格式   
-					    cache:false,				
-			            async:false,				//同步校验
-					    data: {                     //要传递的数据
-					        permission: function() {
-					            return $("#addDialog form input[name='permission']").val();
-					        }
-					    }
+		addFormValidator : function(selector){
+			return $("#addDialog > form").validate({
+				rules : {
+					permission : {
+						required: true,
+	                    remote : {
+							url: "checkPermission",     //后台处理程序
+						    type: "post",               //数据发送方式
+						    dataType: "json",           //接受数据格式   
+						    cache:false,				
+				            async:false,				//同步校验
+						    data: {                     //要传递的数据
+						        permission: function() {
+						            return $("#addDialog form input[name='permission']").val();
+						        }
+						    }
+						},
 					},
+					description : {
+						required: true,
+					},
+					orderNum : {
+						digits : true
+					}
 				},
-				description : {
-					required: true,
-				}
-			},
-			messages : {
-				permission : {
-					remote : '该权限已经存在！'
-				}
-			},
-			errorPlacement : function(error, element) {  
-	            element.next().remove(); 
-	            element.after(error); //错误在下一行显示
-	            element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');  
-	            //element.closest('.form-group').append(error);   //错误信息在同一行显示
-	        },  
-	        highlight : function(element) {  
-	            $(element).closest('.form-group').addClass('has-error has-feedback');  
-	        },  
-	        success : function(label) {  
-	            var el=label.closest('.form-group').find("input");  
-	            el.next().remove();  
-	            el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');  
-	            label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");  
-	            label.remove();  
-	        },  
-		}),
+				messages : {
+					permission : {
+						remote : '该权限已经存在！'
+					}
+				},
+				errorPlacement : function(error, element) {  
+		            element.next().remove(); 
+		            element.after(error); //错误在下一行显示
+		            element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');  
+		            //element.closest('.form-group').append(error);   //错误信息在同一行显示
+		        },  
+		        highlight : function(element) {  
+		            $(element).closest('.form-group').addClass('has-error has-feedback');  
+		        },  
+		        success : function(label) {  
+		            var el=label.closest('.form-group').find("input");  
+		            el.next().remove();  
+		            el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');  
+		            label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");  
+		            label.remove();  
+		        },  
+			})
+			
+		},
 		
 		editFormValidator : $("#editDialog>form").validate({
 			rules : {
@@ -294,6 +300,7 @@ $(function(){
 		
 		bindEvents : function(){
 			var that = this;
+			 
 			//保存事件
 			$("#addBtn").on('click',function(){
 				var message = $("#addFormHtml").html();
@@ -303,8 +310,8 @@ $(function(){
 			            title: '添加',
 			            message: message,
 			            onshown: function(dialogRef){
-			            	that.initSelect2($("#addDialog>form select[name='parentId']"),null);
-			            	
+			            	$("#"+dialogRef.getId()).removeAttr("tabindex"); //显示搜索框
+			            	that.initSelect2($("#addDialog>form select[name='parentId']"),{},null);
 			            },
 			            buttons: [{
 			                label: '取消',
@@ -317,7 +324,7 @@ $(function(){
 			                action: function(dialog) {
 			                	//添加前端校验
 			                	var $btn = this;
-			    				if(that.addFormValidator.form()){
+			    				if(that.addFormValidator().form()){
 			    					$btn.disable();
 			    					that.doSave();
 			    					dialog.close();

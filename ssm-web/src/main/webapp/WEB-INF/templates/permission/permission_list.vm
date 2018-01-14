@@ -97,17 +97,31 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="email" class="col-sm-2 control-label">权限描述:</label>
+			<label  class="col-sm-2 control-label">权限描述:</label>
 			<div class="col-sm-8">
 				<input type="text" class="form-control" name="description"
 					placeholder="请输入权限描述">
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="email" class="col-sm-2 control-label">权限等级:</label>
+			<label  class="col-sm-2 control-label">菜单序号:</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="orderNum"
+					placeholder="请输入菜单序号">
+			</div>
+		</div>
+		<div class="form-group">
+			<label  class="col-sm-2 control-label">菜单Icon:</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="menuIcon"
+					placeholder="请输入菜单Icon">
+			</div>
+		</div>
+		<div class="form-group">
+			<label  class="col-sm-2 control-label">权限等级:</label>
 			<div class="col-sm-8">
 				<select class="form-control" name="level">
-					<option value="">请选择等级</option>
+					<option value="">请选择</option>
 					<option value="1">一级菜单</option>
 					<option value="2">二级菜单</option>
 					<option value="3">按钮权限</option>
@@ -118,9 +132,18 @@
 			<label  class="col-sm-2 control-label">父节点:</label>
 			<div class="col-sm-8">
 				<select class="form-control select2" name="parentId">
-					#foreach($ap in $parentNode)
-					<option value="$!{ap.id}">$!{ap.permission}</option> #end
 				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">是否启用:</label>
+			<div class="col-sm-8">
+				<label class="radio-inline"> 
+					<input type="radio" value="1" name="isActive" checked>是
+				</label> 
+				<label class="radio-inline"> 
+					<input type="radio" value="1" name="isActive">否
+				</label>
 			</div>
 		</div>
 	</form>
@@ -140,6 +163,20 @@
 			<label class="col-sm-2 control-label">权限url:</label>
 			<div class="col-sm-8">
 				<input type="text" class="form-control" name="permUrl" placeholder="请输入权限url">
+			</div>
+		</div>
+		<div class="form-group">
+			<label  class="col-sm-2 control-label">菜单序号:</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="orderNum"
+					placeholder="请输入菜单序号">
+			</div>
+		</div>
+		<div class="form-group">
+			<label  class="col-sm-2 control-label">菜单Icon:</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="menuIcon"
+					placeholder="请输入菜单Icon">
 			</div>
 		</div>
 		<div class="form-group">
@@ -164,9 +201,18 @@
 			<label  class="col-sm-2 control-label">父节点:</label>
 			<div class="col-sm-8">
 				<select class="form-control select2" name="parentId">
-					#foreach($ap in $parentNode)
-					<option value="$!{ap.id}">$!{ap.permission}</option> #end
 				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">是否启用:</label>
+			<div class="col-sm-8">
+				<label class="radio-inline"> 
+					<input type="radio" value="1" name="isActive" checked>是
+				</label> 
+				<label class="radio-inline"> 
+					<input type="radio" value="1" name="isActive">否
+				</label>
 			</div>
 		</div>
 	</form>

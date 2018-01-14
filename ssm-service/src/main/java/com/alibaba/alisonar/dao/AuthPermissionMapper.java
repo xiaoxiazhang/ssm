@@ -50,7 +50,7 @@ public interface AuthPermissionMapper {
     @ResultMap("BaseResultMap")
 	AuthPermission getPermissionByName(String permissson);
 
-    @Select("select * from auth_permission a where a.perm_url is not null and a.is_deleted=0")
+    @Select("select * from auth_permission a where a.perm_url is not null and a.is_deleted=0 and is_active=1")
     @ResultMap("BaseResultMap")
 	List<AuthPermission> getAllFilterPermission();
 

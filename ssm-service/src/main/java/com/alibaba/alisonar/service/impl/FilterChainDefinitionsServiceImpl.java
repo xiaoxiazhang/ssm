@@ -63,7 +63,6 @@ public class FilterChainDefinitionsServiceImpl implements FilterChainDefinitions
                 logger.error("重置权限失败",e); 
             }  
         }  
-
 	}
 
 
@@ -77,14 +76,13 @@ public class FilterChainDefinitionsServiceImpl implements FilterChainDefinitions
 		map.put("/dist/**", "anon");
 		map.put("/login", "anon");
 		map.put("/doLogin", "anon");
-		map.put("/logout", "anon");
+		map.put("/logout", "logout");
 		for (AuthPermission permission : aps) {
 			if (StringUtils.isNotBlank(permission.getPermission()) && StringUtils.isNotBlank(permission.getPermUrl())) {
 				map.put(permission.getPermUrl(), MessageFormat.format(PREMISSION_STRING, permission.getPermission()));
 				logger.info("{}===>{}", permission.getPermUrl(),
 						MessageFormat.format(PREMISSION_STRING, permission.getPermission()));
 			}
-
 		}
 		map.put("/**", "authc");
 		logger.info("FilterChainDefinitionMap===>{}", map);
