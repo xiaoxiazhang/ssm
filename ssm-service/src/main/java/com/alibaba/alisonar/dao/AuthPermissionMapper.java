@@ -57,4 +57,8 @@ public interface AuthPermissionMapper {
     @Select("select * from auth_permission a where  a.is_deleted=0 and (a.description like concat('%',#{searchStr},'%') or a.permission  like concat('%',#{searchStr},'%'))")
     @ResultMap("BaseResultMap")
 	List<AuthPermission> getSelect2ParentNode(String searchStr);
+
+    @Select("select * from auth_permission a where  a.is_deleted=0 and a.id=#{parentId}")
+    @ResultMap("BaseResultMap")
+	AuthPermission getPermissionByParentId(Long parentId);
 }

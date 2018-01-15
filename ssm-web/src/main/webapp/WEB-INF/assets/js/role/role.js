@@ -6,6 +6,84 @@ $(function(){
 		deleteURL : "deleteRole",	
 		searchTableURL: "listAuthRole",
 		authorizeURL: "roleAuthorization",
+		validatorOption : {
+			errorPlacement : function(error, element) {  
+	            element.next().remove(); 
+	            element.after(error); //错误在下一行显示
+	            element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');  
+	            //element.closest('.form-group').append(error);   //错误信息在同一行显示
+	        },  
+	        highlight : function(element) {  
+	            $(element).closest('.form-group').addClass('has-error has-feedback');  
+	        },  
+	        success : function(label) {  
+	            var el=label.closest('.form-group').find("input");  
+	            el.next().remove();  
+	            el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');  
+	            label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");  
+	            label.remove();  
+	        }
+		},
+		getFormAddValidator : function(selector){
+			this.validatorOption.rules={
+    			role : {
+    				required: true,
+    	            remote : {
+    					url: "checkRole",     //后台处理程序
+    				    type: "post",               //数据发送方式
+    				    dataType: "json",           //接受数据格式   
+    				    cache:false,				
+    		            async:false,				//同步校验
+    				    data: {                     //要传递的数据
+    				        role: function() {
+    				            return $("#addDialog form input[name='role']").val();
+    				        }
+    				    }
+    				},
+    			},
+    			description : {
+    				required: true,
+    			}
+    		};
+			this.validatorOption.messages = {
+				role : {
+					remote : '该权限已经存在！'
+				}
+			};
+			return $(selector).validate(this.validatorOption);
+		},
+		
+		getFormEditValidator : function(selector){
+			this.validatorOption.rules={
+    			role : {
+    				required: true,
+    	            remote : {
+    					url: "checkRole",     //后台处理程序
+    				    type: "post",               //数据发送方式
+    				    dataType: "json",           //接受数据格式   
+    					cache:false,				
+    			        async:false,				//同步校验
+    					data: {                     //要传递的数据
+    						role: function() {
+    					        return $("#editDialog>form input[name='role']").val();
+    					    },
+    					    id : function(){
+    					        return $("#editDialog>form input[name='id']").val();
+    					    }
+    					}
+    				},
+    			},
+    			description : {
+    				required: true,
+    			}
+    		};
+			this.validatorOption.messages = {
+				role : {
+					remote : '该角色已经存在！'
+				}
+			};
+			return $(selector).validate(this.validatorOption);
+		},
 			
 		init : function(){
 			this.initBootstrapTable();
@@ -71,57 +149,8 @@ $(function(){
             			                label: '保存',
             			                cssClass: 'btn-primary	',
             			                action: function(dialog) {
-            			                	//添加前端校验
-            			        			var editFormValidator=$("#editDialog>form").validate({
-            			        				rules : {
-            			        					role : {
-            			        						required: true,
-            			        	                    remote : {
-            			        							url: "checkRole",     //后台处理程序
-            			        						    type: "post",               //数据发送方式
-            			        						    dataType: "json",           //接受数据格式   
-            			        						    cache:false,				
-            			        				            async:false,				//同步校验
-            			        						    data: {                     //要传递的数据
-            			        						    	role: function() {
-            			        						            return $("#editDialog>form input[name='role']").val();
-            			        						        },
-            			        						        id : function(){
-            			        						        	return $("#editDialog>form input[name='id']").val();
-            			        						        }
-            			        						    }
-            			        						},
-            			        					},
-            			        					description : {
-            			        						required: true,
-            			        					}
-            			        				},
-            			        				messages : {
-            			        					role : {
-            			        						remote : '该角色已经存在！'
-            			        					}
-            			        				},
-            			        				errorPlacement : function(error, element) {  
-            			        		            element.next().remove(); 
-            			        		            element.after(error); //错误在下一行显示
-            			        		            element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');  
-            			        		            //element.closest('.form-group').append(error);   //错误信息在同一行显示
-            			        		        },  
-            			        		        highlight : function(element) {  
-            			        		            $(element).closest('.form-group').addClass('has-error has-feedback');  
-            			        		        },  
-            			        		        success : function(label) {  
-            			        		            var el=label.closest('.form-group').find("input");  
-            			        		            el.next().remove();  
-            			        		            el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');  
-            			        		            label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");  
-            			        		            label.remove();  
-            			        		        },  
-            			        			});
-            			                	
             			                	var $btn = this;
-            			                	editFormValidator.valid();
-            			    				if(editFormValidator.form()){
+            			    				if(that.getFormEditValidator("#editDialog>form").form()){
             			    					$btn.disable();
             			    					that.doUpdate();
             			    					dialog.close();
@@ -222,7 +251,7 @@ $(function(){
                     				}
                     			},
                     			error :function(){
-                    				
+                    				console.error();
                     			}
                     		});
                     		
@@ -270,52 +299,9 @@ $(function(){
 			                label: '保存',
 			                cssClass: 'btn-primary	',
 			                action: function(dialog) {
-			                	//添加前端校验
-			        			var addFormValidator=$("#addDialog > form").validate({
-			        				rules : {
-			        					role : {
-			        						required: true,
-			        	                    remote : {
-			        							url: "checkRole",     //后台处理程序
-			        						    type: "post",               //数据发送方式
-			        						    dataType: "json",           //接受数据格式   
-			        						    cache:false,				
-			        				            async:false,				//同步校验
-			        						    data: {                     //要传递的数据
-			        						        role: function() {
-			        						            return $("#addDialog form input[name='role']").val();
-			        						        }
-			        						    }
-			        						},
-			        					},
-			        					description : {
-			        						required: true,
-			        					}
-			        				},
-			        				messages : {
-			        					role : {
-			        						remote : '该权限已经存在！'
-			        					}
-			        				},
-			        				errorPlacement : function(error, element) {  
-			        		            element.next().remove(); 
-			        		            element.after(error); //错误在下一行显示
-			        		            element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');  
-			        		            //element.closest('.form-group').append(error);   //错误信息在同一行显示
-			        		        },  
-			        		        highlight : function(element) {  
-			        		            $(element).closest('.form-group').addClass('has-error has-feedback');  
-			        		        },  
-			        		        success : function(label) {  
-			        		            var el=label.closest('.form-group').find("input");  
-			        		            el.next().remove();  
-			        		            el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');  
-			        		            label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");  
-			        		            label.remove();  
-			        		        },  
-			        			});
 			                	var $btn = this;
-			    				if(addFormValidator.form()){
+			                	var validator = that.getFormAddValidator("#addDialog>form");
+			    				if(validator.form()){
 			    					$btn.disable();
 			    					that.doSave();
 			    					dialog.close();
@@ -327,9 +313,16 @@ $(function(){
 			
 			//搜索事件
 			$("#searchBtn").on('click',function(){
-				$("#tableList").bootstrapTable('refresh');
+				$("#tableList").bootstrapTable('refresh' ,{pageNumber:1});
 			});
 			
+			//刷新事件
+			$("#refleshBtn").on('click', function() {
+				//清空查询表单内容
+				$("#searchForm")[0].reset();
+				$("#tableList").bootstrapTable('refresh' , {pageNumber:1});
+
+			});
 		},
 		
 		doSave : function(){
@@ -410,5 +403,6 @@ $(function(){
 	        });
 		}
 	};
+	
 	role.init();
 });

@@ -5,85 +5,7 @@ $(function(){
 		updateURL : "updatePermission",
 		deleteURL : "deletePermission",	
 		searchTableURL: "listAuthPermission",
-		addFormValidator : function(selector){
-			return $("#addDialog > form").validate({
-				rules : {
-					permission : {
-						required: true,
-	                    remote : {
-							url: "checkPermission",     //后台处理程序
-						    type: "post",               //数据发送方式
-						    dataType: "json",           //接受数据格式   
-						    cache:false,				
-				            async:false,				//同步校验
-						    data: {                     //要传递的数据
-						        permission: function() {
-						            return $("#addDialog form input[name='permission']").val();
-						        }
-						    }
-						},
-					},
-					description : {
-						required: true,
-					},
-					orderNum : {
-						digits : true
-					}
-				},
-				messages : {
-					permission : {
-						remote : '该权限已经存在！'
-					}
-				},
-				errorPlacement : function(error, element) {  
-		            element.next().remove(); 
-		            element.after(error); //错误在下一行显示
-		            element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');  
-		            //element.closest('.form-group').append(error);   //错误信息在同一行显示
-		        },  
-		        highlight : function(element) {  
-		            $(element).closest('.form-group').addClass('has-error has-feedback');  
-		        },  
-		        success : function(label) {  
-		            var el=label.closest('.form-group').find("input");  
-		            el.next().remove();  
-		            el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');  
-		            label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");  
-		            label.remove();  
-		        },  
-			})
-			
-		},
-		
-		editFormValidator : $("#editDialog>form").validate({
-			rules : {
-				permission : {
-					required: true,
-                    remote : {
-						url: "checkPermission",     //后台处理程序
-					    type: "post",               //数据发送方式
-					    dataType: "json",           //接受数据格式   
-					    cache:false,				
-			            async:false,				//同步校验
-					    data: {                     //要传递的数据
-					    	permission: function() {
-					            return $("#editDialog>form input[name='permission']").val();
-					        },
-					        id : function(){
-					        	return $("#editDialog>form input[name='id']").val();
-					        }
-					    }
-					},
-				},
-				description : {
-					required: true,
-				}
-			},
-			messages : {
-				permission : {
-					remote : '该权限已经存在！'
-				}
-			},
+		validatorOption : {
 			errorPlacement : function(error, element) {  
 	            element.next().remove(); 
 	            element.after(error); //错误在下一行显示
@@ -99,8 +21,75 @@ $(function(){
 	            el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');  
 	            label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");  
 	            label.remove();  
-	        },  
-		}),
+	        }
+		},
+		getFormAddValidator : function(selector){
+			this.validatorOption.rules={
+				permission : {
+					required: true,
+	                remote : {
+						url: "checkPermission",     //后台处理程序
+						type: "post",               //数据发送方式
+						dataType: "json",           //接受数据格式   
+						cache:false,				
+				        async:false,				//同步校验
+						data: {                     //要传递的数据
+						    permission: function() {
+						        return $("#addDialog form input[name='permission']").val();
+						    }
+						}
+					},
+				},
+				description : {
+					required: true,
+				},
+				orderNum : {
+					digits : true
+				}
+			};
+			this.validatorOption.messages =   {
+				permission : {
+					remote : '该权限已经存在！'
+				}
+			};
+			return $(selector).validate(this.validatorOption);
+		},
+		
+		getFormEditValidator : function(selector){
+			this.validatorOption.rules={
+				permission : {
+					required: true,
+					remote : {
+						url: "checkPermission",     //后台处理程序
+						type: "post",               //数据发送方式
+						dataType: "json",           //接受数据格式   
+						cache:false,				
+						async:false,				//同步校验
+						data: {                     //要传递的数据
+							permission: function() {
+								return $("#addDialog form input[name='permission']").val();
+							},
+							id : function(){
+								return $("#editDialog>form input[name='id']").val();
+							}
+						}
+					},
+				},
+				description : {
+					required: true,
+				},
+				orderNum : {
+					digits : true
+				}
+			};
+			this.validatorOption.messages =   {
+				permission : {
+					remote : '该权限已经存在！'
+				}
+			};
+			return $(selector).validate(this.validatorOption);
+			//$("#editDialog>form")
+		},
 		
 		init : function(){
 			this.initSelect2($('#searchForm select[name="parentId"'),{multiple : true},null);
@@ -108,7 +97,7 @@ $(function(){
 			this.bindEvents();
 		},
 		
-		initSelect2 :function(selector,option,data){
+		initSelect2 :function(selector,option){
 			var select2Option = {
 				ajax: {
 				     type:'GET',
@@ -144,7 +133,7 @@ $(function(){
 			for(var key in option){
 				select2Option[key] = option[key];
 			}
-			selector.select2(select2Option).val(data).trigger("change");
+			selector.select2(select2Option);
 		},
 		
 		initBootstrapTable : function(){
@@ -216,15 +205,17 @@ $(function(){
             			            title: '修改记录',
             			            message: message,
             			            onshown: function(dialogRef){
+            			            	$("#"+dialogRef.getId()).removeAttr("tabindex"); //显示搜索框
             			            	$("#editDialog>form input[name='id']").val(row.id);
                             			$("#editDialog>form input[name='permission']").val(row.permission);
+                            			$("#editDialog>form input[name='orderNum']").val(row.orderNum);
                             			$("#editDialog>form input[name='permUrl']").val(row.permUrl);
+                            			$("#editDialog>form input[name='menuIcon']").val(row.menuIcon);
                             			$("#editDialog>form input[name='description']").val(row.description);
-                            			$('#editDialog select[name="level"] option[value="'+ row.level+'"]').prop("selected","selected");
-                            			$('#editDialog select[name="parentId"]').select2({
-                            				placeholder : '请选择角色',
-                            				allowClear : true,
-                            			}).val(row.parentId).trigger("change");
+                            			$('#editDialog>form select[name="level"] option[value="'+ row.level+'"]').prop("selected","selected");
+                            			$("#editDialog>form input[name='isActive'][value="+row.isActive+"]").prop("checked",true);
+                            			var data  = {parentId:row.parentId};
+                            			that.buildParentNodeSelect2(data);
             			            },
             			            buttons: [{
             			                label: '取消',
@@ -237,8 +228,7 @@ $(function(){
             			                action: function(dialog) {
             			                	//添加前端校验
             			                	var $btn = this;
-            			                	editFormValidator.valid();
-            			    				if(editFormValidator.form()){
+            			    				if(that.getFormEditValidator("#editDialog>form").form()){
             			    					$btn.disable();
             			    					that.doUpdate();
             			    					dialog.close();
@@ -311,7 +301,7 @@ $(function(){
 			            message: message,
 			            onshown: function(dialogRef){
 			            	$("#"+dialogRef.getId()).removeAttr("tabindex"); //显示搜索框
-			            	that.initSelect2($("#addDialog>form select[name='parentId']"),{},null);
+			            	that.initSelect2($("#addDialog>form select[name='parentId']"),null,null);
 			            },
 			            buttons: [{
 			                label: '取消',
@@ -324,7 +314,8 @@ $(function(){
 			                action: function(dialog) {
 			                	//添加前端校验
 			                	var $btn = this;
-			    				if(that.addFormValidator().form()){
+			                	var validator = that.getFormAddValidator("#addDialog>form");
+			    				if(validator.form()){
 			    					$btn.disable();
 			    					that.doSave();
 			    					dialog.close();
@@ -337,6 +328,15 @@ $(function(){
 			//搜索事件
 			$("#searchBtn").on('click',function(){
 				$("#tableList").bootstrapTable('refresh' , {pageNumber:1});
+			});
+			
+			//刷新事件
+			$("#refleshBtn").on('click', function() {
+				//清空查询表单内容
+				$("#searchForm")[0].reset();
+				that.initSelect2($('#searchForm select[name="parentId"'),{multiple : true});
+				$("#tableList").bootstrapTable('refresh' , {pageNumber:1});
+
 			});
 		},
 		doSave : function(){
@@ -392,7 +392,31 @@ $(function(){
 	        		$.NOTIFY.show('删除失败','服务器异常！','dange');
 	        	} 
 	        });
-		}
+		},
+		
+		buildParentNodeSelect2 : function(data){
+			var that = this;
+			$.ajax({
+				type : "get",
+	        	url : "getPermissionByParentId",
+	        	data : data,
+	        	success : function(data) {
+	        		if(data.code==200){
+	        			var perm = data.data;
+	        			var optionHtml = "<option value='" + perm.id +"' selected>"+ perm.description + "</option>";
+	        			$('#editDialog>form select[name="parentId"]').html(optionHtml);
+	        			that.initSelect2($('#editDialog>form select[name="parentId"'),null);
+	        		}else{
+	        			console.error("初始化父节点失败");
+	        		}
+	        		 
+	        	},
+	        	error : function(){
+	        		console.error("初始化父节点失败");
+	        	} 
+	        });
+		},
+		
 	};
 	permission.init();
 });

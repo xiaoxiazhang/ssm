@@ -94,5 +94,14 @@ public class AuthPermissionController {
 
 	}
 	
+	
+	@RequestMapping(value = "/getPermissionByParentId", method = RequestMethod.GET)
+	@ResponseBody
+	public ResultDTO<AuthPermissionDTO> getPermissionByParentId(Long parentId) {
+		logger.info("parentId===>{}", parentId);
+		return ResultDTOFactory.toAck(authPermissionService.getPermissionByParentId(parentId));
+
+	}
+	
 
 }

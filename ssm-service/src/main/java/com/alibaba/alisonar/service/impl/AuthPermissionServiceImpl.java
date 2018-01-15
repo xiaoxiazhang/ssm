@@ -14,6 +14,7 @@ import com.alibaba.alisonar.dao.AuthPermissionMapper;
 import com.alibaba.alisonar.domain.AuthPermission;
 import com.alibaba.alisonar.dto.AuthPermissionDTO;
 import com.alibaba.alisonar.dto.DatatableDTO;
+import com.alibaba.alisonar.dto.ResultDTO;
 import com.alibaba.alisonar.enumeration.ActiveStatusEnum;
 import com.alibaba.alisonar.enumeration.PermissionLevelEnum;
 import com.alibaba.alisonar.mapstuct.AuthPermissionConventor;
@@ -134,6 +135,13 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	public List<AuthPermissionDTO> getSelect2ParentNode(String searchStr) {
 		List<AuthPermission> list = authPermissionMapper.getSelect2ParentNode(searchStr);
 		return authPermissionConventor.entities2DTOs(list);
+	}
+
+
+	@Override
+	public AuthPermissionDTO getPermissionByParentId(Long parentId) {
+		AuthPermission permission = authPermissionMapper.getPermissionByParentId(parentId);
+		return authPermissionConventor.entity2DTO(permission);
 	}
 
 }

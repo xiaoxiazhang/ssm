@@ -8,6 +8,7 @@ import java.util.List;
 import com.alibaba.alisonar.domain.AuthPermission;
 import com.alibaba.alisonar.dto.AuthPermissionDTO;
 import com.alibaba.alisonar.dto.DatatableDTO;
+import com.alibaba.alisonar.dto.ResultDTO;
 
 /**
  * @author wb-zxx263018
@@ -30,6 +31,8 @@ public interface AuthPermissionService extends BaseService<AuthPermission> {
 	List<AuthPermission> getAllFilterPermission();
 
 	List<AuthPermissionDTO> getSelect2ParentNode(String searchStr);
+
+	AuthPermissionDTO getPermissionByParentId(Long parentId);
 
 
 }

@@ -107,6 +107,9 @@
 						<button type="button" id="searchBtn" class=" btn btn-info">
 							<span class="fa fa-search"></span>搜索
 						</button>
+						<button type="button" id="refleshBtn" class=" btn btn-success">
+							<span class="fa fa-refresh"></span>刷新
+						</button>
 						<button type="button" class="btn"  id="addBtn">
 							<span class="fa fa-plus"></span>添加
 						</button>
@@ -241,9 +244,5 @@ $(function(){
 		
 	});
 	
-	
 })
-
-
-
 </script>

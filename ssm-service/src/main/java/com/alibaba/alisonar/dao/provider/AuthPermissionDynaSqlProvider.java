@@ -5,8 +5,6 @@ package com.alibaba.alisonar.dao.provider;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.alibaba.alisonar.dto.AuthPermissionDTO;
 
@@ -16,8 +14,6 @@ import com.alibaba.alisonar.dto.AuthPermissionDTO;
  *
  */
 public class AuthPermissionDynaSqlProvider {
-	
-	private static final Logger logger = LoggerFactory.getLogger(AuthPermissionDynaSqlProvider.class);
 	
 	public String listAuthPermissionSql(AuthPermissionDTO authPermissionDTO){
 		SQL sql = new SQL().SELECT("id,permission,description,level,perm_url permUrl,parent_id parentId,order_num orderNum,menu_icon menuIcon,is_active isActive")
