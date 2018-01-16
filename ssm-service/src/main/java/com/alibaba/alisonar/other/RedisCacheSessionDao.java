@@ -44,6 +44,6 @@ public class RedisCacheSessionDao extends CachingSessionDAO {
 
 	@Override
 	protected Session doReadSession(Serializable sessionId) {
-		return (Session) redisTemplate.opsForValue().get(sessionId);
+		return  redisTemplate.opsForValue().get(sessionId);
 	}
 }
