@@ -4,31 +4,30 @@ import java.util.List;
 
 import com.alibaba.alisonar.annotation.ExcelColumnMeta;
 
-public class AuthUserDTO extends BaseSearchTableDTO{
+public class AuthUserDTO extends BaseSearchTableDTO {
 
-	
 	private Long id;
 
-	@ExcelColumnMeta(outputColIndex=0,colName="用户名",inputColIndex=0)
+	@ExcelColumnMeta(outputColIndex = 0, colName = "用户名", inputColIndex = 0)
 	private String username;
 
-	@ExcelColumnMeta(outputColIndex=1,colName="邮件名",inputColIndex=1)
+	@ExcelColumnMeta(outputColIndex = 1, colName = "邮件名", inputColIndex = 1)
 	private String email;
 
-	@ExcelColumnMeta(outputColIndex=4,colName="启用状态",inputColIndex=2)
+	@ExcelColumnMeta(outputColIndex = 4, colName = "启用状态", inputColIndex = 2)
 	private Integer isDeleted;
-	
-	@ExcelColumnMeta(outputColIndex=3,colName="创建时间")
+
+	@ExcelColumnMeta(outputColIndex = 3, colName = "创建时间")
 	private String createDate;
-	
-	private String csDate; //创建开始时间
-	
-	private String ceDate; //创建结束时间
-	
+
+	private String csDate; // 创建开始时间
+
+	private String ceDate; // 创建结束时间
+
 	private List<String> roles; //
-	
-	@ExcelColumnMeta(outputColIndex=2,colName="角色类型")
-	private String rolesDesc; 
+
+	@ExcelColumnMeta(outputColIndex = 2, colName = "角色类型")
+	private String rolesDesc;
 
 	public Long getId() {
 		return id;
@@ -45,7 +44,6 @@ public class AuthUserDTO extends BaseSearchTableDTO{
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
 
 	public String getEmail() {
 		return email;
@@ -55,7 +53,6 @@ public class AuthUserDTO extends BaseSearchTableDTO{
 		this.email = email;
 	}
 
-
 	public Integer getIsDeleted() {
 		return isDeleted;
 	}
@@ -63,8 +60,7 @@ public class AuthUserDTO extends BaseSearchTableDTO{
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-	
-	
+
 	public String getCreateDate() {
 		return createDate;
 	}
@@ -112,7 +108,5 @@ public class AuthUserDTO extends BaseSearchTableDTO{
 				+ ", rolesDesc=" + rolesDesc + ", getLimit()=" + getLimit() + ", getOffset()=" + getOffset()
 				+ ", getSortName()=" + getSortName() + ", getSortOrder()=" + getSortOrder() + "]";
 	}
-
-	
 
 }

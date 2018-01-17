@@ -5,23 +5,27 @@ import java.io.Serializable;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
 public class RedisCacheSessionDao extends CachingSessionDAO {
 	
-
-	@Autowired
-	private RedisTemplate<Serializable, Session> redisTemplate;
 	
-
+	private static final Logger logger = LoggerFactory.getLogger(RedisCacheSessionDao.class);
+	
+	
+	@Autowired
+	private  RedisTemplate<Object,Object>  jdkRedisTemplate;
+	
 	@Override
 	protected void doUpdate(Session session) {
 		if (session instanceof ValidatingSession && !((ValidatingSession) session).isValid()) {
 			return; // 如果会话过期/停止 没必要再更新了
 		}
 		// 使用java序列化值
-		redisTemplate.opsForValue().set(session.getId(), session);
+		jdkRedisTemplate.opsForValue().set(session.getId(), session/*, 30 ,TimeUnit.MINUTES*/);
 
 	}
 
@@ -30,7 +34,7 @@ public class RedisCacheSessionDao extends CachingSessionDAO {
 		if (session == null || session.getId() == null) {
 			return;
 		}
-		redisTemplate.delete(session.getId());
+		jdkRedisTemplate.delete(session.getId());
 	}
 
 	@Override
@@ -38,12 +42,12 @@ public class RedisCacheSessionDao extends CachingSessionDAO {
 		Serializable sessionId = generateSessionId(session);
 		assignSessionId(session, sessionId);
 		// 使用java序列化值
-		redisTemplate.opsForValue().set(sessionId, session);
+		jdkRedisTemplate.opsForValue().set(sessionId, session/*, 30 ,TimeUnit.MINUTES*/);
 		return sessionId;
 	}
 
 	@Override
 	protected Session doReadSession(Serializable sessionId) {
-		return  redisTemplate.opsForValue().get(sessionId);
+		return  (Session)jdkRedisTemplate.opsForValue().get(sessionId);
 	}
 }

@@ -16,8 +16,8 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 	<import resource="classpath:spring-mybatis.xml" />
 	<import resource="classpath:spring-shiro.xml" />
-	<import resource="classpath:springcache-redis.xml" />
-	<!-- <bean class="com.alibaba.alisonar.configuration.SpringDataRedisConfig"/> -->
+	<!-- <import resource="classpath:springcache-redis.xml" /> -->
+	<bean class="com.alibaba.alisonar.configuration.SpringDataRedisConfig"/>
 	
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

@@ -35,22 +35,23 @@ public class LoginController {
 
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-	//登录页面
+	// 登录页面
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(Model model) {
 		return "login";
 
 	}
 
-	//登录验证
+	// 登录验证
 	@RequestMapping(value = "/doLogin", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultDTO<String> login(UserLoginDTO userLoginDTO,HttpSession session) {
+	public ResultDTO<String> login(UserLoginDTO userLoginDTO, HttpSession session) {
 
 		logger.info("userLoginDTO======>{}", userLoginDTO);
 		Subject currentUser = SecurityUtils.getSubject();
 		if (!currentUser.isAuthenticated()) {
-			UsernamePasswordToken token = new UsernamePasswordToken(userLoginDTO.getUsername(), userLoginDTO.getPassword());
+			UsernamePasswordToken token = new UsernamePasswordToken(userLoginDTO.getUsername(),
+					userLoginDTO.getPassword());
 			// token.setRememberMe(true);
 			try {
 				currentUser.login(token);
@@ -59,11 +60,17 @@ public class LoginController {
 				return ResultDTOFactory.toNack(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户认证失败");
 			}
 		}
-		logger.info("当前的用户是===>{}",currentUser.getPrincipal());
+		logger.info("当前的用户是===>{}", currentUser.getPrincipal());
 		session.setAttribute("username", currentUser.getPrincipal());
 		return ResultDTOFactory.toAck(null);
 	}
-	
+
+	// 首页home
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public String homePage(Model model) {
+		return "home";
+
+	}
 	
 	@RequestMapping(value = "/unauthorized", method = RequestMethod.GET)
 	public String unauthorizePage(Model model) {
@@ -71,22 +78,5 @@ public class LoginController {
 		return "error";
 
 	}
-	
-	/*@RequestMapping(value = "/logout", method = RequestMethod.GET)  
-	public String logout(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {  
-		Subject currentUser = SecurityUtils.getSubject();
-	    // 如果已经登录，则跳转到管理首页  
-	    if(currentUser.getPrincipal() != null){  
-	    	currentUser.logout();  
-	    }  
-	    return "redirect:/login";  
-	}  */
-	
-	
-	//首页
-	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String homePage(Model model) {
-		return "home";
 
-	}
 }
