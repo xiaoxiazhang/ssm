@@ -49,6 +49,7 @@
 			<map>
 				<entry key="authc" value-ref="authcFilter"/>  
 				<entry key="perms" value-ref="shiroPermsFilter"/>  
+				<!-- <entry key="kickout" value-ref="kickoutSessionControlFilter"/> -->
 			</map>
 		</property>
 		<!-- 配置哪些页面需要受保护. 以及访问这些页面需要的权限. 1). anon 可以被匿名访问 2). authc 必须认证(即登录)后才可能访问的页面. 
@@ -95,16 +96,16 @@
 	</bean>
 
 	<!-- 会话DAO -->
-	<bean id="sessionDAO"
+	<!-- <bean id="sessionDAO"
 		class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
 		<property name="activeSessionsCacheName" value="shiro-activeSessionCache" />
 		<property name="sessionIdGenerator" ref="sessionIdGenerator" />
-	</bean>
-	<!-- <bean id="sessionDAO"
+	</bean> -->
+	<bean id="sessionDAO"
 		class="com.alibaba.alisonar.other.RedisCacheSessionDao">
 		<property name="activeSessionsCacheName" value="shiro-activeSessionCache" />
 		<property name="sessionIdGenerator" ref="sessionIdGenerator" />
-	</bean> -->
+	</bean>
 
 	<!-- 会话验证调度器 ,时间单位是毫秒 -->
 	<bean id="sessionValidationScheduler"

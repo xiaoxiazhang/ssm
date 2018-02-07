@@ -1,19 +1,15 @@
 package com.alibaba.alisonar.other;
 
 import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
 public class RedisCacheSessionDao extends CachingSessionDAO {
-	
-	
-	private static final Logger logger = LoggerFactory.getLogger(RedisCacheSessionDao.class);
 	
 	
 	@Autowired
@@ -25,7 +21,7 @@ public class RedisCacheSessionDao extends CachingSessionDAO {
 			return; // 如果会话过期/停止 没必要再更新了
 		}
 		// 使用java序列化值
-		jdkRedisTemplate.opsForValue().set(session.getId(), session/*, 30 ,TimeUnit.MINUTES*/);
+		jdkRedisTemplate.opsForValue().set(session.getId(), session, 30 ,TimeUnit.MINUTES);
 
 	}
 
@@ -42,7 +38,7 @@ public class RedisCacheSessionDao extends CachingSessionDAO {
 		Serializable sessionId = generateSessionId(session);
 		assignSessionId(session, sessionId);
 		// 使用java序列化值
-		jdkRedisTemplate.opsForValue().set(sessionId, session/*, 30 ,TimeUnit.MINUTES*/);
+		jdkRedisTemplate.opsForValue().set(sessionId, session, 30 ,TimeUnit.MINUTES);
 		return sessionId;
 	}
 

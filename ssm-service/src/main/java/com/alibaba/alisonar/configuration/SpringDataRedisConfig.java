@@ -91,7 +91,7 @@ public class SpringDataRedisConfig {
 	@Bean
     public CacheManager cacheManager() {
 		RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate());
-		cacheManager.setDefaultExpiration(1800);
+		cacheManager.setDefaultExpiration(1800); //单位s
 		//订制魂村
 		Map<String ,Long> expires = new HashMap<>();
 		cacheManager.setExpires(expires);

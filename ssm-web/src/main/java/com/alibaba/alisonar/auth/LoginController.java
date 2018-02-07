@@ -3,10 +3,6 @@
  */
 package com.alibaba.alisonar.auth;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
@@ -34,7 +30,7 @@ import com.alibaba.alisonar.factory.ResultDTOFactory;
 public class LoginController {
 
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-
+	
 	// 登录页面
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(Model model) {
@@ -46,7 +42,7 @@ public class LoginController {
 	@RequestMapping(value = "/doLogin", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultDTO<String> login(UserLoginDTO userLoginDTO, HttpSession session) {
-
+		
 		logger.info("userLoginDTO======>{}", userLoginDTO);
 		Subject currentUser = SecurityUtils.getSubject();
 		if (!currentUser.isAuthenticated()) {

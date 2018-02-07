@@ -26,7 +26,7 @@ public class FilterChainDefinitionsServiceImpl implements FilterChainDefinitions
 	
 	private static final Logger logger = LoggerFactory.getLogger(FilterChainDefinitionsServiceImpl.class);
 	
-	public static final String PREMISSION_STRING = "authc,perms[\"{0}\"]";
+	public static final String PREMISSION_STRING = "authc,kickout,perms[\"{0}\"]";
 
 	@Autowired
 	private AuthPermissionService authPermissionService;
