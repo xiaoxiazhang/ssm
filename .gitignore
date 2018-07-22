@@ -1,6 +1,10 @@
-/.project
+*.DS_Store
+bin
+target
 .classpath
 .project
-/target
 .settings
-.gitignore
+src/main/webapp/META-INF
+.idea
+*.iml
+.retry
